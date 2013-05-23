@@ -1,0 +1,32 @@
+﻿<section>
+    <h1>Active Projects</h1>
+    
+    <table id="projects" class="span12 table table-striped table-bordered">
+        <caption>Projects</caption>
+        <thead>
+            <tr>
+                <th rowspan="2">Code</th>
+                <th rowspan="2" class="">Name</th>
+                <th colspan="5">Open Items</th>
+            </tr>   
+            <tr>
+                <th>R</th>
+                <th>A</th>
+                <th>I</th>
+                <th>D</th>
+                <th>Q</th>
+            </tr>   
+        </thead>
+        <tbody data-bind="foreach:projects">
+            <tr>
+                <td><a data-bind="text: Code, click:$root.viewProject($data)"></a></td>
+                <td data-bind="text: Name"></td>
+                <td class="narrowCount" data-bind="text: ActiveRisks"></td>
+                <td class="narrowCount" data-bind="text: ActiveAssumptions">0</td>
+                <td class="narrowCount" data-bind="text: ActiveIssues">0</td>
+                <td class="narrowCount" data-bind="text: ActiveDependencies">0</td>
+                <td class="narrowCount" data-bind="text: ActiveQueries">0</td>
+            </tr>
+        </tbody>
+    </table>
+</section>

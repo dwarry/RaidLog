@@ -1,0 +1,29 @@
+﻿@-webkit-viewport {
+/* ReSharper disable InvalidValue */
+    width: device-width;
+/* ReSharper restore InvalidValue */
+}
+
+@-moz-viewport {
+/* ReSharper disable InvalidValue */
+    width: device-width;
+/* ReSharper restore InvalidValue */
+}
+
+@-ms-viewport {
+/* ReSharper disable InvalidValue */
+    width: device-width;
+/* ReSharper restore InvalidValue */
+}
+
+@-o-viewport {
+/* ReSharper disable InvalidValue */
+    width: device-width;
+/* ReSharper restore InvalidValue */
+}
+
+@viewport {
+/* ReSharper disable InvalidValue */
+    width: device-width;
+/* ReSharper restore InvalidValue */
+}

@@ -1,0 +1,27 @@
+﻿<div class="row" id="riskTab">
+    
+</div>
+
+<table class="span6 table table-condensed table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Risk #</th>
+            <th>Risk Description</th>
+            <th>Factors</th>
+            <th>Score</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach:risks">
+        <tr>
+            <td data-bind="text:riskNumber">DCS-R-0001</td>
+            <td><textarea data-bind="value:description"></textarea></td>
+            
+            <td>
+                <select data-bind="options:$root.impacts,optionsText:description,optionsValue:id,value:impact"></select><br/>
+                <select data-bind="options:$root.likelihoods,optionsText:description,optionsValue:id,value:likelihood"></select>
+            </td>
+
+        </tr>
+       
+    </tbody>
+</table>
