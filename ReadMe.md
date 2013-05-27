@@ -25,3 +25,6 @@ to see how it compares with using NHibernate.
 - Risk Evaluation History
 - MI
     - Charts of open items over time
+
+##Licence
+This is released under the [MIT Licence](http://opensource.org/licenses/MIT).
