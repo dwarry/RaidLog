@@ -18,11 +18,11 @@ namespace RaidLog.Models
         public string Code { get; set; }
         public string Name { get; set; }
 
-        public List<RiskDto> Risks { get; set; }
-        public List<AssumptionDto> Assumptions { get; set; }
-        public List<IssueDto> Issues { get; set; }
-        public List<DependencyDto> Dependencies { get; set; }
-        public List<QueryDto> Query { get; set; } 
+        public RiskDto[] Risks { get; set; }
+        public AssumptionDto[] Assumptions { get; set; }
+        public IssueDto[] Issues { get; set; }
+        public DependencyDto[] Dependencies { get; set; }
+        public QueryDto[] Query { get; set; } 
     }
 
     public class RiskDto

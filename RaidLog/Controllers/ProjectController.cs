@@ -10,6 +10,8 @@ using System.Web.Http;
 using RaidLog.Models;
 using Dapper;
 
+using RaidLog.Queries;
+
 namespace RaidLog.Controllers
 {
     [Authorize]
@@ -24,20 +26,20 @@ namespace RaidLog.Controllers
             
         }
 
-        public IEnumerable<ProjectSummary> GetAllOpenProjects()
+        public IEnumerable<ProjectSummaryWithCounts> GetAllOpenProjects()
         {
             _connection.Open();
             try
             {
                 using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    IList<ProjectSummary> projects;
+                    IList<ProjectSummaryWithCounts> projects;
                     ILookup<int, ProjectRiskSummary> risksByProject;
 
-                    var result = _connection.QueryMultiple(Queries.AllActiveProjects + Queries.AllProjectsAndActiveRisk,
+                    var result = _connection.QueryMultiple(ProjectQueries.GetAllActiveProjects + ProjectQueries.GetAllProjectsAndActiveRisks,
                                                            transaction:tx);
 
-                    projects = result.Read<ProjectSummary>().ToList();
+                    projects = result.Read<ProjectSummaryWithCounts>().ToList();
                     risksByProject = result.Read<ProjectRiskSummary>().ToLookup(x => x.ProjectId);
 
                     foreach (var proj in projects)
@@ -59,17 +61,34 @@ namespace RaidLog.Controllers
             }
         }
 
-        public ProjectDetails GetProjectDetails(int id)
+        public ProjectDetails GetProjectDetails(int id, bool? isActive)
         {
+            string riskQuery = GetRiskQuery(isActive);
+
             _connection.Open();
             try
             {
                 using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    
+                    var sql = 
+                        ProjectQueries.GetProjectDetails + 
+                        riskQuery;
 
+                    var q = _connection.QueryMultiple(sql,
+                                                      new { id = id },
+                                                      tx);
+                               ;
+                    var proj = q.Read<ProjectDetails>()
+                                .FirstOrDefault();
+
+                    if (proj != null)
+                    {
+                        proj.Risks = q.Read<RiskDto>().ToList();
+                    }
 
                     tx.Commit();
+
+                    return q;
                 }
             }
             finally
@@ -78,6 +97,17 @@ namespace RaidLog.Controllers
             }
         }
 
+        private string GetRiskQuery(bool? isActive)
+        {
+            if (!isActive.HasValue)
+            {
+                return RiskQueries.AllRisksForProject;
+            }
+
+            return isActive.Value
+                       ? RiskQueries.ActiveRisksForProject
+                       : RiskQueries.ClosedRisksForProject;
+        }
 
         public ProjectDetails PutNewProject(NewProject newProject)
         {

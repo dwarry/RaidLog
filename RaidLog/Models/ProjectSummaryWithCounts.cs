@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -6,7 +7,7 @@ namespace RaidLog.Models
 {
     public class ProjectSummary
     {
-        public ProjectSummary(int id, string code, string name)
+        public ProjectSummary(int id, int versionNumber, string code, string name)
         {
             Id = id;
             Code = code;
@@ -14,6 +15,27 @@ namespace RaidLog.Models
         }
 
         public int Id { get; set; }
+
+        public int VersionNumber { get; set; }
+
+        public string Code { get; set; }
+
+        public string Name { get; set; }
+        
+    }
+
+    public class ProjectSummaryWithCounts
+    {
+        public ProjectSummaryWithCounts(int id, int versionNumber, string code, string name)
+        {
+            Id = id;
+            Code = code;
+            Name = name;
+        }
+
+        public int Id { get; set; }
+
+        public int VersionNumber { get; set; }
 
         public string Code { get; set; }
 
@@ -30,6 +52,7 @@ namespace RaidLog.Models
         public int ActiveQueries { get; set; }
     }
 
+    
     public class ProjectRiskSummary
     {
         public int ProjectId { get; set; }

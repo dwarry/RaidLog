@@ -9,7 +9,6 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-USE [raidlogs_dev]
 GO
 /****** Object:  Table [dbo].[RifCategory]    Script Date: 05/15/2013 21:27:09 ******/
 SET IDENTITY_INSERT [dbo].[RifCategory] ON

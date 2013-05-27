@@ -13,6 +13,9 @@ namespace RaidLog {
           .Include("~/Scripts/knockout-{version}.js")
           .Include("~/Scripts/sammy-{version}.js")
           .Include("~/Scripts/bootstrap.min.js")
+          .Include("~/Scripts/knockout.validation.js")
+          .Include("~/Scripts/knockout.mapping-latest.js")
+          .Include("~/Scripts/koGrid-{version}.min.js")
         );
 
       bundles.Add(
@@ -23,6 +26,7 @@ namespace RaidLog {
           .Include("~/Content/font-awesome.min.css")
 		  .Include("~/Content/durandal.css")
           .Include("~/Content/app.css")
+          .Include("~/Content/KoGrid.css")
         );
     }
 

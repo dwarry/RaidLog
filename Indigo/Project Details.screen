@@ -1,0 +1,164 @@
+﻿<?Infragistics.Models format="xaml" version="17"?>
+<Page xmlns="http://prototypes.infragistics.com/"
+                                                          Id="b92708e5-4763-4e20-9bb5-2fee8d8bf3bb">
+    <Page.Content>
+        <Content Width="1024" Height="768" Background="White" Id="e06c1ad4-4f90-49d7-a700-9b1d3073218a">
+            <Content.Layers>
+                <Layer Layout="Stretch" Id="fdf650d9-e9c6-4811-b0a9-403d77d7fca5" Panel.Layout="Stretch" />
+            </Content.Layers>
+        </Content>
+    </Page.Content>
+    <Page.Scenes>
+        <Scene Title="Start" Created="05/24/2013 16:52:08" Id="61822597-31dc-4253-859d-b55ada5fa756">
+            <Scene.KeyFrames>
+                <KeyFrame Id="a92706b5-bd95-453a-800d-4590bcb80c78">
+                    <KeyFrame.Operations>
+                        <Add Property="Panel.Children" Target="fdf650d9-e9c6-4811-b0a9-403d77d7fca5">
+                            <Add.Item>
+                                <Title Text="DCS: Data Collection Service Project ANRP151" Foreground="#FF282828" FontSize="34" FontStyle="Normal" Id="f0d8f43d-81ce-4f48-b886-799712b48594" Panel.Bounds="13,4,5*{5,2147483647},5*{5,2147483647}" />
+                            </Add.Item>
+                        </Add>
+                        <Add Property="Panel.Children" Target="fdf650d9-e9c6-4811-b0a9-403d77d7fca5">
+                            <Add.Item>
+                                <Tabs FontStyle="" Id="e49edf22-f9e8-4a3f-b240-45780cce187e" Panel.Bounds="13,48,1000{5,2147483647},707{5,2147483647}">
+                                    <Tabs.Items>
+                                        <TabItem Header="Risks" IsSelected="True" Id="b623560e-ac2c-4011-9b5b-e598e2491d64">
+                                            <TabItem.Content>
+                                                <Container Layout="Stretch" ClipToContainer="True" Id="a9efa41e-1b53-41e1-bf41-0e14963babf7">
+                                                    <Container.Children>
+                                                        <Grid FontSize="10" HeaderFontSize="13" Id="99689b93-0fcf-4797-a697-74590d41e522" Panel.Bounds="16,16,0*{5,2147483647},0*{5,2147483647}">
+                                                            <Grid.HeaderRow>
+                                                                <GridHeaderRow FontStyle="" Height="32" Background="LightGray" Id="eced2342-ce54-4664-ad47-c842d2e9f959" />
+                                                            </Grid.HeaderRow>
+                                                            <Grid.Columns>
+                                                                <GridColumn ColumnId="add99951-198a-4e13-8acc-3bbf40051fb9" Type="Text" Width="72" Id="42640ebe-0094-4af4-96d8-48f7b2487e4f">
+                                                                    <GridColumn.CellData>
+                                                                        <GridCellData ColumnId="add99951-198a-4e13-8acc-3bbf40051fb9" Value="Risk #" Id="3fb06885-3621-4c06-9ec0-cdd13046ff01" />
+                                                                    </GridColumn.CellData>
+                                                                </GridColumn>
+                                                                <GridColumn ColumnId="ad3166c9-0a52-4acf-9117-5661ca0c6e80" Type="Text" Width="272" Id="2f126f1d-2012-476b-979d-8ee1050dde89">
+                                                                    <GridColumn.CellData>
+                                                                        <GridCellData ColumnId="ad3166c9-0a52-4acf-9117-5661ca0c6e80" Value="Description" Id="5cc89994-ae17-413a-a54a-c4fe0ecafd44" />
+                                                                    </GridColumn.CellData>
+                                                                </GridColumn>
+                                                                <GridColumn ColumnId="e8c6e9dd-f14d-46e9-b09a-c512c19cb7cd" Type="Text" Width="60" HeaderHorizontalAlignment="Right" HorizontalAlignment="Right" Id="251d1a02-6232-4680-a2ef-88b11ade2dd4">
+                                                                    <GridColumn.CellData>
+                                                                        <GridCellData ColumnId="e8c6e9dd-f14d-46e9-b09a-c512c19cb7cd" Value="Score" Id="c27cc67d-7c58-4171-ad87-ff4dbf383a9d" />
+                                                                    </GridColumn.CellData>
+                                                                </GridColumn>
+                                                            </Grid.Columns>
+                                                            <Grid.Rows>
+                                                                <GridRow Height="52" Background="Transparent" Id="a97d60d4-416c-4e38-959d-57166ef4ca12">
+                                                                    <GridRow.Data>
+                                                                        <GridCellData ColumnId="add99951-198a-4e13-8acc-3bbf40051fb9" Value="DCS_R_0001" Id="ebbf81c2-ba0c-4c60-98bd-757e524544a9" />
+                                                                        <GridCellData ColumnId="ad3166c9-0a52-4acf-9117-5661ca0c6e80" Value="There is a risk that something might go wrong because we live in an imperfect universe, leading to delays, cost overruns and other complications" Id="066b3f84-e76a-441b-9064-ee27b9a75a6c" />
+                                                                        <GridCellData ColumnId="e8c6e9dd-f14d-46e9-b09a-c512c19cb7cd" Value="3" Id="af9afe3c-2edb-4135-968a-16287f89921c" />
+                                                                    </GridRow.Data>
+                                                                </GridRow>
+                                                                <GridRow Height="32" Background="Transparent" Id="5a1576ae-0f5b-4d4d-8460-26a0e7eb121d">
+                                                                    <GridRow.Data>
+                                                                        <GridCellData ColumnId="add99951-198a-4e13-8acc-3bbf40051fb9" Value="DCS_R_0002" Id="7e2c9db6-7edf-42cb-8bb4-cebce9aae611" />
+                                                                        <GridCellData ColumnId="ad3166c9-0a52-4acf-9117-5661ca0c6e80" Value=" wisi nulla tempor diam." Id="f225d354-d753-4c68-9fa5-fb19e108b4f3" />
+                                                                        <GridCellData ColumnId="e8c6e9dd-f14d-46e9-b09a-c512c19cb7cd" Value="13" Id="e43e4736-fc6a-4bca-9275-18df1a5bb572" />
+                                                                    </GridRow.Data>
+                                                                </GridRow>
+                                                                <GridRow Height="32" Background="Transparent" Id="bd82a7aa-844f-4ef3-87b7-d0976511e45c">
+                                                                    <GridRow.Data>
+                                                                        <GridCellData ColumnId="add99951-198a-4e13-8acc-3bbf40051fb9" Value="DCS_R_0004" Id="d1c6cb25-db6d-44c1-8043-00b52328368b" />
+                                                                        <GridCellData ColumnId="ad3166c9-0a52-4acf-9117-5661ca0c6e80" Value=" duis aliquyam quis no." Id="57d81d1b-c0ac-4def-817c-314aa251bf4f" />
+                                                                        <GridCellData ColumnId="e8c6e9dd-f14d-46e9-b09a-c512c19cb7cd" Value="21" Id="cfd816fa-0e6d-4efb-acd6-f6bee376d104" />
+                                                                    </GridRow.Data>
+                                                                </GridRow>
+                                                                <GridRow Height="32" Background="Transparent" Id="c08b0a79-00ae-4fc6-a37f-aae4f5b04026" />
+                                                                <GridRow Height="32" Background="Transparent" Id="00d21658-7786-42d4-8784-07efed98a507" />
+                                                                <GridRow Height="32" Background="Transparent" Id="d7cd3f31-3044-434f-9f91-9206fbcf2e35" />
+                                                                <GridRow Height="32" Background="Transparent" Id="dbb922fb-a640-446f-9c8d-5bce49ea5f37" />
+                                                                <GridRow Height="32" Background="Transparent" Id="4f727df7-fb90-43ae-b40d-91bf5611359f" />
+                                                                <GridRow Height="32" Background="Transparent" Id="1d988d2e-3d48-4d7b-94f1-c57a3c63ffde" />
+                                                                <GridRow Height="32" Background="Transparent" Id="c9212374-1e2e-452a-b609-cd3cab99dfa7" />
+                                                                <GridRow Height="32" Background="Transparent" Id="a2492b1d-eb41-464f-9d6c-ef41941d2156" />
+                                                                <GridRow Height="32" Background="Transparent" Id="d985c6d1-f4c6-47e7-a45a-ffd39797a51e" />
+                                                            </Grid.Rows>
+                                                        </Grid>
+                                                        <Rectangle Background="White" Id="3b8a22d1-f350-40a4-9a5b-752260d6deaa" Panel.Bounds="441,16,543{5,2147483647},646{5,2147483647}" />
+                                                        <Label Text="Risk #" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="9a736ad6-6046-470b-87ef-b75cd92ce0d0" Panel.Bounds="450,20,5*{5,2147483647},5*{5,2147483647}" />
+                                                        <Label Text="DCS_R_0001" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="2e96c2b8-ee05-4afd-a7de-18f03ffc5a79" Panel.Bounds="503,20,5*{5,2147483647},5*{5,2147483647}" />
+                                                        <TextArea Text="There is a risk that something might go wrong because we live in an imperfect universe, leading to delays, cost overruns and other complications" Foreground="#FF282828" FontSize="10" FontStyle="Normal" Id="97ad512b-0686-4284-92cf-a5bc317cb73e" Panel.Bounds="450,65,521{5,2147483647},63{5,2147483647}" />
+                                                        <TextArea Foreground="#FF282828" FontSize="10" FontStyle="Normal" Id="3e51fa5a-37ce-4b11-9452-0f4f2944ecad" Panel.Bounds="450,156,521{5,2147483647},78{5,2147483647}" />
+                                                        <Label Text="Text Label or Paragraph" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="a0685b10-357c-49a8-b43e-1ce47befd31e" Panel.Bounds="450,46,5*{5,2147483647},5*{5,2147483647}" />
+                                                        <Label Text="Commentary" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="1fad11b1-3394-4cb1-9752-2c62a6ceab93" Panel.Bounds="450,137,5*{5,2147483647},5*{5,2147483647}" />
+                                                        <ComboBox Hint="Low" FontStyle="" Id="b54d9519-806b-4099-80f5-b6ff5f499a9f" Panel.Bounds="450,269,132{5,2147483647},28{5,2147483647}">
+                                                            <ComboBox.Items>
+                                                                <Item Text="1: Low" Id="a1abedf5-8d6b-4b96-91de-f2356edb7921" />
+                                                                <Item Text="2: Medium-Low" Id="f95e066c-096d-4071-b9d3-c1dec26817d2" />
+                                                                <Item Text="3: Medium" Id="62cc5f5f-96fc-476b-817d-8b4d9dd1bc53" />
+                                                                <Item Text="4: Medium-High" Id="8809d257-90f4-4a9f-8b92-d3213e69a671" />
+                                                                <Item Text="5: High" Id="9dab9a8b-34f3-4f47-95b7-f2c9cdc1af8b" />
+                                                            </ComboBox.Items>
+                                                        </ComboBox>
+                                                        <Label Text="Impact" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="d2b009cd-bc01-41b6-b132-ff1e82cb7e84" Panel.Bounds="450,248,5*{5,2147483647},5*{5,2147483647}" />
+                                                        <ComboBox Hint="Low" FontStyle="" Id="e39d58f6-0cb4-42a9-8ce0-08df3b4f53a4" Panel.Bounds="607,269,132{5,2147483647},28{5,2147483647}">
+                                                            <ComboBox.Items>
+                                                                <Item Text="1: &lt; 3%" Id="063f3ef9-b1b6-4296-9481-5afff7e3de51" />
+                                                                <Item Text="2: 3%  15%" Id="bd8c3587-c860-48f6-8764-836331d2799f" />
+                                                                <Item Text="3: 15% - 40%" Id="72974f9a-7c21-448e-bddd-cbd88789b1a6" />
+                                                                <Item Text="4: 40% - 90%" Id="a374b4ce-3d98-4304-84b5-49c5d25c6d2a" />
+                                                                <Item Text="5: &gt; 90%" Id="3e4f1c5f-bd01-4f5f-bb52-984349003ce3" />
+                                                            </ComboBox.Items>
+                                                        </ComboBox>
+                                                        <Label Text="Likelihood" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="d81c4a1e-633b-4165-ba3c-69bb4b1e5958" Panel.Bounds="609,248,5*{5,2147483647},5*{5,2147483647}" />
+                                                        <Label Text="Approach" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="1b0076dc-cb4c-4735-8fb4-65f7495a1adc" Panel.Bounds="450,315,0*{5,2147483647},0*{5,2147483647}" />
+                                                        <ComboBox Hint="Mitigate" FontStyle="" Id="a8172f87-39a3-439b-8df4-4c9a309fb53f" Panel.Bounds="450,335,132{5,2147483647},28{5,2147483647}">
+                                                            <ComboBox.Items>
+                                                                <Item Text="Retain" Id="a5698175-fbab-4b24-a122-9958aea73ad3" />
+                                                                <Item Text="Mitigate" Id="a91b65cd-1ec4-4086-9e97-0666beace9b9" />
+                                                                <Item Text="Insure" Id="d04cccec-c1de-4550-808e-18259219a870" />
+                                                            </ComboBox.Items>
+                                                        </ComboBox>
+                                                        <Label Text="Owner" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="06660120-167f-42d3-aa6e-94ee7a91ded4" Panel.Bounds="607,315,5*{5,2147483647},5*{5,2147483647}" />
+                                                        <TextBox Text="P Manager" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="7885a857-120e-4e73-b13c-86e60b01775d" Panel.Bounds="607,339,132{5,2147483647},0*{5,2147483647}" />
+                                                        <Button Text="Close Risk" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="1f85e36d-a0e7-435e-8cb4-131f9f8864e9" Panel.Bounds="450,617,80{5,2147483647},35{5,2147483647}" />
+                                                        <Label Text="Last Evaluation: 2013-05-25 by Dave" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="187289f0-4c25-4852-896e-87aa78c3eb41" Panel.Bounds="489,402,0*{5,2147483647},0*{5,2147483647}" />
+                                                        <Button Text="Save" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="91a6cafc-152e-414f-8050-7a4f74969fd6" Panel.Bounds="892,617,80{5,2147483647},35{5,2147483647}" />
+                                                        <CheckBox Text="Show Only Open Risks" IsChecked="True" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="88f22aad-6a03-43c5-9c4f-ecaad70b157b" Panel.Bounds="16,461,0*{5,2147483647},0*{5,2147483647}" />
+                                                        <Label Text="Overall" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="c9311403-44ef-49e0-b9b6-02718e719aa9" Panel.Bounds="759,248,5*{5,2147483647},5*{5,2147483647}" />
+                                                        <TextBox Background="#FF349C42" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="2ff6ad9e-4f96-47c3-8bdb-638b8a150856" Panel.Bounds="756,273,120{5,2147483647},5*{5,2147483647}" />
+                                                    </Container.Children>
+                                                </Container>
+                                            </TabItem.Content>
+                                        </TabItem>
+                                        <TabItem Header="Assumptions" Id="f7ddb705-0c78-40cb-9aae-50245cd659d3">
+                                            <TabItem.Content>
+                                                <Container Layout="Stretch" ClipToContainer="True" Id="4222af78-cc5d-454c-9ee7-4d93eda59554" />
+                                            </TabItem.Content>
+                                        </TabItem>
+                                        <TabItem Header="Issues" Id="d772e649-d1f3-47f8-9e31-a342232606ba">
+                                            <TabItem.Content>
+                                                <Container Layout="Stretch" ClipToContainer="True" Id="b2117e38-b664-4f02-ac91-6914616e8ea8" />
+                                            </TabItem.Content>
+                                        </TabItem>
+                                        <TabItem Header="Dependencies" Id="ab93172c-0114-4e23-b8ba-fe62d1bf1da2">
+                                            <TabItem.Content>
+                                                <Container Layout="Stretch" ClipToContainer="True" Id="95c20fcd-cd1d-4c07-85aa-86c2b8e9a60c" />
+                                            </TabItem.Content>
+                                        </TabItem>
+                                        <TabItem Header="Queries" Id="d9a5a0fd-dd3c-4088-80cf-937b407087fa">
+                                            <TabItem.Content>
+                                                <Container Layout="Stretch" ClipToContainer="True" Id="23f04d98-fcd9-4e0a-9084-911771eefb2c" />
+                                            </TabItem.Content>
+                                        </TabItem>
+                                    </Tabs.Items>
+                                </Tabs>
+                            </Add.Item>
+                        </Add>
+                        <Add Property="Panel.Children" Target="fdf650d9-e9c6-4811-b0a9-403d77d7fca5">
+                            <Add.Item>
+                                <Note Text="RAG status of each item will be indicated using the background of each row. &#xD;&#xD;" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="afa6b240-a43e-4198-82e8-a2ce74efb22f" Panel.Bounds="305,-189,190{5,2147483647},160{5,2147483647}" />
+                            </Add.Item>
+                        </Add>
+                    </KeyFrame.Operations>
+                </KeyFrame>
+            </Scene.KeyFrames>
+        </Scene>
+    </Page.Scenes>
+</Page>

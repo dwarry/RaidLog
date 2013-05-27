@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Dapper;
 using RaidLog.Models;
+using RaidLog.Queries;
 
 namespace RaidLog.Controllers
 {
@@ -19,7 +20,7 @@ namespace RaidLog.Controllers
             _connection = connection;
         }
 
-        public IEnumerable<RiskDto> Get(int projectId)
+        public IEnumerable<RiskDto> Get(int projectId, bool? active)
         {
          /*
            r.Id
@@ -41,14 +42,25 @@ namespace RaidLog.Controllers
             _connection.Open();
             try
             {
-                return _connection.Query<RiskDto>(Queries.ActiveRisksForProject);
+                string q;
+
+                if (active.HasValue)
+                {
+                    q = active.Value
+                            ? RiskQueries.ActiveRisksForProject
+                            : RiskQueries.ClosedRisksForProject;
+                }
+                else
+                {
+                    q = RiskQueries.AllRisksForProject;
+                }
+
+                return _connection.Query<RiskDto>(q);
             }
             finally
             {
                 _connection.Close();
             }
         } 
-
-
     }
 }

@@ -19,8 +19,9 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'durandal/plu
 
             //configure routing
             router.useConvention();
-            router.mapNav("projectList");
-
+            router.mapNav("#/projects", "projectList", "Projects");
+            router.mapRoute("#/projects/:id", "projectDetails", "Project Details", false);
+            router.mapRoute("#/projects/:id/risks/add", "projectAddRisk", "Add Risk", false);
 
             app.adaptToDevice();
 

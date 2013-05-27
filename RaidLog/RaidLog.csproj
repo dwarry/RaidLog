@@ -20,6 +20,8 @@
     <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -167,14 +169,12 @@
     <Compile Include="Models\EditProject.cs" />
     <Compile Include="Models\NewProject.cs" />
     <Compile Include="Models\ProjectDetails.cs" />
-    <Compile Include="Models\ProjectSummary.cs" />
+    <Compile Include="Models\ProjectSummaryWithCounts.cs" />
     <Compile Include="Models\ReferenceData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queries.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Queries.resx</DependentUpon>
-    </Compile>
+    <Compile Include="Queries\ProjectQueries.cs" />
+    <Compile Include="Queries\ReferenceDataQueries.cs" />
+    <Compile Include="Queries\RiskQueries.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\backend.js" />
@@ -203,6 +203,7 @@
     <Content Include="App\viewmodels\projectDetails.js" />
     <Content Include="App\viewmodels\projectList.js" />
     <Content Include="App\viewmodels\projectRisks.js" />
+    <Content Include="App\viewmodels\riskDetails.js" />
     <Content Include="App\viewmodels\shell.js" />
     <Content Include="App\views\projectDetails.html" />
     <Content Include="App\views\projectList.html" />
@@ -297,13 +298,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Queries.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Queries.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -332,6 +326,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

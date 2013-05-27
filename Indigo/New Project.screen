@@ -1,0 +1,65 @@
+﻿<?Infragistics.Models format="xaml" version="17"?>
+<Page xmlns="http://prototypes.infragistics.com/"
+                                                          Id="74c9b0dc-7608-4873-bf21-beb907d07afc">
+    <Page.Content>
+        <Content Width="800" Height="600" Background="White" Id="4f05507f-0437-4216-8bed-293ca3f63b96">
+            <Content.Layers>
+                <Layer Layout="Stretch" Id="a69b3a91-3d0a-4ba1-9e84-1fcd7ddcc22a" Panel.Layout="Stretch" />
+            </Content.Layers>
+        </Content>
+    </Page.Content>
+    <Page.Scenes>
+        <Scene Title="Start" Created="05/24/2013 16:48:05" Id="475e0020-e689-4055-bdf3-1814659b11e1">
+            <Scene.KeyFrames>
+                <KeyFrame Id="a1bce63b-a3e9-4935-8fb7-6b5703ed53e6">
+                    <KeyFrame.Operations>
+                        <Add Property="Panel.Children" Target="a69b3a91-3d0a-4ba1-9e84-1fcd7ddcc22a">
+                            <Add.Item>
+                                <Title Text="New Project" Foreground="#FF282828" FontSize="34" FontStyle="Normal" Id="c3a6f403-aba2-4fc7-95aa-9e5f6f8edd3d" Panel.Bounds="19,6,5*{5,2147483647},5*{5,2147483647}" />
+                            </Add.Item>
+                        </Add>
+                        <Add Property="Panel.Children" Target="a69b3a91-3d0a-4ba1-9e84-1fcd7ddcc22a">
+                            <Add.Item>
+                                <Label Text="Project Code:" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="5f91fe05-73f8-464b-a328-d89fbd0de83e" Panel.Bounds="177,121,0*{5,2147483647},0*{5,2147483647}" />
+                            </Add.Item>
+                        </Add>
+                        <Add Property="Panel.Children" Target="a69b3a91-3d0a-4ba1-9e84-1fcd7ddcc22a">
+                            <Add.Item>
+                                <TextBox Text="DCS" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="642664d6-1239-40c4-b1a7-658f25cbbac5" Panel.Bounds="265,118,120{5,2147483647},5*{5,2147483647}" />
+                            </Add.Item>
+                        </Add>
+                        <Add Property="Panel.Children" Target="a69b3a91-3d0a-4ba1-9e84-1fcd7ddcc22a">
+                            <Add.Item>
+                                <TextBox Text="Data Collection Service Project - ANRP151" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="856f3e4e-3487-403c-b0e1-e53bd5ac14bd" Panel.Bounds="265,177,341{5,2147483647},5*{5,2147483647}" />
+                            </Add.Item>
+                        </Add>
+                        <Add Property="Panel.Children" Target="a69b3a91-3d0a-4ba1-9e84-1fcd7ddcc22a">
+                            <Add.Item>
+                                <Label Text="Project Name" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="a3853a18-465d-4ff5-aea7-cb706a64ff47" Panel.Bounds="175,180,0*{5,2147483647},0*{5,2147483647}" />
+                            </Add.Item>
+                        </Add>
+                        <Add Property="Panel.Children" Target="a69b3a91-3d0a-4ba1-9e84-1fcd7ddcc22a">
+                            <Add.Item>
+                                <Button Text="Save" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="9b940934-f4c4-44c9-9f46-132365b4a8b9" Panel.Bounds="526,258,80{5,2147483647},35{5,2147483647}">
+                                    <Button.Click>
+                                        <CommandNavigate Screen="/Project Details.screen" Created="05/24/2013 16:52:08" />
+                                    </Button.Click>
+                                </Button>
+                            </Add.Item>
+                        </Add>
+                        <Add Property="Panel.Children" Target="a69b3a91-3d0a-4ba1-9e84-1fcd7ddcc22a">
+                            <Add.Item>
+                                <Button Text="Cancel" Foreground="#FF282828" FontSize="13" FontStyle="Normal" Id="d11e54e2-f89f-4489-bc89-36ebf0ac5e93" Panel.Bounds="430,258,80{5,2147483647},35{5,2147483647}" />
+                            </Add.Item>
+                        </Add>
+                        <Add Property="Panel.Children" Before="5f91fe05-73f8-464b-a328-d89fbd0de83e" Target="a69b3a91-3d0a-4ba1-9e84-1fcd7ddcc22a">
+                            <Add.Item>
+                                <Rectangle Background="White" Id="382c1bb0-ea48-4760-b60f-623e4ffbc0a5" Panel.Bounds="157,92,469{5,2147483647},224{5,2147483647}" />
+                            </Add.Item>
+                        </Add>
+                    </KeyFrame.Operations>
+                </KeyFrame>
+            </Scene.KeyFrames>
+        </Scene>
+    </Page.Scenes>
+</Page>

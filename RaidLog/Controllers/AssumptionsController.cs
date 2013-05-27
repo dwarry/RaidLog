@@ -16,7 +16,7 @@ namespace RaidLog.Controllers
             _connection = connection;
         }
 
-        public IEnumerable<dynamic> Get(int projectId )
+        public IEnumerable<dynamic> Get(int projectId, bool? active )
         {
             yield break;
         } 
