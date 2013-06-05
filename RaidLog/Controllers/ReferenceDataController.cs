@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Dapper;
 using RaidLog.Models;
+using RaidLog.Queries;
 
 namespace RaidLog.Controllers
 {
@@ -28,7 +29,7 @@ namespace RaidLog.Controllers
             {
                 using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    var multi = _connection.QueryMultiple(Queries.GetReferenceData, transaction: tx);
+                    var multi = _connection.QueryMultiple(ReferenceDataQueries.GetReferenceData, transaction: tx);
 
                     var result = new ReferenceData(multi.Read<ApproachDto>().ToArray(),
                                                    multi.Read<ImpactDto>().ToArray(),

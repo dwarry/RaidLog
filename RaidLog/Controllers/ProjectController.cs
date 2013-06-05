@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using RaidLog.Models;
 using Dapper;
@@ -33,14 +34,11 @@ namespace RaidLog.Controllers
             {
                 using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    IList<ProjectSummaryWithCounts> projects;
-                    ILookup<int, ProjectRiskSummary> risksByProject;
-
                     var result = _connection.QueryMultiple(ProjectQueries.GetAllActiveProjects + ProjectQueries.GetAllProjectsAndActiveRisks,
                                                            transaction:tx);
 
-                    projects = result.Read<ProjectSummaryWithCounts>().ToList();
-                    risksByProject = result.Read<ProjectRiskSummary>().ToLookup(x => x.ProjectId);
+                    var projects = result.Read<ProjectSummaryWithCounts>().ToList();
+                    var risksByProject = result.Read<ProjectRiskSummary>().ToLookup(x => x.ProjectId);
 
                     foreach (var proj in projects)
                     {
@@ -61,32 +59,21 @@ namespace RaidLog.Controllers
             }
         }
 
-        public ProjectDetails GetProjectDetails(int id, bool? isActive)
+        public ProjectSummary GetProjectDetails(int id)
         {
-            string riskQuery = GetRiskQuery(isActive);
-
             _connection.Open();
+
             try
             {
                 using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    var sql = 
-                        ProjectQueries.GetProjectDetails + 
-                        riskQuery;
+                    var sql = ProjectQueries.GetProjectDetails;  
 
-                    var q = _connection.QueryMultiple(sql,
-                                                      new { id = id },
-                                                      tx);
-                               ;
-                    var proj = q.Read<ProjectDetails>()
-                                .FirstOrDefault();
-
-                    if (proj != null)
-                    {
-                        proj.Risks = q.Read<RiskDto>().ToList();
-                    }
-
+                    var q = _connection.Query<ProjectSummary>(sql).FirstOrDefault();
+                    
                     tx.Commit();
+
+                    if(q == null) throw new HttpResponseException(HttpStatusCode.NotFound);
 
                     return q;
                 }
@@ -97,37 +84,103 @@ namespace RaidLog.Controllers
             }
         }
 
-        private string GetRiskQuery(bool? isActive)
-        {
-            if (!isActive.HasValue)
-            {
-                return RiskQueries.AllRisksForProject;
-            }
 
-            return isActive.Value
-                       ? RiskQueries.ActiveRisksForProject
-                       : RiskQueries.ClosedRisksForProject;
-        }
-
-        public ProjectDetails PutNewProject(NewProject newProject)
+        public HttpResponseMessage PostNewProject(NewProject newProject)
         {
             if (ModelState.IsValid)
             {
-                
+                _connection.Open();
+                try
+                {
+                    using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
+                    {
+                        var newId = _connection.Query<int>(ProjectQueries.InsertProject,
+                                                           new {code = newProject.Code, name = newProject.Name, userName = User.Identity.Name},
+                                                           tx)
+                                               .First();
+                        
+                        var response = Request.CreateResponse(HttpStatusCode.Created);
+
+                        response.Headers.Location = new Uri("/api/project/" + newId, UriKind.Relative);
+
+                        tx.Commit();
+
+                        return response;
+                    }
+                }
+                finally
+                {
+                    _connection.Close();
+                }
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                                                   ModelState);
             }
 
-            return null;
         }
 
-        public ProjectDetails PostProject(EditProject editProject)
+        public HttpResponseMessage PutProject(int id, EditProject editProject)
         {
-            return null;
+            if (ModelState.IsValid)
+            {
+                _connection.Open();
+
+                try
+                {
+                    using (var tx = _connection.BeginTransaction(IsolationLevel.RepeatableRead)) 
+                    {
+                        var result = _connection.Execute(ProjectQueries.UpdateProject,
+                                                         editProject,
+                                                         tx);
+
+                        if (result == 0)
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.NotFound,
+                                                               "No such Project");
+                        }
+
+                        return Request.CreateResponse(HttpStatusCode.OK);
+                    }
+                }
+                finally
+                {
+                    _connection.Close();
+                }
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                                                   ModelState);
+            }
         }
 
-        public bool DeleteProject(DeleteProject deleteProject)
+        public HttpResponseMessage DeleteProject(int id)
         {
-            return false;
+            try
+            {
+                _connection.Open();
+
+                using (var tx = _connection.BeginTransaction(IsolationLevel.RepeatableRead))
+                {
+                    var result = _connection.Execute(ProjectQueries.DeleteProject,
+                                                     new { id }, 
+                                                     tx);
+                    
+                    tx.Commit();
+
+                    return Request.CreateResponse(HttpStatusCode.NoContent);
+
+                }
+            }
+            finally
+            {
+                _connection.Close();
+            }
+
         }
     }
 
+    
 }

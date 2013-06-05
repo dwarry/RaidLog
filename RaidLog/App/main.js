@@ -4,28 +4,31 @@
     }
 });
 
-define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'durandal/plugins/router'],
-    function(app, viewLocator, system, router) {
+define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'durandal/plugins/router', 'config'],
+    function(app, viewLocator, system, router, config) {
 
         //>>excludeStart("build", true);
         system.debug(true);
         //>>excludeEnd("build");
 
-        app.title = 'Durandal Starter Kit';
+        app.title = 'Project RAID Logs';
         app.start().then(function() {
             //Replace 'viewmodels' in the moduleId with 'views' to locate the view.
             //Look for partial views in a 'views' folder in the root.
             viewLocator.useConvention();
 
             //configure routing
-            router.useConvention();
-            router.mapNav("#/projects", "projectList", "Projects");
-            router.mapRoute("#/projects/:id", "projectDetails", "Project Details", false);
-            router.mapRoute("#/projects/:id/risks/add", "projectAddRisk", "Add Risk", false);
-
+            setupRouter();
+            
             app.adaptToDevice();
 
             //Show the app by setting the root view model for our application with a transition.
             app.setRoot('viewmodels/shell', 'entrance');
         });
+
+        function setupRouter() {
+            router.useConvention();
+
+            router.map(config.routes);
+        }
     });

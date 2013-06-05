@@ -7,16 +7,17 @@ namespace RaidLog.Models
 {
     public class ProjectSummary
     {
-        public ProjectSummary(int id, int versionNumber, string code, string name)
+        public ProjectSummary(int id, byte[] version, string code, string name)
         {
             Id = id;
+            Version = version;
             Code = code;
             Name = name;
         }
 
         public int Id { get; set; }
 
-        public int VersionNumber { get; set; }
+        public byte[] Version { get; set; }
 
         public string Code { get; set; }
 
@@ -26,16 +27,17 @@ namespace RaidLog.Models
 
     public class ProjectSummaryWithCounts
     {
-        public ProjectSummaryWithCounts(int id, int versionNumber, string code, string name)
+        public ProjectSummaryWithCounts(int id, byte[] version, string code, string name)
         {
             Id = id;
+            Version = version;
             Code = code;
             Name = name;
         }
 
         public int Id { get; set; }
 
-        public int VersionNumber { get; set; }
+        public byte[] Version { get; set; }
 
         public string Code { get; set; }
 

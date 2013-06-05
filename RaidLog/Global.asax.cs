@@ -12,6 +12,8 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.WebApi;
+
+using CacheCow.Common;
 using CacheCow.Server;
 using CacheCow.Server.EntityTagStore.SqlServer;
 using Newtonsoft.Json.Serialization;
@@ -32,7 +34,7 @@ namespace RaidLog
             AreaRegistration.RegisterAllAreas();
 
             InitialiseIocContainer();
-            InitializeCaching();
+//            InitializeCaching();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -63,11 +65,11 @@ namespace RaidLog
             GlobalConfiguration.Configuration.DependencyResolver = resolver;
         }
 
-        private void InitializeCaching()
+        /*private void InitializeCaching()
         {
-            var db = new SqlServerEntityTagStore();
+            IEntityTagStore db = new SqlServerEntityTagStore();
             var cachecow = new CachingHandler(db);
             GlobalConfiguration.Configuration.MessageHandlers.Add(cachecow);
-        }
+        }*/
     }
 }

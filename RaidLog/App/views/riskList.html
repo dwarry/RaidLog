@@ -1,0 +1,11 @@
+﻿<div data-bind="koGrid: {
+    data: risks,
+    columnDefs: [{ field: 'riskNumber', displayName: '#', sortable: true, width: '*' },
+                 { field: 'description', displayName: 'Description', sortable: 'false', width: '***' },
+                 { field: 'score', displayName: 'Assessment', sortable:'true', width:'*'}],
+    canSelectRows: true,
+    multiSelect: false,
+    selectedItems: selectedRisks
+}">
+    
+</div>

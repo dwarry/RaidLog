@@ -10,7 +10,12 @@
     </ul>
     
     <div class="tab-content">
-        <div id="project_risk_list" class="tab-pane active" data-bind="compose:"></div>        
+        <div id="project_risk_list" class="tab-pane active" data-bind="compose:projectRisks.html">
+            <div class="row">
+                <div class="span6"></div>
+                <div class="span6" data-bind="compose:viewmodels/riskDetails"></div>
+            </div>
+        </div>        
         <div id="project_assumptions_list" class="tab-pane"></div>        
         <div id="project_issues_list" class="tab-pane"></div>        
         <div id="project_dependencies_list" class="tab-pane"></div>        

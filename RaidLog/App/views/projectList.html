@@ -1,7 +1,11 @@
 ﻿<section>
     <h1>Active Projects</h1>
     
-    <table id="projects" class="span12 table table-striped table-bordered">
+    <button class="btn btn-primary pull-right" data-bind="click: addProject">Add Project</button>
+
+    <h2 class="text-center" data-bind="visible:projects().length === 0">No Projects</h2>
+
+    <table id="projects" class="span12 table table-striped table-bordered" data-bind="visible:projects().length > 0">
         <caption>Projects</caption>
         <thead>
             <tr>
@@ -19,13 +23,13 @@
         </thead>
         <tbody data-bind="foreach:projects">
             <tr>
-                <td><a data-bind="text: Code, click:$root.viewProject($data)"></a></td>
-                <td data-bind="text: Name"></td>
-                <td class="narrowCount" data-bind="text: ActiveRisks"></td>
-                <td class="narrowCount" data-bind="text: ActiveAssumptions">0</td>
-                <td class="narrowCount" data-bind="text: ActiveIssues">0</td>
-                <td class="narrowCount" data-bind="text: ActiveDependencies">0</td>
-                <td class="narrowCount" data-bind="text: ActiveQueries">0</td>
+                <td><a data-bind="text: $data.code, click:$root.viewProject"></a></td>
+                <td data-bind="text: $data.name"></td>
+                <td class="narrowCount" data-bind="text: $data.activeRisks">0</td>
+                <td class="narrowCount" data-bind="text: $data.activeAssumptions">0</td>
+                <td class="narrowCount" data-bind="text: $data.activeIssues">0</td>
+                <td class="narrowCount" data-bind="text: $data.activeDependencies">0</td>
+                <td class="narrowCount" data-bind="text: $data.activeQueries">0</td>
             </tr>
         </tbody>
     </table>

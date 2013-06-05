@@ -19,6 +19,8 @@
                 document.title = that.title;
             }
 
+            ko.validation.init({ decorateElement: false, insertMessages:false, messagesOnModified:false});
+
             return system.defer(function (dfd) {
                 $(function() {
                     system.log('Starting Application');

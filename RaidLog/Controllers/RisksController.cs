@@ -22,23 +22,7 @@ namespace RaidLog.Controllers
 
         public IEnumerable<RiskDto> Get(int projectId, bool? active)
         {
-         /*
-           r.Id
-         , r.RiskNumber
-         , r.Description
-         , r.RaisedDate
-         , r.RaisedBy
-         , r.RifCategoryId
-         , r.IsProjectRisk
-         , r.Workstream
-         , r.ImpactCommentary
-         , r.ApproachId
-         , r.VersionNumber
-         , re.EvaluationDate
-         , re.ImpactId
-         , re.LikelihoodId
-         , re.Owner
-          */
+         
             _connection.Open();
             try
             {

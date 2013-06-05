@@ -1,59 +1,58 @@
 ﻿define(function(require) {
-    var backend = require('backend');
+    var backend = require('services/backend');
     var app = require('durandal/app');
 
     var riskDetails = function() {
-        var that = this;
+        var self = this;
 
-        this.displayName = ko.observable("Risk ");
+        self.displayName = ko.observable("Risk ");
 
-        this.description = 'Allows the user to view/edit details of a Risk.';
+        self.description = 'Allows the user to view/edit details of a Risk.';
 
-        this.projectId = 0;
+        self.riskId = ko.observable(0);
 
-        this.projectCode = ko.observable("");
+        self.versionNumber = ko.observable(0);
 
+        self.riskNumber = ko.observable("");
 
-        this.isBusy = ko.observable(false);
+        self.description = ko.observable("");
 
-        this.viewAttached = function(view) {
-            that.refresh();
-        };
+        self.raisedDate = ko.observable("2013-01-01");
 
-        this.activate = function(activationData) {
-            that.projectId = activationData.projectId;
-        };
+        self.rifCategoryId = ko.observable(0);
 
-        this.refresh = function() {
+        self.isProjectRisk = ko.observable(false);
 
-            if (that.isBusy()) {
-                return;
-            }
+        self.workstream = ko.observable("");
 
-            that.isBusy(true);
+        self.commentary = ko.observable("");
 
-            backend.getdataMethod(that.parentEntityId).then(
-                function(result) {
-                    that.parentEntityName(result.displayName);
-                    that.listData(result.dataProperty);
-                    $('#tableId').dataTable(tableOptions);
-                    that.isBusy(false);
-                },
-                function(jqxhr, status, ex) {
-                    app.displayAjaxFailureMessage(jqxhr, status, ex);
-                    that.isBusy(false);
-                });
-        };
+        self.approach = ko.observable(null);
 
-        this.add = function() {
-            if (that.isBusy()) {
-                return;
-            }
-            app.showMessage("Adding new Risk");
-        };
+        self.impact = ko.observable(null);
+
+        self.likelihood = ko.observable(null);
+
+        self.owner = ko.observable("");
 
 
+        self.approaches = ko.observableArray([]);
 
+        self.impacts = ko.observableArray([]);
+
+        self.likelihoods = ko.observableArray([]);
+
+        self.rifCategories = ko.observableArray([]);
+        
+
+
+        backend.getReferenceData().done(function (refData) {
+            self.approaches(refData.approaches);
+            self.impacts(refData.impacts);
+            self.likelihoods(refData.likelihoods);
+            self.rifCategories(refData.rifCategories);
+        });
+        
     };
 
     return name;
