@@ -69,7 +69,7 @@ namespace RaidLog.Controllers
                 {
                     var sql = ProjectQueries.GetProjectDetails;  
 
-                    var q = _connection.Query<ProjectSummary>(sql).FirstOrDefault();
+                    var q = _connection.Query<ProjectSummary>(sql,new {id},tx).FirstOrDefault();
                     
                     tx.Commit();
 

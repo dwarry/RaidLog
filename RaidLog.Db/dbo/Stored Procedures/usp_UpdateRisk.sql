@@ -6,7 +6,7 @@
 CREATE PROCEDURE [dbo].[usp_UpdateRisk] 
 	-- Add the parameters for the stored procedure here
 	@riskId int, 
-	@versionNumber int,
+	@version timestamp,
 	@userName nvarchar(50),
 	@description nvarchar(2048),
 	@impactCommentary nvarchar(2048),
@@ -30,12 +30,11 @@ BEGIN
 	    IsProjectRisk = @isProjectRisk,
 	    Workstream = @workstream,
 	    ApproachId = @approachId,
-	    VersionNumber = VersionNumber + 1,
 	    UpdatedTimestamp = SysDateTime(),
 	    UpdatedBy = @userName
 	where
 		Id = @riskId
-	and VersionNumber = @versionNumber;
+	and Version = @version;
 	
 	if @@ROWCOUNT = 0
 		return 1;

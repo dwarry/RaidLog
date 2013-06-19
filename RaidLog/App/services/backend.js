@@ -10,49 +10,50 @@
     // Singleton object that returns Deferreds that will yield the data when resolved. 
     // Clients must attach their own .done() handlers to process the results.
     return {
-        'getProjects': function(observableArray) {
-            return $.getJSON('/api/project/')
-                .done(function (data) {
-                    if (observableArray) {
-                        observableArray(data);
-                    }
-                })
-                .fail(function(jqxhr, status, err) {
-                    logger.logError("Could not retrieve Projects", null, null, true);
-                });
+        getProjects: function() {
+            return $.getJSON('/api/project/');
         },
         
-        'getProjectDetails': function(id) {
+        getProjectDetails: function(id) {
             return $.getJSON("/api/project/" + id);
         },
         
-        'getProjectRisks': function(id) {
-            return $.getJSON("/api/project/" + id + "/risks/");
+        // id - project id
+        // active - true for open risks, false for closed, null for both.
+        getProjectRisks: function(id, active) {
+            return $.getJSON("/api/project/" + id + "/risks/", {active:active});
         },
         
-        'getProjectAssumptions': function(id) {
+        getProjectAssumptions: function(id) {
             return $.getJSON("/api/project/" + id + "/assumptions/");
         },
         
-        'getProjectIssues': function(id) {
+        getProjectIssues: function(id) {
             return $.getJSON("/api/project/" + id + "/issues/");
         },
         
-        'getProjectDependencies': function(id) {
+        getProjectDependencies: function(id) {
             return $.getJSON("/api/project/" + id + "/dependencies/");
         },
         
-        'getProjectQueries': function(id) {
+        getProjectQueries: function(id) {
             return $.getJSON("/api/project/" + id + "/queries/");
         },
 
         // gets the reference data
-        'getReferenceData': function() {
+        getReferenceData: function() {
 
             return refDataDfd;
         },
         
-        'saveProject': function(proj) {
+        getRisk: function (idOrUrl) {
+
+            var url = $.isNumeric(idOrUrl) ? "/api/risks/" + idOrUrl : idOrUrl;
+
+            return $.getJSON(url);
+        },
+        
+        saveProject: function(proj) {
 
             var options = {
                 url: "/api/project/",
@@ -68,14 +69,41 @@
             }
 
             return $.ajax(options)
-                .done(function(data) {
+                .done(function(data, status, jqxhr) {
                     logger.log("Saved Project", null, "backend", true);
+
+                    var responseHeaders = jqxhr.getAllResponseHeaders();
+
+                    app.trigger('newProject',
+                        'location' in responseHeaders ? responseHeaders['location'] : null);
+           
                 })
                 .fail(function (jqxhr, status, ex) {
                     logger.logError(status + " " + jqxhr.responseText, proj, "backend", false);
                     logger.logError("Error saving the Project");
                 });
         },
+        
+        saveRisk: function(projectId, risk) {
+            var options = {
+                data: risk,
+            };
+
+            if ('id' in risk) {
+                options.url = "/api/project/" + projectId + "/risks/";
+                options.type = "POST";
+            } else {
+                options.url = "/api/risks/" + risk.id;
+                options.type = "PUT";
+            }
+
+
+            return $.ajax(options).done(function(data, status, jqxhr) {
+                logger.log("Saved Risk", null, null, false);
+                var responseHeaders = jqxhr.getAllResponseHeaders();
+                app.trigger('newRisk', 'location' in responseHeaders ? responseHeaders['location'] : null)
+            });
+        }
     };
 
     function logError(jqxhr, status, err) {

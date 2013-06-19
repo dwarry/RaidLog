@@ -4,26 +4,24 @@ using System.Linq;
 
 namespace RaidLog.Models
 {
-
-    public class RiskDto
+    public class EditRiskDto
     {
         public int Id { get; set; }
-        
+
         [Timestamp]
         public byte[] Version { get; set; }
 
-        public int RiskNumber { get; set; }
-
+        
         [Required]
         [StringLength(2048)]
         public string Description { get; set; }
-        
+
         public DateTime RaisedDate { get; set; }
-        
+
         [Required]
         [StringLength(50)]
         public string RaisedBy { get; set; }
-        
+
         public int RifCategoryId { get; set; }
 
         public bool IsProjectRisk { get; set; }
@@ -44,6 +42,6 @@ namespace RaidLog.Models
         [StringLength(50)]
         public string Owner { get; set; }
 
-        public Boolean IsActive { get; set; }
+        public bool IsActive { get; set; }
     }
 }

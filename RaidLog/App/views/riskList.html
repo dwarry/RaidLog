@@ -1,4 +1,7 @@
-﻿<div data-bind="koGrid: {
+﻿<h1><span data-bind="text:projectCode"></span>: <span data-bind="text:projectName"></span> Risks</h1>
+<div class="row">
+    <div class="span4">
+        <div data-bind="koGrid: {
     data: risks,
     columnDefs: [{ field: 'riskNumber', displayName: '#', sortable: true, width: '*' },
                  { field: 'description', displayName: 'Description', sortable: 'false', width: '***' },
@@ -8,4 +11,8 @@
     selectedItems: selectedRisks
 }">
     
+        </div>
+        <h2 data-bind="visible:risks.length == 0" class="alert alert-info">No Risks</h2>
+    </div>
+    <div class="span6" data-bind="compose: riskDetailsVm"></div>
 </div>

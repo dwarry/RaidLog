@@ -3,20 +3,21 @@
     var backend = require('services/backend'),
         logger = require('services/logger'),
         app = require('durandal/app'),
+        router = require('durandal/plugins/router'),
         addProjectVm = require('viewmodels/newProject');
 
     var projectList = {
-        'projects': ko.observableArray([]),
+        projects: ko.observableArray([]),
 
-        'selectedProject': ko.observable(),
+        selectedProject: ko.observable(),
 
-        'activate': function() {
+        activate: function() {
             var self = this;
 
             self.refresh();
         },
         
-        'refresh': function() {
+        refresh: function() {
             var self = this;
 
             return backend.getProjects()
@@ -28,12 +29,12 @@
 
         },
 
-        'viewProject': function(proj) {
+        viewProject: function(proj) {
             addProjectVm.setProject(proj);
             app.showModal(addProjectVm);
         },
 
-        'addProject': function () {
+        addProject: function () {
             var self = this;
             addProjectVm.setProject(null);
             app.showModal(addProjectVm).done(function(result) {
@@ -41,6 +42,10 @@
                     self.refresh();
                 }
             });
+        },
+
+        viewRisks: function(project) {
+            router.navigateTo("#/projects/" + project.id + "/risks");
         }
     };
 

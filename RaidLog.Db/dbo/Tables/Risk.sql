@@ -10,7 +10,7 @@
     [Workstream]       NVARCHAR (50)   NOT NULL,
     [ImpactCommentary] NVARCHAR (2048) NULL,
     [ApproachId]       INT             NULL,
-    [VersionNumber]    INT             NOT NULL,
+    [Version]    TIMESTAMP             NOT NULL,
     [UpdatedTimestamp] DATETIME2 (7)   NOT NULL,
     [UpdatedBy]        NVARCHAR (50)   NOT NULL,
     CONSTRAINT [PK_Risk] PRIMARY KEY CLUSTERED ([Id] ASC),

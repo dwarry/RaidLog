@@ -32,7 +32,7 @@
         setRoot: function(root, transition, applicationHost) {
             var hostElement, settings = { activate: true, transition: transition };
 
-            if (!applicationHost || typeof applicationHost == "string") {
+            if (!applicationHost || typeof applicationHost === "string") {
                 hostElement = document.getElementById(applicationHost || 'applicationHost');
             } else {
                 hostElement = applicationHost;

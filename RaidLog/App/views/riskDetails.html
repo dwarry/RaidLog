@@ -1,0 +1,112 @@
+﻿<form class="form-horizontal">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Risk Details</legend>
+
+<!-- Textarea -->
+<div class="control-group">
+  <label class="control-label" for="description">Description</label>
+  <div class="controls">                     
+    <textarea id="description" name="description" data-bind="value:description" class="span4" rows="5">There is a risk that...
+because ...
+leading to ...</textarea>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label" for="raisedDate">Raised On</label>
+  <div class="controls">
+    <input id="raisedDate" name="raisedDate" type="text" placeholder="yyyy-mm-dd" class="input-small" required="required" data-bind="value:raisedDate">
+    <p class="help-block">Date on which the Risk was recorded</p>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label" for="raisedBy">Raised By</label>
+  <div class="controls">
+      <input id="raisedBy" name="raisedBy" type="text" placeholder="Some User"
+             data-bind="value:raisedBy"
+             class="input-xlarge" required="required">
+    <p class="help-block">Person who raised the Risk</p>
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="control-group">
+  <label class="control-label" for="rifCategoryId">RIF Category</label>
+  <div class="controls">
+      <select id="rifCategoryId" name="rifCategoryId" 
+          data-bind="value:rifCategoryId,options:rifCategories,optionsText:'description',optionsCaption:'Choose...',optionsValue:'id'"    
+          class="input-xlarge">
+    </select>
+  </div>
+</div>
+
+<!-- Prepended checkbox -->
+<div class="control-group">
+  <label class="control-label" for="workstream">Project Risk? / Workstream</label>
+  <div class="controls">
+    <div class="input-prepend">
+      <span class="add-on">
+        <label class="checkbox">
+          <input type="checkbox" checked="checked" id="isProjectRisk" data-bind="checked:isProjectRisk">
+        </label>
+      </span>
+      <input id="workstream" name="workstream" class="input-xlarge" type="text" placeholder="placeholder" required="required" data-bind="value:workstream">
+    </div>
+    <p class="help-block">help</p>
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="control-group">
+  <label class="control-label" for="approachId">Approach</label>
+  <div class="controls">
+    <select id="approachId" name="approachId" class="input-xlarge" data-bind="value: approachId, options: approaches, optionsText: 'description', optionsCaption: 'Choose...', optionsValue: 'id'">
+    </select>
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="control-group">
+  <label class="control-label" for="likelihoodId">Likelihood</label>
+  <div class="controls">
+    <select id="likelihoodId" name="likelihoodId" class="input-xlarge" data-bind="value: likelihoodId, options: likelihoods, optionsText: 'description', optionsCaption: 'Choose...', optionsValue: 'id'">
+    </select>
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="control-group">
+  <label class="control-label" for="impactId">Impact</label>
+  <div class="controls">
+    <select id="impactId" name="impactId" class="input-xlarge" data-bind="value: impactId, options: impacts, optionsText: 'description', optionsCaption: 'Choose...', optionsValue: 'id'">
+    </select>
+  </div>
+</div>
+
+<!-- Textarea -->
+<div class="control-group">
+  <label class="control-label" for="commentary">Impact Commentary</label>
+  <div class="controls">                     
+    <textarea id="commentary" name="commentary" class="span4" rows="5" data-bind="value:commentary"></textarea>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label" for="owner">Owner</label>
+  <div class="controls">
+    <input id="owner" name="owner" type="text" placeholder="John Q User" class="input-xlarge" data-bind="value:owner">
+    <p class="help-block">Who is dealing with this?</p>
+  </div>
+</div>
+
+</fieldset>
+</form>
+<div>
+    <button data-bind="click:saveRisk,enable:validation.isValid" class="btn btn-primary" accesskey="s">Save</button>
+</div>

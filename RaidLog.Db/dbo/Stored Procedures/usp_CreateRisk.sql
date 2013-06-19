@@ -47,7 +47,6 @@ BEGIN
            ,[Workstream]
            ,[ImpactCommentary]
            ,[ApproachId]
-           ,[VersionNumber]
            ,[UpdatedTimestamp]
            ,[UpdatedBy])
      OUTPUT
@@ -63,7 +62,6 @@ BEGIN
            ,@workstream
            ,@impactCommentary
            ,@approachId
-           ,1
            ,CURRENT_TIMESTAMP
            ,@userName);
     

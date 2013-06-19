@@ -4,8 +4,7 @@ namespace RaidLog.Queries
 {
     public static class RiskQueries
     {
-        private const string RisksForProject = @"
-with re as
+        private const string GetRisks = @"with re as
 (
     select RiskId
          , EvaluationDate
@@ -28,21 +27,56 @@ with re as
          , r.Workstream
          , r.ImpactCommentary
          , r.ApproachId
-         , r.VersionNumber
+         , r.Version
          , re.EvaluationDate
          , re.ImpactId
          , re.LikelihoodId
-         , re.IsActive     
          , re.Owner
+         , re.IsActive     
       from dbo.Risk r 
  left join re on r.Id = re.RiskId
-     where r.ProjectId = @id
-       and rn=1";
+     where rn=1 ";
+
+        public const string GetRiskById = GetRisks + "\n  and r.Id = @id";
+
+        private const string RisksForProject = GetRisks + "\n  and r.ProjectId = @id";
 
         public const string AllRisksForProject = RisksForProject + ";";
 
-        public const string ActiveRisksForProject = RisksForProject + "\n and re.IsActive = 1;";
+        public const string ActiveRisksForProject = RisksForProject + "\n  and re.IsActive = 1;";
 
-        public const string ClosedRisksForProject = RisksForProject + "\n and re.IsActive = 0;";
+        public const string ClosedRisksForProject = RisksForProject + "\n  and re.IsActive = 0;";
+
+
+        //   @projectId
+        //  ,@description
+        //  ,@userName
+        //  ,@rifCategoryId
+        //  ,@isProjectRisk
+        //  ,@workstream
+        //  ,@impactCommentary
+        //  ,@approachId
+        //  ,@impactId
+        //  ,@likelihoodId
+        //  ,@owner
+        //  ,@riskId OUTPUT
+        public const string InsertRisk = "[dbo].[usp_CreateRisk]";
+
+        //   @riskId
+        //  ,@version
+        //  ,@userName
+        //  ,@description
+        //  ,@impactCommentary
+        //  ,@rifCategoryId
+        //  ,@isProjectRisk
+        //  ,@workstream
+        //  ,@approachId
+        //  ,@impactId
+        //  ,@likelihoodId
+        //  ,@owner
+        //  ,@isActive
+        public const string UpdateRiskAndOrEvaluation = @"[dbo].[usp_UpdateRisk]"; 
+
+
     }
 }

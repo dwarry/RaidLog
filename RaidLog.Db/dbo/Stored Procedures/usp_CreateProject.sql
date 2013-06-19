@@ -21,14 +21,12 @@ BEGIN
            ,[NextAssumptionNumber]
            ,[NextIssueNumber]
            ,[NextDependencyNumber]
-           ,[VersionNumber]
            ,[UpdatedTimestamp]
            ,[UpdatedBy])
      OUTPUT Inserted.*
      VALUES
            (@code
            ,@name
-           ,1
            ,1
            ,1
            ,1

@@ -8,10 +8,10 @@
                 name: "Projects"
             },
             {
-                url: 'projects/:id',
-                moduleId: 'viewmodels/projectDetails',
+                url: 'projects/:id/risks',
+                moduleId: 'viewmodels/riskList',
                 visible: false,
-                name: "Project Details"
+                name: "Project Risks"
 
             }
         ],
