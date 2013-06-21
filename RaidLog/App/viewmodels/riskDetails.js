@@ -19,7 +19,7 @@
 
         var rifCategoryId = ko.observable(null);
 
-        var rifCategories = ko.observableArray([]);
+        var rifCategories = [];
 
         var isProjectRisk = ko.observable(false);
 
@@ -29,15 +29,15 @@
 
         var approachId = ko.observable(null);
 
-        var approaches = ko.observableArray([]);
+        var approaches = [];
 
         var impactId = ko.observable(null);
 
-        var impacts = ko.observableArray([]);
+        var impacts = [];
 
         var likelihoodId = ko.observable(null);
 
-        var likelihoods = ko.observable([]);
+        var likelihoods = [];
 
         var owner = ko.observable("").extend({ maxLength: 50 });
 
@@ -47,13 +47,6 @@
             setSelectedRisk(risk);
         });
 
-        backend.getReferenceData().done(function(data) {
-            logger.log("Retrieved reference data", null, null, false);
-            approaches(data.approaches);
-            impacts(data.impacts);
-            likelihoods(data.likelihoods);
-            rifCategories(data.rifCategories);
-        });
 
         var vm = {
             activate: activate,

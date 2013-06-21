@@ -1,18 +1,20 @@
 ﻿<h1><span data-bind="text:projectCode"></span>: <span data-bind="text:projectName"></span> Risks</h1>
 <div class="row">
     <div class="span4">
-        <div data-bind="koGrid: {
-    data: risks,
-    columnDefs: [{ field: 'riskNumber', displayName: '#', sortable: true, width: '*' },
-                 { field: 'description', displayName: 'Description', sortable: 'false', width: '***' },
-                 { field: 'score', displayName: 'Assessment', sortable:'true', width:'*'}],
-    canSelectRows: true,
-    multiSelect: false,
-    selectedItems: selectedRisks
+        <table data-bind="dataTable: {
+    dataSource:risks,
+    columns:['riskNumber', 'description', 'score']
 }">
-    
-        </div>
-        <h2 data-bind="visible:risks.length == 0" class="alert alert-info">No Risks</h2>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Description</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <h2 data-bind="visible:risks().length == 0" class="alert alert-info">No Risks</h2>
     </div>
     <div class="span6" data-bind="compose: riskDetailsVm"></div>
 </div>

@@ -1,11 +1,14 @@
 ﻿define(function (require) {
     var backend = require("services/backend");
 
-    var logging = require("services/logger");
+    var logger = require("services/logger");
 
     var app = require("durandal/app");
 
+
+
     var riskDetailsVm = require("viewmodels/riskDetails");
+
 
     var that = this;
 
@@ -19,7 +22,7 @@
 
     var approaches = ko.observableArray([]);
 
-    var impacts = ko.observableArray([]);
+    var impacts = [];
 
     var impactScore = function(impactId) {
         var score = 0;
@@ -35,7 +38,7 @@
         return score;
     };
 
-    var likelihoods = ko.observableArray([]);
+    var likelihoods = [];
 
     var likelihoodScore = function(likelihoodId) {
         var score = 0;
@@ -51,7 +54,7 @@
         return score;
     };
 
-    var rifCategories = ko.observableArray([]);
+    var rifCategories = [];
 
     var risks = ko.observableArray([]);
 
@@ -82,16 +85,36 @@
             options.data.score = ko.computed(function () {
                 return impactScore(this.impactId) * likelihoodScore(this.likelihoodId);
             }, options.data);
+
+            return options.data;
         }
     };
 
+    backend.getReferenceData().done(function (data) {
+        logger.log("Retrieved reference data", null, null, false);
+        approaches(data.approaches);
+        riskDetailsVm.approaches = approaches;
+        impacts=data.impacts;
+        riskDetailsVm.impacts = data.impacts;
+        likelihoods=data.likelihoods;
+        riskDetailsVm.likelihoods = data.likelihoods;
+        rifCategories = data.rifCategories;
+        riskDetailsVm.rifCategories = data.rifCategories;
+    });
+
+
     var refreshRisks = function(id) {
-        return backend.getProjectRisks(id, activeRisks()).done(function(data) {
-            logging.log("Retrieved risks", null, null, false);
+        return backend.getProjectRisks(id, activeRisks()).done(function (data) {
+            logger.log("Retrieved risks", null, null, false);
 
-            
+            risks.removeAll();
 
-            risks(ko.mapping.fromJS(data, riskMapping));
+
+            risks($.map(data, function(x) {
+                var result = ko.mapping.fromJS(x, riskMapping);
+
+                return result;
+            }));
         });
     };
 
@@ -163,7 +186,7 @@
     
         var getProjectDetails = function() {
             return backend.getProjectDetails(id).done(function(data) {
-                logging.log("Retrieved project details", null, null, false);
+                logger.log("Retrieved project details", null, null, false);
                 projectCode(data.code);
                 projectName(data.name);
             });
@@ -173,8 +196,8 @@
             getProjectDetails(),
             refreshRisks(id)
         ).fail(function () {
-            logging.logError("Failed to retrieve all required data", arguments, null, false);
-            logging.logError("Could not retrieve the data", null, null, true);
+            logger.logError("Failed to retrieve all required data", arguments, null, false);
+            logger.logError("Could not retrieve the data", null, null, true);
         });
     };
 
@@ -197,17 +220,13 @@
         deactivate: deactivate,
         projectCode: projectCode,
         projectName: projectName,
-        approaches: approaches,
-        impacts: impacts,
-        likelihoods: likelihoods,
-        rifCategories: rifCategories,
         risks: risks,
         selection: selected,
         selectedIndex: selectedIndex,
         selectedRisks: selected,
         selectedRisk: selectedRisk,
-        riskDetailsVm: riskDetailsVm
+        riskDetailsVm: riskDetailsVm,
     };
-
+    
     return vm;
 });

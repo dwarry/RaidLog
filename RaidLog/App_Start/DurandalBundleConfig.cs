@@ -10,12 +10,18 @@ namespace RaidLog {
       bundles.Add(
         new ScriptBundle("~/scripts/vendor")
           .Include("~/Scripts/jquery-{version}.js")
+          .Include("~/Scripts/jquery.dataTables.js")
           .Include("~/Scripts/knockout-{version}.js")
-          .Include("~/Scripts/sammy-{version}.js")
-          .Include("~/Scripts/bootstrap.min.js")
           .Include("~/Scripts/knockout.validation.js")
           .Include("~/Scripts/knockout.mapping-latest.js")
-          .Include("~/Scripts/koGrid-{version}.min.js")
+          .Include("~/Scripts/cog.js")
+          .Include("~/Scripts/cog.utils.js")
+          .Include("~/Scripts/knockout.bindings.dataTables.js")
+          .Include("~/Scripts/sammy-{version}.js")
+          .Include("~/Scripts/bootstrap.min.js")
+          //.Include("~/Scripts/knockout.simpleGrid.1.3.js")
+          //.Include("~/Scripts/koGrid-{version}.js")
+
           .Include("~/Scripts/toastr.min.js")
         );
 
@@ -25,9 +31,11 @@ namespace RaidLog {
           .Include("~/Content/bootstrap.min.css")
           .Include("~/Content/bootstrap-responsive.min.css")
           .Include("~/Content/font-awesome.min.css")
+          .Include("~/Content/jquery.dataTables.css")
 		  .Include("~/Content/durandal.css")
           .Include("~/Content/app.css")
-          .Include("~/Content/KoGrid.css")
+          //.Include("~/Content/knockout.simpleGrid.css")
+          //.Include("~/Content/KoGrid.css")
           .Include("~/Content/toastr.min.css")
         );
     }

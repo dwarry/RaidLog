@@ -81,8 +81,8 @@ namespace RaidLog.Controllers
                 {
                     using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                     {
-                        var args = new
-                            {
+                        var args = new DynamicParameters(
+                            new {
                                 projectId = projectId,
                                 description = newRisk.Description,
                                 userName = User.Identity.Name,
@@ -94,19 +94,19 @@ namespace RaidLog.Controllers
                                 impactId = newRisk.ImpactId,
                                 likelihoodId = newRisk.LikelihoodId,
                                 owner = newRisk.Owner,
-                                riskId = 0
-                            };
+                            });
                                   
+                        args.Add("riskId", 0, DbType.Int32, ParameterDirection.Output);
 
                         _connection.Execute("usp_CreateRisk",
-                            args,
+                                            args,
                                             tx,
                                             commandType: CommandType.StoredProcedure);
 
 
                         tx.Commit();
 
-                        var location = "/api/risk/" + args.riskId;
+                        var location = "/api/risk/" + args.Get<int>("riskId");
 
                         var response = Request.CreateResponse(HttpStatusCode.Created);
                         response.Headers.Location = new Uri( location, UriKind.Relative);

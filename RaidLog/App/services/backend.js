@@ -1,4 +1,4 @@
-﻿define(['services/logger'], function(logger) {
+﻿define(['services/logger','durandal/app'], function(logger,app) {
     var referenceData = {};
 
     var refDataDfd = $.getJSON("/api/ReferenceData/").done(function (result) {
@@ -90,11 +90,11 @@
             };
 
             if ('id' in risk) {
-                options.url = "/api/project/" + projectId + "/risks/";
-                options.type = "POST";
-            } else {
                 options.url = "/api/risks/" + risk.id;
                 options.type = "PUT";
+            } else {
+                options.url = "/api/project/" + projectId + "/risks/";
+                options.type = "POST";
             }
 
 

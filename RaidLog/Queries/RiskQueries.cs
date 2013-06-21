@@ -14,7 +14,6 @@ namespace RaidLog.Queries
          , IsActive
          , row_number() over (partition by RiskId order by EvaluationDate desc) as rn    
       from dbo.RiskEvaluation
-     where RiskId = @id
 )
     select 
            r.Id
