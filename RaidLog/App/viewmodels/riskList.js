@@ -19,33 +19,33 @@
     var impacts = ko.observableArray();
 
     var impactScore = function(impactId) {
-        var score = 0;
+        var result = 0;
 
-        $.each(impacts, function(index, impact) {
+        $.each(impacts(), function(index, impact) {
             if (impact.id == impactId) {
-                score = impact.score;
+                result = impact.score;
                 return false;
             }
             return true;
         });
 
-        return score;
+        return result;
     };
 
     var likelihoods = ko.observableArray();
 
     var likelihoodScore = function(likelihoodId) {
-        var score = 0;
+        var result = 0;
         
-        $.each(likelihoods, function (index, likelihood) {
+        $.each(likelihoods(), function (index, likelihood) {
             if (likelihood.id == likelihoodId) {
-                score = likelihood.score;
+                result = likelihood.score;
                 return false;
             }
             return true;
         });
 
-        return score;
+        return result;
     };
 
     var rifCategories = ko.observableArray();
@@ -117,9 +117,25 @@
             likelihoodId: risk.likelihoodId,
             owner: risk.owner
         });
-        
+
         risk.score = ko.computed(function () {
-            return impactScore(this.impactId()) * likelihoodScore(this.likelihoodId());
+            var impId = ko.utils.unwrapObservable(this.impactId);
+            var likeId = ko.utils.unwrapObservable(this.likelihoodId);
+            
+            return impactScore(impId) * likelihoodScore(likeId);
+        }, risk);
+
+        risk.rag = ko.computed(function () {
+            var sc = this.score();
+
+            if (sc <= 5) {
+                return "ragGreen";
+            }
+            if (sc >= 15) {
+                return "ragRed";
+            }
+
+            return "ragAmber";
         }, risk);
 
         risk.updateFromDto = function(dto) {

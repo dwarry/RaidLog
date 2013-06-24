@@ -39,7 +39,7 @@ leading to ...</textarea>
                 <div class="controls">
                     <input id="raisedDate" name="raisedDate" type="text" placeholder="yyyy-mm-dd" class="input-small" required="required" data-bind="value: raisedDate">
                 
-                    <label class="control-label" for="raisedBy">Raised By</label>
+                    <label for="raisedBy">Raised By</label>
                 
                     <input id="raisedBy" name="raisedBy" type="text" placeholder="Some User"
                            data-bind="value: raisedBy"
@@ -77,7 +77,10 @@ leading to ...</textarea>
             <div class="control-group">
                 <label class="control-label" for="approachId">Approach</label>
                 <div class="controls">
-                    <select id="approachId" name="approachId" class="input-xlarge" data-bind="value: approachId, options: $root.approaches, optionsText: 'description', optionsCaption: 'Choose...', optionsValue: 'id'">
+                    <select id="approachId" 
+                            name="approachId" 
+                            class="input-xlarge" 
+                            data-bind="value: approachId, options: $root.approaches, optionsText: 'description', optionsCaption: 'Choose...', optionsValue: 'id'">
                     </select>
                 </div>
             </div>
@@ -86,9 +89,15 @@ leading to ...</textarea>
             <div class="control-group">
                 <label class="control-label" for="likelihoodId">Likelihood / Impact</label>
                 <div class="controls">
-                    <select id="likelihoodId" name="likelihoodId" class="input-large" data-bind="value: likelihoodId, options: $root.likelihoods, optionsText: 'description', optionsCaption: 'Choose...', optionsValue: 'id'">
+                    <select id="likelihoodId" 
+                            name="likelihoodId" 
+                            class="input-large" 
+                            data-bind="value: likelihoodId, options: $root.likelihoods, optionsText: 'description', optionsCaption: 'Choose...', optionsValue: 'id'">
                     </select>
-                    <select id="impactId" name="impactId" class="input-large" data-bind="value: impactId, options: $root.impacts, optionsText: 'description', optionsCaption: 'Choose...', optionsValue: 'id'">
+                    <select id="impactId" 
+                            name="impactId" 
+                            class="input-large" 
+                            data-bind="value: impactId, options: $root.impacts, optionsText: 'description', optionsCaption: 'Choose...', optionsValue: 'id'">
                     </select>
                 </div>
             </div>
