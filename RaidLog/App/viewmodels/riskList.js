@@ -5,13 +5,7 @@
 
     var app = require("durandal/app");
 
-
-
-    var riskDetailsVm = require("viewmodels/riskDetails");
-
-
-    var that = this;
-
+   
     var activeRisks = ko.observable(true);
 
     var projectId = 0;
@@ -22,7 +16,7 @@
 
     var approaches = ko.observableArray([]);
 
-    var impacts = [];
+    var impacts = ko.observableArray();
 
     var impactScore = function(impactId) {
         var score = 0;
@@ -38,7 +32,7 @@
         return score;
     };
 
-    var likelihoods = [];
+    var likelihoods = ko.observableArray();
 
     var likelihoodScore = function(likelihoodId) {
         var score = 0;
@@ -54,135 +48,115 @@
         return score;
     };
 
-    var rifCategories = [];
+    var rifCategories = ko.observableArray();
 
     var risks = ko.observableArray([]);
 
-    var selected = ko.observableArray([]);
-
-    var selectedIndex = ko.computed(
-        {
-            read: function() {
-                      return selected.length > 0 ? risks.indexOf(selected()[0]) : -1;
-                  },
-            write: function (value) {
-                if (value < 0 || value >= risks.length) {
-                    selected([]);
-                } else {
-                    selected([ risks()[value] ]);
-                }
-            }
-        }, this);
-
-    
-    var selectedRisk = ko.computed( function() {
-        return selected.length > 0 ? selected()[0] : null;
-    });
-    
-    
-    var riskMapping = {
-        create: function (options) {
-            options.data.score = ko.computed(function () {
-                return impactScore(this.impactId) * likelihoodScore(this.likelihoodId);
-            }, options.data);
-
-            return options.data;
-        }
-    };
+    var selected = ko.observable();
 
     backend.getReferenceData().done(function (data) {
         logger.log("Retrieved reference data", null, null, false);
         approaches(data.approaches);
-        riskDetailsVm.approaches = approaches;
-        impacts=data.impacts;
-        riskDetailsVm.impacts = data.impacts;
-        likelihoods=data.likelihoods;
-        riskDetailsVm.likelihoods = data.likelihoods;
-        rifCategories = data.rifCategories;
-        riskDetailsVm.rifCategories = data.rifCategories;
+        impacts(data.impacts);
+        likelihoods(data.likelihoods);
+        rifCategories(data.rifCategories);
     });
 
-
     var refreshRisks = function(id) {
+
+        var riskMapping = {
+            key: function (x) {
+                return ko.utils.unwrapObservable(x).id;
+            },
+            create: function (options) {
+
+                return riskViewModel(options.data);
+            }
+        };
+
         return backend.getProjectRisks(id, activeRisks()).done(function (data) {
             logger.log("Retrieved risks", null, null, false);
 
-            risks.removeAll();
+            var foo = ko.mapping.fromJS(data, riskMapping, risks);
 
-
-            risks($.map(data, function(x) {
-                var result = ko.mapping.fromJS(x, riskMapping);
-
-                return result;
-            }));
         });
     };
 
+    
 
-    var activeRiskSubscription = null;
-
-    var selectedRiskSubscription = null;
-
-    var onNewOrUpdatedRisk = function (risk) {
-        if (!risk) {
-            return;
-        }
-
-        var found = false;
-
-        $.each(risks, function(r) {
-            if (r.id == risk.id) {
-
-                found = true;
-
-                if (!risk.isActive && !activeRisks()) {
-                    risks.remove(r);
-                } else {
-                    r.version(risk.version);
-                    r.riskNumber(riskNumber);
-                    r.description(description);
-                    r.raisedDate(raisedDate);
-                    r.raisedBy(raisedBy);
-                    r.rifCategoryId(rifCategoryId);
-                    r.rifCategories(rifCategories);
-                    r.isProjectRisk(isProjectRisk);
-                    r.workstream(workstream);
-                    r.commentary(commentary);
-                    r.approachId(approachId);
-                    r.impactId(impactId);
-                    r.likelihoodId(likelihoodId);
-                    r.owner(owner);
-                    r.isActive(isActive);
-                }
-
-                return false;
-            }
+    var riskViewModel = function(riskData) {
+        var risk = {
+            id: ko.observable(0),
+            version: ko.observable(""),
+            riskNumber: ko.observable(""),
+            description: ko.observable("").extend({ required: true, maxLength: 2048 }),
+            raisedDate: ko.observable(moment().format("YYYY-MM-DD")).extend({ required: true, dateISO: true }),
+            raisedBy: ko.observable($(document).data("userName")).extend({ required: true, maxLength: 50 }),
+            rifCategoryId: ko.observable(),
+            isProjectRisk: ko.observable(true),
+            workstream: ko.observable("").extend({ required: true, maxLength: 50 }),
+            commentary: ko.observable("").extend({ maxLength: 2048 }),
+            approachId: ko.observable(),
+            impactId: ko.observable(),
+            likelihoodId: ko.observable(),
+            owner: ko.observable("").extend({ maxLength: 50 }),
+            isActive: ko.observable(true),
             
-            return true;
+        };
+
+        risk.validation = ko.validatedObservable({
+            description: risk.description,
+            raisedDate: risk.raisedDate,
+            raisedBy: risk.raisedBy,
+            rifCategoryId: risk.rifCategoryId,
+            isProjectRisk: risk.isProjectRisk,
+            workstream: risk.workstream,
+            commentary: risk.commentary,
+            approachId: risk.approachId,
+            impactId: risk.impactId,
+            likelihoodId: risk.likelihoodId,
+            owner: risk.owner
         });
         
-        if (!found) {
-            ko.mapping.fromJS(risk, riskMapping);
-            risks.push(risk);
-        }
+        risk.score = ko.computed(function () {
+            return impactScore(this.impactId()) * likelihoodScore(this.likelihoodId());
+        }, risk);
+
+        risk.updateFromDto = function(dto) {
+            if (dto) {
+                risk.id(dto.id || 0);
+                risk.riskNumber(dto.riskNumber || "");
+                risk.version(dto.version || "");
+                risk.description(dto.description);
+                risk.raisedDate(dto.raisedDate.substring(0,10));
+                risk.raisedBy(dto.raisedBy);
+                risk.rifCategoryId(dto.rifCategoryId);
+                risk.isProjectRisk(dto.isProjectRisk);
+                risk.workstream(dto.workstream);
+                risk.commentary(dto.commentary);
+                risk.approachId(dto.approachId);
+                risk.impactId(dto.impactId);
+                risk.likelihoodId(dto.likelihoodId);
+                risk.owner(dto.owner);
+                risk.isActive(dto.isActive);
+            }
+        };
+
+        risk.updateFromDto(riskData);
+
+        return risk;
     };
 
+    var newRisk = function() {
+        selected(riskViewModel());
+    };
+
+    
     var activate = function (idParam) {
 
         var id = idParam.id;
         
         projectId = id;
-
-        riskDetailsVm.projectId = id;
-
-        activeRiskSubscription = activeRisks.subscribe(refreshRisks);
-
-        selectedRiskSubscription = selectedRisk.subscribe(function(newValue) {
-            app.trigger('selectedRiskChanged', newValue);
-        });
-
-        app.on('newOrUpdatedRisk', onNewOrUpdatedRisk, that);
-
     
         var getProjectDetails = function() {
             return backend.getProjectDetails(id).done(function(data) {
@@ -201,31 +175,103 @@
         });
     };
 
-    var deactivate = function() {
-        activeRiskSubscription.dispose();
-        activeRiskSubscription = null;
-
-        selectedRiskSubscription.dispose();
-        selectedRiskSubscription = null;
-
-        app.off('newOrUpdatedRisk', onNewOrUpdatedRisk, that);
+    var viewAttached = function(view) {
+        $("#riskTable tbody").on("click", "tr", function(event) {
+            $(this).addClass("listSelection")
+                .siblings().removeClass("listSelection");
+            selected(ko.dataFor(this.firstElementChild));
+        });
     };
 
-    
-    
+    var canSave = function() {
+        var risk = selected();
 
+        return risk && risk.validation.isValid;
+    };
+
+    var refreshRisk = function(risk) {
+        if (!risk) {
+            return;
+        }
+
+        var found = false;
+
+        $.each(risks(), function(index, r) {
+            if (r.id() == risk.id) {
+                found = true;
+
+                if (activeRisks() != null && activeRisks() != r.isActive()) {
+
+                    risks.remove(r);
+                } else {
+                    
+                    refreshRisk(r);
+                }
+
+
+                return false;
+            }
+
+            return true;
+        });
+        
+        if (!found) {
+            risks.push(riskViewModel(risk));
+        }
+    };
+
+    var save = function() {
+
+        var risk = {
+            description: selected.description(),
+            raisedDate: selected.raisedDate(),
+            raisedBy: selected.raisedBy(),
+            rifCategoryId: selected.rifCategoryId(),
+            isProjectRisk: selected.isProjectRisk(),
+            workstream: selected.workstream(),
+            approachId: selected.approachId(),
+            likelihoodId: selected.likelihoodId(),
+            impactId: selected.impactId(),
+            impactCommentary: selected.commentary(),
+            
+        };
+        
+        if (selected.riskId() != 0) {
+            risk.id = selected.riskId();
+            risk.version = selected.version();
+            isActive:selected.isActive();
+        }
+
+        
+
+        backend.saveRisk(projectId, risk).done(function(data, status, jqxhr) {
+            var loc = jqxhr.getReponseHeader('Location');
+            if (loc) {
+                backend.getRisk(loc).done();
+            }
+        }).fail(function() {
+            app.showMessage("Could not save the Risk", "Oh dear...");
+        });
+        
+    };
     
     var vm = {
-        activate: activate,
-        deactivate: deactivate,
         projectCode: projectCode,
         projectName: projectName,
+        approaches: approaches,
+        impacts: impacts,
+        likelihoods: likelihoods,
+        rifCategories: rifCategories,
         risks: risks,
-        selection: selected,
-        selectedIndex: selectedIndex,
-        selectedRisks: selected,
-        selectedRisk: selectedRisk,
-        riskDetailsVm: riskDetailsVm,
+        selected: selected,
+        
+
+        viewAttached: viewAttached,
+        activate: activate,
+        newRisk: newRisk,
+        refreshRisks: refreshRisks,
+        canSave: canSave,
+        save: save
     };
     
     return vm;

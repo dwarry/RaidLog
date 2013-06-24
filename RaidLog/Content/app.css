@@ -55,3 +55,9 @@ td.narrowCount {
     width: 3em;
     text-align: right;
 }
+
+table.dataTable>tbody>tr.listSelection td {
+    background-color: palegoldenrod;
+}
+
+

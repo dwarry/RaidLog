@@ -8,7 +8,7 @@
 <div class="control-group">
   <label class="control-label" for="description">Description</label>
   <div class="controls">                     
-    <textarea id="description" name="description" data-bind="value:description" class="span4" rows="5">There is a risk that...
+    <textarea id="description" name="description" data-bind="value:description" class="span4" rows="5" cols="40">There is a risk that...
 because ...
 leading to ...</textarea>
   </div>
@@ -19,18 +19,12 @@ leading to ...</textarea>
   <label class="control-label" for="raisedDate">Raised On</label>
   <div class="controls">
     <input id="raisedDate" name="raisedDate" type="text" placeholder="yyyy-mm-dd" class="input-small" required="required" data-bind="value:raisedDate">
-    <p class="help-block">Date on which the Risk was recorded</p>
   </div>
-</div>
-
-<!-- Text input-->
-<div class="control-group">
   <label class="control-label" for="raisedBy">Raised By</label>
   <div class="controls">
       <input id="raisedBy" name="raisedBy" type="text" placeholder="Some User"
              data-bind="value:raisedBy"
              class="input-xlarge" required="required">
-    <p class="help-block">Person who raised the Risk</p>
   </div>
 </div>
 
@@ -57,7 +51,6 @@ leading to ...</textarea>
       </span>
       <input id="workstream" name="workstream" class="input-xlarge" type="text" placeholder="placeholder" required="required" data-bind="value:workstream">
     </div>
-    <p class="help-block">help</p>
   </div>
 </div>
 

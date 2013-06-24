@@ -39,5 +39,9 @@
         } else {
             <script type="text/javascript" src="~/App/main-built.js"></script>
         }
+        
+        <script type="text/javascript">
+            $(document).data("userName", "@Request.LogonUserIdentity.Name");
+        </script>
     </body>
 </html>

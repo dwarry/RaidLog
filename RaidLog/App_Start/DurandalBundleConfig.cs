@@ -19,7 +19,8 @@ namespace RaidLog {
           .Include("~/Scripts/knockout.bindings.dataTables.js")
           .Include("~/Scripts/sammy-{version}.js")
           .Include("~/Scripts/bootstrap.min.js")
-          //.Include("~/Scripts/knockout.simpleGrid.1.3.js")
+          .Include("~/Scripts/knockout.simpleGrid.1.3.js")
+          .Include("~/Scripts/moment.min.js")
           //.Include("~/Scripts/koGrid-{version}.js")
 
           .Include("~/Scripts/toastr.min.js")
@@ -34,7 +35,7 @@ namespace RaidLog {
           .Include("~/Content/jquery.dataTables.css")
 		  .Include("~/Content/durandal.css")
           .Include("~/Content/app.css")
-          //.Include("~/Content/knockout.simpleGrid.css")
+          .Include("~/Content/knockout.simpleGrid.css")
           //.Include("~/Content/KoGrid.css")
           .Include("~/Content/toastr.min.css")
         );

@@ -7,6 +7,7 @@ namespace RaidLog.Controllers
     {
         public ActionResult Index()
         {
+            
             return View();
         }
     }
