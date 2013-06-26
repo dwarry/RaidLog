@@ -56,8 +56,24 @@ td.narrowCount {
     text-align: right;
 }
 
-table.dataTable>tbody>tr.listSelection td {
+table>tbody>tr.listSelection td {
     background-color: palegoldenrod;
 }
 
+table>tbody>tr.listSelection:nth-child(odd) td {
+    background-color: palegoldenrod;
+}
 
+.ragRed {
+    color: red;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.ragAmber {
+    color: darkorange;
+}
+
+.ragGreen {
+    color: green;
+}

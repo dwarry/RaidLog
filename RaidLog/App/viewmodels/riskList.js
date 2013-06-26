@@ -50,9 +50,10 @@
 
     var rifCategories = ko.observableArray();
 
-    var risks = ko.observableArray([]);
 
-    var selected = ko.observable();
+    var risks = new ko.simpleGrid.viewModel({ data: ko.observableArray([]), pageSize: 10 });
+
+    risks.selected = ko.observable();
 
     backend.getReferenceData().done(function (data) {
         logger.log("Retrieved reference data", null, null, false);
@@ -77,12 +78,9 @@
         return backend.getProjectRisks(id, activeRisks()).done(function (data) {
             logger.log("Retrieved risks", null, null, false);
 
-            var foo = ko.mapping.fromJS(data, riskMapping, risks);
-
+            ko.mapping.fromJS(data, riskMapping, risks.data);
         });
     };
-
-    
 
     var riskViewModel = function(riskData) {
         var risk = {
@@ -101,7 +99,6 @@
             likelihoodId: ko.observable(),
             owner: ko.observable("").extend({ maxLength: 50 }),
             isActive: ko.observable(true),
-            
         };
 
         risk.validation = ko.validatedObservable({
@@ -164,7 +161,9 @@
     };
 
     var newRisk = function() {
-        selected(riskViewModel());
+        var newRiskVm = riskViewModel();
+        newRiskVm.description = "There is a risk that \nbecause \nleading to ";
+        risks.selected(newRiskVm);
     };
 
     
@@ -193,14 +192,12 @@
 
     var viewAttached = function(view) {
         $("#riskTable tbody").on("click", "tr", function(event) {
-            $(this).addClass("listSelection")
-                .siblings().removeClass("listSelection");
-            selected(ko.dataFor(this.firstElementChild));
+            risks.selected(ko.dataFor(this.firstElementChild));
         });
     };
 
     var canSave = function() {
-        var risk = selected();
+        var risk = risks.selected();
 
         return risk && risk.validation.isValid;
     };
@@ -238,26 +235,27 @@
 
     var save = function() {
 
+        var riskVm = risks.select();
+
         var risk = {
-            description: selected.description(),
-            raisedDate: selected.raisedDate(),
-            raisedBy: selected.raisedBy(),
-            rifCategoryId: selected.rifCategoryId(),
-            isProjectRisk: selected.isProjectRisk(),
-            workstream: selected.workstream(),
-            approachId: selected.approachId(),
-            likelihoodId: selected.likelihoodId(),
-            impactId: selected.impactId(),
-            impactCommentary: selected.commentary(),
-            
+            description: riskVm.description(),
+            raisedDate: riskVm.raisedDate(),
+            raisedBy: riskVm.raisedBy(),
+            rifCategoryId: riskVm.rifCategoryId(),
+            isProjectRisk: riskVm.isProjectRisk(),
+            workstream: riskVm.workstream(),
+            approachId: riskVm.approachId(),
+            likelihoodId: riskVm.likelihoodId(),
+            impactId: riskVm.impactId(),
+            impactCommentary: riskVm.commentary(),
         };
         
-        if (selected.riskId() != 0) {
-            risk.id = selected.riskId();
-            risk.version = selected.version();
-            isActive:selected.isActive();
+        if (riskVm.riskId() != 0) {
+            risk.id = riskVm.riskId();
+            risk.version = riskVm.version();
+            isActive:riskVm.isActive();
         }
-
+        
         
 
         backend.saveRisk(projectId, risk).done(function(data, status, jqxhr) {
@@ -279,8 +277,7 @@
         likelihoods: likelihoods,
         rifCategories: rifCategories,
         risks: risks,
-        selected: selected,
-        
+        riskListTemplate: 'riskListTemplate',
 
         viewAttached: viewAttached,
         activate: activate,

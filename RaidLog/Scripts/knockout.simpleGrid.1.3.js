@@ -61,6 +61,23 @@
                         <!-- /ko -->\
                     </div>");
 
+    templateEngine.addTemplate("riskListTemplate", "<table id='riskTable' class='table table-bordered table-condensed table-striped'>\
+            <thead>\
+                <tr>\
+                    <th>#</th>\
+                    <th>Description</th>\
+                    <th>Score</th>\
+                </tr>\
+            </thead>\
+            <tbody data-bind='foreach: itemsOnCurrentPage'>\
+                <tr data-bind='css:{listSelection:$root.selected() == $data}'>\
+                    <td data-bind='text: riskNumber'></td>\
+                    <td data-bind='text: description'></td>\
+                    <td data-bind='text: score, css: rag'></td>\
+                </tr>\
+            </tbody>\
+        </table>");
+
     // The "simpleGrid" binding
     ko.bindingHandlers.simpleGrid = {
         init: function () {

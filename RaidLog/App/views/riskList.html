@@ -5,24 +5,13 @@
             <button class="btn" data-bind="click:newRisk"><i class="icon-plus-sign icon-white"></i> Add New Risk</button>
             <button class="btn" data-bind="click:refreshRisks"><i class="icon-refresh icon-white"></i> Refresh</button>
         </div>
-        <table id="riskTable" class="table table-condensed table-striped" data-bind="dataTable: {
-    dataSource:risks,
-    columns: ['riskNumber', {mDataProp:'description',bSortable:false}, 'score'],
-    options: {bLengthChange:false, bFilter:false}
-}">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Description</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <h2 data-bind="visible:risks().length == 0" class="alert alert-info">No Risks</h2>
+        <div id="riskListContainer" data-bind="simpleGrid:risks,simpleGridTemplate:riskListTemplate">
+        </div>
+        <h2 data-bind="visible:risks.data().length == 0" class="alert alert-info">No Risks</h2>
     </div>
-
-    <div class="span6 well" data-bind="with: selected,visible:selected() != null">
+    
+    
+    <div class='span6 well' data-bind='with: risks.selected, visible: $data != null, validationOptions: {insertMessages:true,errorMessageClass:""}'>
         <form class="form-horizontal">
             <!-- Description -->
             <div class="control-group">
@@ -37,12 +26,12 @@ leading to ...</textarea>
             <div class="control-group">
                 <label class="control-label" for="raisedDate">Raised On</label>
                 <div class="controls">
-                    <input id="raisedDate" name="raisedDate" type="text" placeholder="yyyy-mm-dd" class="input-small" required="required" data-bind="value: raisedDate">
+                    <input id="raisedDate" name="raisedDate" type="text" placeholder="yyyy-mm-dd" class="input-small" required="required" data-bind="value: raisedDate, enabled: id() === 0">
                 
-                    <label for="raisedBy">Raised By</label>
+                    Raised By
                 
                     <input id="raisedBy" name="raisedBy" type="text" placeholder="Some User"
-                           data-bind="value: raisedBy"
+                           data-bind="value: raisedBy, enabled:id() === 0"
                            class="input-xlarge" required="required">
                 </div>
             </div>
@@ -105,7 +94,7 @@ leading to ...</textarea>
             <div class="control-group">
                 <label class="control-label" for="commentary">Impact Commentary</label>
                 <div class="controls">                     
-                    <textarea id="commentary" name="commentary" class="span4" rows="5" data-bind="value: commentary"></textarea>
+                    <textarea id="commentary" name="commentary" class="input-xlarge" rows="5" data-bind="value: commentary"></textarea>
                 </div>
             </div>
 
