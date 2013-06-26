@@ -1,4 +1,12 @@
-﻿(function () {
+﻿/*
+ * Adapted from one of the live samples on the Knockoutjs website.
+ * 
+ * Templates for the specific grids are being put in here because it's not
+ * obvious how to include them in the view, because they will be needed before
+ * the view is attached to the DOM, so the TemplateEngine won't find them. Messy,
+ * and I may move them into a separate js file
+ */
+(function () {
     // Private function
     function getColumnsForScaffolding(data) {
         if ((typeof data.length !== 'number') || data.length === 0) {
@@ -29,6 +37,8 @@
             this.maxPageIndex = ko.computed(function () {
                 return Math.ceil(ko.utils.unwrapObservable(this.data).length / this.pageSize) - 1;
             }, this);
+
+            this.selected = ko.observable();
         }
     };
 
