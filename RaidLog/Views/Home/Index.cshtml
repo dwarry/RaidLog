@@ -41,7 +41,7 @@
         }
         
         <script type="text/javascript">
-            $(document).data("userName", "@Request.LogonUserIdentity.Name");
+            $(document).data("userName", "@Request.LogonUserIdentity.Name.Split('\\').Last()");
         </script>
     </body>
 </html>
