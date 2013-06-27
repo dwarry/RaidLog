@@ -71,12 +71,6 @@
             return $.ajax(options)
                 .done(function(data, status, jqxhr) {
                     logger.log("Saved Project", null, "backend", true);
-
-                    var responseHeaders = jqxhr.getAllResponseHeaders();
-
-                    app.trigger('newProject',
-                        'location' in responseHeaders ? responseHeaders['location'] : null);
-           
                 })
                 .fail(function (jqxhr, status, ex) {
                     logger.logError(status + " " + jqxhr.responseText, proj, "backend", false);
@@ -100,8 +94,9 @@
 
             return $.ajax(options).done(function(data, status, jqxhr) {
                 logger.log("Saved Risk", null, null, false);
-                var responseHeaders = jqxhr.getAllResponseHeaders();
-                app.trigger('newRisk', 'location' in responseHeaders ? responseHeaders['location'] : null)
+            }).fail(function(jqxhr, status, ex) {
+                logger.logError(status + " " + jqxhr.responseText, risk, "backend", false);
+                logger.logError("Error saving the Risk", null, "backend", true);
             });
         }
     };

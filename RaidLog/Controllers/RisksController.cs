@@ -21,22 +21,32 @@ namespace RaidLog.Controllers
             _connection = connection;
         }
 
+        private RiskDto RetrieveRisk(int id, IDbTransaction tx= null)
+        {
+            return _connection.Query<RiskDto>(RiskQueries.GetRiskById,
+                                              new { id }, 
+                                              tx)
+                              .FirstOrDefault();
+        }
+
         // /api/risks/{id}
         public RiskDto GetRisk(int id)
         {
             _connection.Open();
             try
             {
-                var result = _connection.Query<RiskDto>(RiskQueries.GetRiskById,
-                                                        new { id })
-                                        .FirstOrDefault();
-
-                if (result != null)
+                using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    return result;
+                    var result = RetrieveRisk(id, tx);
+
+                    if (result != null)
+                    {
+                        return result;
+                    }
+
+                    throw new HttpResponseException(HttpStatusCode.NotFound);
                 }
 
-                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             finally
             {
@@ -79,24 +89,29 @@ namespace RaidLog.Controllers
                 _connection.Open();
                 try
                 {
+                    int newId = 0;
                     using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                     {
                         var args = new DynamicParameters(
-                            new {
-                                projectId = projectId,
-                                description = newRisk.Description,
-                                userName = User.Identity.Name,
-                                rifCategoryId = newRisk.RifCategoryId,
-                                isProjectRisk = newRisk.IsProjectRisk,
-                                workstream = newRisk.Workstream,
-                                impactCommentary = newRisk.Commentary,
-                                approachId = newRisk.ApproachId,
-                                impactId = newRisk.ImpactId,
-                                likelihoodId = newRisk.LikelihoodId,
-                                owner = newRisk.Owner,
-                            });
-                                  
-                        args.Add("riskId", 0, DbType.Int32, ParameterDirection.Output);
+                            new
+                                {
+                                    projectId = projectId,
+                                    description = newRisk.Description,
+                                    userName = User.Identity.Name,
+                                    rifCategoryId = newRisk.RifCategoryId,
+                                    isProjectRisk = newRisk.IsProjectRisk,
+                                    workstream = newRisk.Workstream,
+                                    impactCommentary = newRisk.Commentary,
+                                    approachId = newRisk.ApproachId,
+                                    impactId = newRisk.ImpactId,
+                                    likelihoodId = newRisk.LikelihoodId,
+                                    owner = newRisk.Owner,
+                                });
+
+                        args.Add("riskId",
+                                 0,
+                                 DbType.Int32,
+                                 ParameterDirection.Output);
 
                         _connection.Execute("usp_CreateRisk",
                                             args,
@@ -106,9 +121,16 @@ namespace RaidLog.Controllers
 
                         tx.Commit();
 
-                        var location = "/api/risk/" + args.Get<int>("riskId");
+                        newId = args.Get<int>("riskId");
+                    }
+                    
+                    using(var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
+                    {
+                      
+                        var location = "/api/risk/" + newId;
 
-                        var response = Request.CreateResponse(HttpStatusCode.Created);
+                        var response = Request.CreateResponse(HttpStatusCode.Created, 
+                                                              RetrieveRisk(newId, tx));
                         response.Headers.Location = new Uri( location, UriKind.Relative);
 
                         return response;
@@ -135,6 +157,9 @@ namespace RaidLog.Controllers
                 _connection.Open();
                 try
                 {
+
+                    int result = 0;
+
                     using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                     {
                         var args = new DynamicParameters(new
@@ -157,24 +182,38 @@ namespace RaidLog.Controllers
                         args.Add("returnValue",
                                  dbType: DbType.Int32,
                                  direction: ParameterDirection.ReturnValue);
-
-                        var result =
+                        result =
                             _connection.Execute(RiskQueries.UpdateRiskAndOrEvaluation,
                                                 args,
                                                 tx,
                                                 commandType: CommandType.StoredProcedure);
 
-                        if (result == 0)
+                        tx.Commit();
+                    }
+                    if (result == 0)
+                    {
+                        RiskDto dto = null;
+
+                        using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                         {
-                            return Request.CreateResponse(HttpStatusCode.OK,
-                                                          GetRisk(risk.Id));
+                            dto = RetrieveRisk(risk.Id,
+                                               tx);
+
+                            tx.Commit();
+
                         }
-                        else
+
+                        if (dto != null)
                         {
-                            return Request.CreateErrorResponse(HttpStatusCode.Conflict,
-                                                               "Risk has been updated by someone else.");
+
+                            return Request.CreateResponse(HttpStatusCode.OK,
+                                                          dto);
                         }
                     }
+
+                    return Request.CreateErrorResponse(HttpStatusCode.Conflict,
+                                                       "Risk has been updated by someone else.");
+                
                 }
                 finally
                 {

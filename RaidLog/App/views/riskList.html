@@ -76,13 +76,14 @@ leading to ...</textarea>
             
             <!-- Select Basic -->
             <div class="control-group">
-                <label class="control-label" for="likelihoodId">Likelihood / Impact</label>
+                <label class="control-label" for="likelihoodId">Likelihood</label>
                 <div class="controls">
                     <select id="likelihoodId" 
                             name="likelihoodId" 
                             class="input-large" 
                             data-bind="value: likelihoodId, options: $root.likelihoods, optionsText: 'description', optionsCaption: 'Choose...', optionsValue: 'id'">
                     </select>
+                    &nbsp;Impact&nbsp;
                     <select id="impactId" 
                             name="impactId" 
                             class="input-large" 

@@ -20,7 +20,7 @@
 
     var impactScore = function(impactId) {
         var result = 0;
-
+       
         $.each(impacts(), function(index, impact) {
             if (impact.id == impactId) {
                 result = impact.score;
@@ -52,8 +52,6 @@
 
 
     var risks = new ko.simpleGrid.viewModel({ data: ko.observableArray([]), pageSize: 10 });
-
-    risks.selected = ko.observable();
 
     backend.getReferenceData().done(function (data) {
         logger.log("Retrieved reference data", null, null, false);
@@ -88,7 +86,7 @@
             version: ko.observable(""),
             riskNumber: ko.observable(""),
             description: ko.observable("").extend({ required: true, maxLength: 2048 }),
-            raisedDate: ko.observable(moment().format("YYYY-MM-DD")).extend({ required: true, dateISO: true }),
+            raisedDate: ko.observable("").extend({ required: true, dateISO: true }),
             raisedBy: ko.observable($(document).data("userName")).extend({ required: true, maxLength: 50 }),
             rifCategoryId: ko.observable(),
             isProjectRisk: ko.observable(true),
@@ -162,7 +160,10 @@
 
     var newRisk = function() {
         var newRiskVm = riskViewModel();
-        newRiskVm.description = "There is a risk that \nbecause \nleading to ";
+
+        newRiskVm.description("There is a risk that \nbecause \nleading to ");
+        newRiskVm.raisedDate(moment().format("YYYY-MM-DD"));
+
         risks.selected(newRiskVm);
     };
 
@@ -209,7 +210,7 @@
 
         var found = false;
 
-        $.each(risks(), function(index, r) {
+        $.each(risks.data(), function(index, r) {
             if (r.id() == risk.id) {
                 found = true;
 
@@ -217,8 +218,8 @@
 
                     risks.remove(r);
                 } else {
-                    
-                    refreshRisk(r);
+
+                    r.updateFromDto(risk);
                 }
 
 
@@ -229,13 +230,17 @@
         });
         
         if (!found) {
-            risks.push(riskViewModel(risk));
+            risks.data.push(riskViewModel(risk));
         }
     };
 
     var save = function() {
 
-        var riskVm = risks.select();
+        var riskVm = risks.selected();
+
+        if (riskVm == null) {
+            return;
+        }
 
         var risk = {
             description: riskVm.description(),
@@ -248,23 +253,19 @@
             likelihoodId: riskVm.likelihoodId(),
             impactId: riskVm.impactId(),
             impactCommentary: riskVm.commentary(),
+            isActive:true,
         };
         
-        if (riskVm.riskId() != 0) {
-            risk.id = riskVm.riskId();
+        if (riskVm.id() != 0) {
+            risk.id = riskVm.id();
             risk.version = riskVm.version();
             isActive:riskVm.isActive();
         }
-        
-        
 
-        backend.saveRisk(projectId, risk).done(function(data, status, jqxhr) {
-            var loc = jqxhr.getReponseHeader('Location');
-            if (loc) {
-                backend.getRisk(loc).done();
+        backend.saveRisk(projectId, risk).done(function (data, status, jqxhr) {
+            if (data != null) {
+                refreshRisk(data);
             }
-        }).fail(function() {
-            app.showMessage("Could not save the Risk", "Oh dear...");
         });
         
     };
