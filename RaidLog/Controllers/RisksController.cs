@@ -165,7 +165,7 @@ namespace RaidLog.Controllers
                         var args = new DynamicParameters(new
                             {
                                 riskId = risk.Id,
-                                version = risk.Version,
+                                version = Convert.FromBase64String(risk.Version),
                                 userName = risk.RaisedBy,
                                 description = risk.Description,
                                 impactCommentary = risk.Commentary,

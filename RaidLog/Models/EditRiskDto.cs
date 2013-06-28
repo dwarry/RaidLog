@@ -8,8 +8,9 @@ namespace RaidLog.Models
     {
         public int Id { get; set; }
 
-        [Timestamp]
-        public byte[] Version { get; set; }
+        [Required]
+        [StringLength(12)]
+        public string Version { get; set; }
 
         
         [Required]

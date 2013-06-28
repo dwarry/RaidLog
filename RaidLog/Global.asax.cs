@@ -16,6 +16,9 @@ using Autofac.Integration.WebApi;
 using CacheCow.Common;
 using CacheCow.Server;
 using CacheCow.Server.EntityTagStore.SqlServer;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 namespace RaidLog
@@ -30,7 +33,8 @@ namespace RaidLog
             HttpConfiguration config = GlobalConfiguration.Configuration;
 
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-
+            config.Formatters.JsonFormatter.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
+            
             AreaRegistration.RegisterAllAreas();
 
             InitialiseIocContainer();
