@@ -81,6 +81,11 @@
     <Build Include="dbo\Stored Procedures\usp_AddRiskLink.sql" />
     <Build Include="dbo\Stored Procedures\usp_DeleteLink.sql" />
     <Build Include="dbo\Stored Procedures\usp_CreateActionForRisk.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CreateAssumption.sql" />
+    <Build Include="dbo\Tables\Assumption.sql" />
+    <Build Include="dbo\Tables\Assumption_Action.sql" />
+    <Build Include="dbo\Tables\IssueAction.sql" />
+    <Build Include="dbo\Tables\Dependency_Action.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="ReferenceData.PostDeployment.sql" />
