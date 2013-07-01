@@ -3,13 +3,8 @@ using System.Linq;
 
 namespace RaidLog.Models
 {
-    public class AssumptionDto
+    public class NewAssumptionDto
     {
-        public int Id { get; set; }
-
-        [Required]
-        public string VersionNumber { get; set; }
-
         public int AssumptionNumber { get; set; }
 
         [Required]
@@ -20,11 +15,11 @@ namespace RaidLog.Models
         [StringLength(50)]
         public string Workstream { get; set; }
 
-      
+        [Required]
         [StringLength(50)]
         public string Owner { get; set; }
 
-      
+        [Required]
         [StringLength(50)]
         public string ValidatedBy { get; set; }
 
@@ -32,6 +27,7 @@ namespace RaidLog.Models
         [StringLength(50)]
         public string Status { get; set; }
 
+        [Required]
         [StringLength(512)]
         public string SupportingDocumentation { get; set; }
     }

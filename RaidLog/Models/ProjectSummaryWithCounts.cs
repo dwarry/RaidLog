@@ -52,6 +52,17 @@ namespace RaidLog.Models
         public int ActiveDependencies { get; set; }
 
         public int ActiveQueries { get; set; }
+
+        public int ClosedRisks { get; set; }
+
+        public int ClosedAssumptions { get; set; }
+
+        public int ClosedIssues { get; set; }
+
+        public int ClosedDependencies { get; set; }
+
+        public int ClosedQueries { get; set; }
+
     }
 
     

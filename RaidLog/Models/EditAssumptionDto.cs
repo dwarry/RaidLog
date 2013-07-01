@@ -3,14 +3,13 @@ using System.Linq;
 
 namespace RaidLog.Models
 {
-    public class AssumptionDto
+    public class EditAssumptionDto
     {
         public int Id { get; set; }
 
         [Required]
+        [StringLength(12,MinimumLength = 12)]
         public string VersionNumber { get; set; }
-
-        public int AssumptionNumber { get; set; }
 
         [Required]
         [StringLength(2048)]
@@ -20,11 +19,9 @@ namespace RaidLog.Models
         [StringLength(50)]
         public string Workstream { get; set; }
 
-      
         [StringLength(50)]
         public string Owner { get; set; }
 
-      
         [StringLength(50)]
         public string ValidatedBy { get; set; }
 
