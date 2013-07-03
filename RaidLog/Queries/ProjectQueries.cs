@@ -16,7 +16,7 @@ order by
     p.Code;
 ";
 
-        public const string GetAllProjectsAndActiveRisks = @"
+        public const string GetAllProjectsAndRisks = @"
 with re as
 (
 	select [RiskId]
@@ -30,8 +30,7 @@ with re as
       from [dbo].[Risk] r 
  left join re on r.[Id] = re.[RiskId]
      where r.[ProjectId] in (select [Id] from [dbo].[Project] p where p.[IsActive] = 1) 
-       and rn=1 
-       and (re.[IsActive] is null or re.[IsActive]  = 1);";
+       and rn=1;";
 
         public const string GetProjectDetails = @"
     Select [Id]

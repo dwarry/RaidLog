@@ -27,6 +27,13 @@ ORDER BY [Score];
 
 SELECT [Id]
       ,[Description]
-  FROM [dbo].[RifCategory]";
+  FROM [dbo].[RifCategory];
+
+SELECT [Id]
+      ,[Description]
+      ,[IsFinalState]
+  FROM [dbo].[AssumptionStatus];
+";
+
     }
 }

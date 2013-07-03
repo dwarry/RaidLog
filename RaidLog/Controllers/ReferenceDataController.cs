@@ -34,7 +34,8 @@ namespace RaidLog.Controllers
                     var result = new ReferenceData(multi.Read<ApproachDto>().ToArray(),
                                                    multi.Read<ImpactDto>().ToArray(),
                                                    multi.Read<LikelihoodDto>().ToArray(),
-                                                   multi.Read<RifCategoryDto>().ToArray());
+                                                   multi.Read<RifCategoryDto>().ToArray(),
+                                                   multi.Read<AssumptionStatusDto>().ToArray());
 
                     return result;
                 }

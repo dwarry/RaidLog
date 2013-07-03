@@ -86,6 +86,7 @@
     <Build Include="dbo\Tables\Assumption_Action.sql" />
     <Build Include="dbo\Tables\IssueAction.sql" />
     <Build Include="dbo\Tables\Dependency_Action.sql" />
+    <Build Include="dbo\Tables\AssumptionStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="ReferenceData.PostDeployment.sql" />

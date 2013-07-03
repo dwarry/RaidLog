@@ -47,3 +47,11 @@ INSERT [dbo].[Approach] ([Id], [Description]) VALUES (1, N'Retain')
 INSERT [dbo].[Approach] ([Id], [Description]) VALUES (2, N'Mitigate')
 INSERT [dbo].[Approach] ([Id], [Description]) VALUES (3, N'Insure')
 SET IDENTITY_INSERT [dbo].[Approach] OFF
+
+/****** Object:  Table [dbo].[AssumptionStatus]    Script Date: 07/02/2013 07:27:09 ******/
+INSERT [dbo].[AssumptionStatus] ([Id], [Description], [IsFinalState]) VALUES (1, N'Tentative', 0)
+INSERT [dbo].[AssumptionStatus] ([Id], [Description], [IsFinalState]) VALUES (2, N'Unlikely', 0)
+INSERT [dbo].[AssumptionStatus] ([Id], [Description], [IsFinalState]) VALUES (3, N'Possible', 0)
+INSERT [dbo].[AssumptionStatus] ([Id], [Description], [IsFinalState]) VALUES (4, N'Likely', 0)
+INSERT [dbo].[AssumptionStatus] ([Id], [Description], [IsFinalState]) VALUES (5, N'Rejected', 1)
+INSERT [dbo].[AssumptionStatus] ([Id], [Description], [IsFinalState]) VALUES (6, N'Validated', 1)

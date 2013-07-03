@@ -8,7 +8,7 @@ namespace RaidLog.Models
         public int Id { get; set; }
 
         [Required]
-        public string VersionNumber { get; set; }
+        public string Version { get; set; }
 
         public int AssumptionNumber { get; set; }
 
@@ -28,9 +28,7 @@ namespace RaidLog.Models
         [StringLength(50)]
         public string ValidatedBy { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string Status { get; set; }
+        public int StatusId { get; set; }
 
         [StringLength(512)]
         public string SupportingDocumentation { get; set; }

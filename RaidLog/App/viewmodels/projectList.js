@@ -42,11 +42,54 @@
                     self.refresh();
                 }
             });
+
         },
 
-        viewRisks: function(project) {
-            router.navigateTo("#/projects/" + project.id + "/risks");
+
+        viewActiveRisks: function(project) {
+            router.navigateTo("#/projects/" + project.id + "/risks/active");
+        },
+        
+        viewClosedRisks: function (project) {
+            router.navigateTo("#/projects/" + projectId + "/risks/closed");
+        },
+
+       
+        viewActiveAssumptions: function(project) {
+            router.navigateTo("#/projects/" + project.id + "/assumptions/active");
+        },
+        
+        viewClosedAssumptions: function (project) {
+            router.navigateTo("#/projects/" + projectId + "/assumptions/closed");
+        },
+        
+
+        viewActiveIssues: function(project) {
+            router.navigateTo("#/projects/" + project.id + "/issues/active");
+        },
+        
+        viewClosedIssues: function (project) {
+            router.navigateTo("#/projects/" + projectId + "/issues/closed");
+        },
+        
+        viewActiveDependencies: function(project) {
+            router.navigateTo("#/projects/" + project.id + "/dependencies/active");
+        },
+        
+        viewClosedDependencies: function (project) {
+            router.navigateTo("#/projects/" + projectId + "/dependencies/closed");
+        },
+
+        viewActiveQueries: function (project) {
+            router.navigateTo("#/projects/" + project.id + "/queries/active");
+        },
+
+        viewClosedQueries: function (project) {
+            router.navigateTo("#/projects/" + projectId + "/queries/closed");
         }
+
+
+
     };
 
 

@@ -88,6 +88,24 @@
             </tbody>\
         </table>");
 
+    templateEngine.addTemplate("assumptionListTemplate", "<table id='assumptionTable' class='table table-bordered table-condensed table-striped'>\
+            <thead>\
+                <tr>\
+                    <th>#</th>\
+                    <th>Description</th>\
+                    <th>Status</th>\
+                </tr>\
+            </thead>\
+            <tbody data-bind='foreach: itemsOnCurrentPage'>\
+                <tr data-bind='css:{listSelection:$root.selected() == $data}'>\
+                    <td data-bind='text: assumptionNumber'></td>\
+                    <td data-bind='text: description'></td>\
+                    <td data-bind='text: status'></td>\
+                </tr>\
+            </tbody>\
+        </table>");
+
+
     // The "simpleGrid" binding
     ko.bindingHandlers.simpleGrid = {
         init: function () {

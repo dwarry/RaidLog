@@ -25,9 +25,7 @@ namespace RaidLog.Models
         [StringLength(50)]
         public string ValidatedBy { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string Status { get; set; }
+        public int StatusId { get; set; }
 
         [StringLength(512)]
         public string SupportingDocumentation { get; set; }

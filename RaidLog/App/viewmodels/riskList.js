@@ -3,9 +3,6 @@
 
     var logger = require("services/logger");
 
-    var app = require("durandal/app");
-
-   
     var activeRisks = ko.observable(true);
 
     var projectId = 0;
@@ -18,11 +15,13 @@
 
     var impacts = ko.observableArray();
 
+    var riskState = true;
+
     var impactScore = function(impactId) {
         var result = 0;
        
         $.each(impacts(), function(index, impact) {
-            if (impact.id == impactId) {
+            if (impact.id === impactId) {
                 result = impact.score;
                 return false;
             }
@@ -38,7 +37,7 @@
         var result = 0;
         
         $.each(likelihoods(), function (index, likelihood) {
-            if (likelihood.id == likelihoodId) {
+            if (likelihood.id === likelihoodId) {
                 result = likelihood.score;
                 return false;
             }
@@ -168,12 +167,14 @@
     };
 
     
-    var activate = function (idParam) {
+    var activate = function (idParam,stateParam) {
 
         var id = idParam.id;
+        var state = stateParam.state;
         
         projectId = id;
-    
+        riskState = state;
+        
         var getProjectDetails = function() {
             return backend.getProjectDetails(id).done(function(data) {
                 logger.log("Retrieved project details", null, null, false);
@@ -211,10 +212,10 @@
         var found = false;
 
         $.each(risks.data(), function(index, r) {
-            if (r.id() == risk.id) {
+            if (r.id() === risk.id) {
                 found = true;
 
-                if (activeRisks() != null && activeRisks() != r.isActive()) {
+                if (activeRisks() !== null && activeRisks() !== r.isActive()) {
 
                     risks.remove(r);
                 } else {
@@ -238,7 +239,7 @@
 
         var riskVm = risks.selected();
 
-        if (riskVm == null) {
+        if (riskVm === null) {
             return;
         }
 
@@ -256,10 +257,10 @@
             isActive:true,
         };
         
-        if (riskVm.id() != 0) {
+        if (riskVm.id() !== 0) {
             risk.id = riskVm.id();
             risk.version = riskVm.version();
-            isActive:riskVm.isActive();
+            isActive = riskVm.isActive();
         }
 
         backend.saveRisk(projectId, risk).done(function (data, status, jqxhr) {

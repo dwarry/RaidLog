@@ -52,6 +52,21 @@
 
             return $.getJSON(url);
         },
+
+        saveAssumption: function(assumption) {
+            var options = {
+              url:"/api/assumptions/",data:assumption, dataType:'json'  
+            };
+            
+            if (assumption.id) {
+                options.url += assumption.id;
+                options.type = "PUT";
+            } else {
+                options.type = "POST";
+            }
+
+            return $.ajax(options);
+        },
         
         saveProject: function(proj) {
 

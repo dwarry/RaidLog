@@ -17,15 +17,16 @@ CREATE TABLE [dbo].[Assumption](
 	[Workstream] [nvarchar](50) NOT NULL,
 	[Owner] [nvarchar](50) NULL,
 	[ValidatedBy] [nvarchar](50) NULL,
-	[Status] [nvarchar](50) NULL,
 	[FollowOnAction] [nvarchar](1024) NULL,
 	[SupportingDocumentation] [nvarchar](512) NULL,
  [UpdatedBy] NVARCHAR(50) NOT NULL, 
     [UpdatedTimestamp] DATETIME2 NOT NULL, 
+    [AssumptionStatusId] INT NOT NULL, 
     CONSTRAINT [PK_Assumptions] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY], 
+    CONSTRAINT [FK_Assumption_To_AssumptionStatus] FOREIGN KEY ([AssumptionStatusId]) REFERENCES [AssumptionStatus]([Id])
 ) ON [PRIMARY]
 
 GO

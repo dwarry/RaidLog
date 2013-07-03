@@ -34,19 +34,15 @@ namespace RaidLog.Controllers
             {
                 using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    var result = _connection.QueryMultiple(ProjectQueries.GetAllActiveProjects + ProjectQueries.GetAllProjectsAndActiveRisks,
+                    var result = _connection.QueryMultiple(ProjectQueries.GetAllActiveProjects + ProjectQueries.GetAllProjectsAndRisks,
                                                            transaction:tx);
 
-                    var projects = result.Read<ProjectSummaryWithCounts>().ToList();
-                    var risksByProject = result.Read<ProjectRiskSummary>().ToLookup(x => x.ProjectId);
+                    var projects = result.Read<ProjectSummaryWithCounts>();
+                    var projectRiskStatuses = result.Read<ProjectAndRiskStatus>(buffered:false);
 
-                    foreach (var proj in projects)
-                    {
-                        if (risksByProject.Contains(proj.Id))
-                        {
-                            proj.ActiveRisks = risksByProject[proj.Id].Count();
-                        }
-                    }
+                    var projTypes = projects.ToDictionary(x => x.Id);
+
+                    SetRiskCounts(projTypes, projectRiskStatuses);                   
 
                     tx.Commit();
 
@@ -58,6 +54,23 @@ namespace RaidLog.Controllers
                 _connection.Close();
             }
         }
+
+        private void SetRiskCounts(IDictionary<int, ProjectSummaryWithCounts> projectSummaries,
+                                   IEnumerable<ProjectAndRiskStatus> projectRiskStatuses)
+        {
+            foreach (var riskStatus in projectRiskStatuses)
+            {
+                var psc = projectSummaries[riskStatus.ProjectId];
+                if (riskStatus.IsActive)
+                {
+                    psc.ActiveRisks++;
+                }
+                else
+                {
+                    psc.ClosedRisks++;
+                }
+            }
+        }   
 
         public ProjectSummary GetProjectDetails(int id)
         {
@@ -180,7 +193,23 @@ namespace RaidLog.Controllers
             }
 
         }
+
+
     }
 
-    
+    internal class ProjectAndRiskStatus
+    {
+        public ProjectAndRiskStatus(int projectId, int riskId, bool isActive)
+        {
+            ProjectId = projectId;
+            RiskId = riskId;
+            IsActive = isActive;
+        }
+
+
+        public int ProjectId { get; private set; }
+        public int RiskId { get; private set; }
+        public bool IsActive { get; private set; }
+    }
+
 }

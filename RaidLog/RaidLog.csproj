@@ -174,9 +174,11 @@
     <Compile Include="Models\AssumptionDto.cs" />
     <Compile Include="Models\DeleteProject.cs" />
     <Compile Include="Models\DependencyDto.cs" />
+    <Compile Include="Models\EditAssumptionDto.cs" />
     <Compile Include="Models\EditProject.cs" />
     <Compile Include="Models\EditRiskDto.cs" />
     <Compile Include="Models\IssueDto.cs" />
+    <Compile Include="Models\NewAssumptionDto.cs" />
     <Compile Include="Models\NewProject.cs" />
     <Compile Include="Models\NewRiskDto.cs" />
     <Compile Include="Models\ProjectDetails.cs" />
@@ -186,6 +188,7 @@
     <Compile Include="Models\RiskDto.cs" />
     <Compile Include="Models\UpdateFailure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\AssumptionsQueries.cs" />
     <Compile Include="Queries\ProjectQueries.cs" />
     <Compile Include="Queries\ReferenceDataQueries.cs" />
     <Compile Include="Queries\RiskQueries.cs" />
@@ -216,11 +219,13 @@
     <Content Include="App\main-built.js" />
     <Content Include="App\main.js" />
     <Content Include="App\services\logger.js" />
+    <Content Include="App\viewmodels\assumptionList.js" />
     <Content Include="App\viewmodels\newProject.js" />
     <Content Include="App\viewmodels\projectList.js" />
     <Content Include="App\viewmodels\riskDetails.js" />
     <Content Include="App\viewmodels\riskList.js" />
     <Content Include="App\viewmodels\shell.js" />
+    <Content Include="App\views\assumptionList.html" />
     <Content Include="App\views\newProject.html" />
     <Content Include="App\views\projectList.html" />
     <Content Include="App\views\riskDetails.html" />
@@ -286,6 +291,18 @@
     <Content Include="Scripts\sammy-0.7.4.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
+    <Content Include="Scripts\typings\durandal\durandal.d.ts" />
+    <Content Include="Scripts\typings\jquery\jquery.d.ts" />
+    <Content Include="Scripts\typings\knockout.mapping\knockout.mapping.d.ts" />
+    <Content Include="Scripts\typings\knockout.validation\knockout.validation.d.ts" />
+    <Content Include="Scripts\typings\knockout\knockout.amd.d.ts" />
+    <Content Include="Scripts\typings\knockout\knockout.d.ts" />
+    <Content Include="Scripts\typings\modernizr\modernizr.d.ts" />
+    <Content Include="Scripts\typings\moment\moment.d.ts" />
+    <Content Include="Scripts\typings\requirejs\require.d.ts" />
+    <Content Include="Scripts\typings\signalr\signalr.d.ts" />
+    <Content Include="Scripts\typings\toastr\toastr.d.ts" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
