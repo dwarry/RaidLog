@@ -21,7 +21,7 @@ namespace RaidLog.Web
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            DurandalBundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
 }

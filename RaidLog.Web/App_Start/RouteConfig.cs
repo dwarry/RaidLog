@@ -15,7 +15,7 @@ namespace RaidLog.Web
                             url: "{controller}/{action}/{id}",
                             defaults: new
                                 {
-                                    controller = "Durandal",
+                                    controller = "Home",
                                     action = "Index",
                                     id = UrlParameter.Optional
                                 }
