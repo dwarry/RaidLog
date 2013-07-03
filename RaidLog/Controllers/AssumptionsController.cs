@@ -30,7 +30,7 @@ namespace RaidLog.Controllers
             {
                 using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    
+                    return new AssumptionDto();
                 }
             }
             finally
@@ -46,7 +46,7 @@ namespace RaidLog.Controllers
             {
                 using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-
+                    return new AssumptionDto();
                 }
             }
             finally
