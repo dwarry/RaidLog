@@ -21,7 +21,7 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  function (s
     system.debug(true);
     //>>excludeEnd("build");
 
-    app.title = 'Durandal Starter Kit';
+    app.title = 'RAID Logs';
 
     app.configurePlugins({
         router: true,

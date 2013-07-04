@@ -18,9 +18,7 @@
 
 GO
 
-ALTER TABLE [dbo].[Dependency]  WITH CHECK ADD  CONSTRAINT [FK_Dependency_Project] FOREIGN KEY([ProjectId])
+ALTER TABLE [dbo].[Dependency]  ADD  CONSTRAINT [FK_Dependency_Project] FOREIGN KEY([ProjectId])
 REFERENCES [dbo].[Project] ([Id])
 GO
 
-ALTER TABLE [dbo].[Dependency] CHECK CONSTRAINT [FK_Dependency_Project]
-GO
