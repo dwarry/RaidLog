@@ -1,18 +1,5 @@
-﻿define(['durandal/system'], function (system) {
-    var logger = {
-        log: log,
-        logError: logError
-    };
-
-    return logger;
-
-    function log(message, data, source, showToast) {
-        logIt(message, data, source, showToast, 'info');
-    }
-
-    function logError(message, data, source, showToast) {
-        logIt(message, data, source, showToast, 'error');
-    }
+﻿define(["require", "exports", "durandal/system"], function(require, exports, __system__) {
+    var system = __system__;
 
     function logIt(message, data, source, showToast, toastType) {
         source = source ? '[' + source + '] ' : '';
@@ -29,4 +16,14 @@
             }
         }
     }
+
+    function log(message, data, source, showToast) {
+        logIt(message, data, source, showToast, 'info');
+    }
+    exports.log = log;
+
+    function logError(message, data, source, showToast) {
+        logIt(message, data, source, showToast, 'error');
+    }
+    exports.logError = logError;
 });

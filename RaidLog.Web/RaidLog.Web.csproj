@@ -160,18 +160,36 @@
       <DependentUpon>logger.ts</DependentUpon>
     </Content>
     <Content Include="App\services\logger.ts" />
+    <Content Include="App\viewmodels\pagedGrid.js">
+      <DependentUpon>pagedGrid.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\pagedGrid.min.js">
+      <DependentUpon>pagedGrid.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\pagedGrid.ts" />
+    <Content Include="App\viewmodels\projectList.js">
+      <DependentUpon>projectList.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\projectList.min.js">
+      <DependentUpon>projectList.ts</DependentUpon>
+    </Content>
     <Content Include="App\viewmodels\projects.js">
-      <DependentUpon>projects.ts</DependentUpon>
+      <DependentUpon>projectList.ts</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\projects.min.js">
-      <DependentUpon>projects.ts</DependentUpon>
+      <DependentUpon>projectList.ts</DependentUpon>
     </Content>
-    <Content Include="App\viewmodels\projects.ts" />
-    <Content Include="App\viewmodels\shell.js" />
-    <Content Include="App\viewmodels\welcome.js" />
+    <Content Include="App\viewmodels\projectList.ts" />
+    <Content Include="App\viewmodels\shell.js">
+      <DependentUpon>shell.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\shell.min.js">
+      <DependentUpon>shell.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\shell.ts" />
+    <Content Include="App\viewmodels\_shell.js" />
     <Content Include="App\views\detail.html" />
     <Content Include="App\views\shell.html" />
-    <Content Include="App\views\welcome.html" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />

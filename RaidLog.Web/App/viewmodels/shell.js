@@ -1,17 +1,19 @@
-﻿define(['plugins/router', 'durandal/app'], function (router, app) {
-    return {
+﻿define(["require", "exports", "durandal/plugins/router", "durandal/app"], function(require, exports, __router__, __app__) {
+    var router = __router__;
+    var app = __app__;
+
+    var shell = {
         router: router,
-        search: function() {
-            //It's really easy to show a message box.
-            //You can add custom options too. Also, it returns a promise for the user's response.
-            app.showMessage('Search not yet implemented...');
+        search: function () {
+            app.showMessage("Search not implemented yet");
         },
         activate: function () {
             router.map([
-                { route: '', title:'Welcome', moduleId: 'viewmodels/welcome', nav: true },
-            ]).buildNavigationModel();
-            
-            return router.activate();
+                { url: '', title: 'Projects', moduleId: 'viewmodels/projectList', nav: true }
+            ]);
         }
     };
+
+    
+    return shell;
 });

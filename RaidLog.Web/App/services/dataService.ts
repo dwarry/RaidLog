@@ -7,24 +7,19 @@
 /// <reference path='../../Scripts/typings/knockout.validation/knockout.validation.d.ts' />
 /// <reference path='../../Scripts/typings/durandal/durandal.d.ts' />
 
-interface ProjectSummary{
-    code: string;
-    description: string;
-}
-
-interface AssumptionStatusDto {
+export interface AssumptionStatusDto {
     
     id: number;
     description: string;
     isFinalState: boolean;
 }
 
-interface ApproachDto {
+export interface ApproachDto {
     id: number;
     descripton: string;
 }
 
-interface ImpactDto {
+export interface ImpactDto {
     id: number;
     description: string;
     score: number;
@@ -34,18 +29,18 @@ interface ImpactDto {
     reputationalImpact: string;
 }
 
-interface LikelihoodDto{
+export interface LikelihoodDto{
     id: number;
     description: string;
     score: string;
 }
 
-interface RifCategoryDto{
+export interface RifCategoryDto{
     id: number;
     description: string;
 }
 
-interface ReferenceDataDto{
+export interface ReferenceDataDto{
     approaches: ApproachDto[];
     impacts: ImpactDto[];
     likelihoods: LikelihoodDto[];
@@ -53,9 +48,56 @@ interface ReferenceDataDto{
     assumptionStatuses: AssumptionStatusDto[];
 }
 
-define(['services/logger','durandal/http'], function (logger,http:DurandalHttp) {
+export interface ProjectSummaryWithCounts{
+    id: number;
+    version: string;
+    code: string;
+    name: string;
+    activeRisks: number;
+    activeAssumptions: number;
+    activeIssues: number;
+    activeDependencies: number;
+    activeQueries: number;
+    closedRisks: number;
+    closedAssumptions: number;
+    closedIssues: number;
+    closedDependencies: number;
+    closedQueries: number;
+}
+
+import http = require("durandal/http");
+import logger = require("services/logger");
+
+var referenceData: ReferenceDataDto;
+
+var refDataDfd = http.get('/api/ReferenceData/', {})
+    .done(function (data) {
+        referenceData = data;
+        logger.log("Retrieved reference data", {}, "services/dataService", true);
+    })
+    .fail(function (jqxhr, status, err) {
+        logger.logError("Could not retrieve reference data (" + status + ")", arguments, "services/dataService", true);
+    });
+
+
+export function getReferenceData() {
+    return refDataDfd;
+}
+
+export function getProjects() {
+
+    return $.getJSON('/api/project/').done((data: ProjectSummaryWithCounts) => {
+        logger.log("Retrieved Projects", data, "services/dataService", true);
+    }).fail((jqxhr, status, ex) =>{
+            logger.logError("Could not retrieve Projects", arguments, "services/dataService", true);
+    });
+}
+ 
+/*
+define(['services/logger','durandal/http'], function (logger: Logger,http) {
     var referenceData: ReferenceDataDto;
     var refDataDfd = http.get('/api/ReferenceData/', {})
         .done(function (data) { referenceData = data; })
         .fail(function (jqxhr, status, err) { });
 });
+*/
