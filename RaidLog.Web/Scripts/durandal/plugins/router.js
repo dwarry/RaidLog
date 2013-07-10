@@ -495,7 +495,8 @@ define(['durandal/system', 'durandal/app', 'durandal/activator', 'durandal/event
         //
         //     router.map('search/:query/p:num', 'viewmodels/search');
         //
-        router.map = function(route, config) {
+        router.map = function (route, config) {
+            debugger;
             if (system.isArray(route)) {
                 for (var i = 0; i < route.length; i++) {
                     router.map(route[i]);
