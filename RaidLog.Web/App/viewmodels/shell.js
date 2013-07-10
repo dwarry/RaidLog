@@ -1,16 +1,28 @@
-﻿define(["require", "exports", "durandal/plugins/router", "durandal/app"], function(require, exports, __router__, __app__) {
+﻿define(["require", "exports", "durandal/plugins/router", "knockout"], function(require, exports, __router__, __ko__) {
     var router = __router__;
-    var app = __app__;
+    var ko = __ko__;
 
     var shell = {
         router: router,
-        search: function () {
-            app.showMessage("Search not implemented yet");
+        canSearch: ko.computed(function () {
+            return router.activeItem() && 'search' in router.activeItem();
+        }),
+        searchField: ko.observable(""),
+        search: function (formElement) {
+            var vm = router.activeItem();
+            if (vm && 'search' in vm) {
+                vm.search(this.searchField());
+            }
         },
         activate: function () {
+            debugger;
             router.map([
-                { url: '', title: 'Projects', moduleId: 'viewmodels/projectList', nav: true }
+                { route: '', title: 'Projects', moduleId: 'viewmodels/projectList', nav: true }
             ]);
+
+            router.buildNavigationModel();
+
+            return router.activate();
         }
     };
 

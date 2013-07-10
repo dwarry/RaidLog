@@ -63,8 +63,8 @@
         return columns;
     }
 
-    var listViewModel = (function () {
-        function listViewModel(config) {
+    var ListViewModel = (function () {
+        function ListViewModel(config) {
             this.allData = ko.observableArray();
             this.currentPageIndex = ko.observable(0);
             this.selected = ko.observable(null);
@@ -96,7 +96,14 @@
 
             this.columns = config.columns || getColumnsForScaffolding(ko.utils.unwrapObservable(this.allData));
         }
-        return listViewModel;
+        ListViewModel.prototype.setSelected = function (item) {
+            if (this.selected() === item) {
+                this.selected(null);
+            } else {
+                this.selected(item);
+            }
+        };
+        return ListViewModel;
     })();
-    exports.listViewModel = listViewModel;
+    exports.ListViewModel = ListViewModel;
 });

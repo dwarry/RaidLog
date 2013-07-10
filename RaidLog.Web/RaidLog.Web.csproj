@@ -189,6 +189,7 @@
     <Content Include="App\viewmodels\shell.ts" />
     <Content Include="App\viewmodels\_shell.js" />
     <Content Include="App\views\detail.html" />
+    <Content Include="App\views\projectList.html" />
     <Content Include="App\views\shell.html" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-responsive.css" />

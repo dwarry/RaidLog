@@ -1,7 +1,7 @@
 ﻿
 /// <reference path='../../Scripts/typings/knockout/knockout.amd.d.ts' />
 /// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
-import ko = module("knockout")
+import ko = require("knockout")
 
 export interface ListViewModelConfiguration<T>{
     data: KnockoutObservableArray<T>;
@@ -11,6 +11,11 @@ export interface ListViewModelConfiguration<T>{
     columns?: PagedGridColumns[];
 
     template?: string;
+}
+
+export interface PagedGridColumns {
+    headerText: string;
+    rowText: any;
 }
 
 function addTemplate(templateName: string, templateMarkup: string) {
@@ -43,7 +48,7 @@ addTemplate("ko_simpleGrid_pageLinks", "\
                         <!-- /ko -->\
                     </div>");
 
-export interface KnockoutBindingHandlers {
+interface KnockoutBindingHandlers {
     pagedGrid: KnockoutBindingHandler;
 }
 
@@ -75,10 +80,6 @@ ko.bindingHandlers['pagedGrid'] = {
         }
     };
 
-export interface PagedGridColumns{
-    headerText: string;
-    rowText: any;
-}
 
 function getColumnsForScaffolding(data): PagedGridColumns[] {
     if ((typeof data.length !== 'number') || data.length === 0) {
@@ -91,7 +92,7 @@ function getColumnsForScaffolding(data): PagedGridColumns[] {
     return columns;
 }
 
-export class listViewModel<T>{
+export class ListViewModel<T>{
     
     constructor(config: ListViewModelConfiguration<T>) {
         this.allData = config.data;
@@ -109,7 +110,14 @@ export class listViewModel<T>{
         this.columns = config.columns || getColumnsForScaffolding(ko.utils.unwrapObservable(this.allData));
     }
 
-
+    setSelected(item: T) {
+        if (this.selected() === item) {
+            this.selected(null);
+        }
+        else {
+            this.selected(item);
+        }
+    }
 
     allData = ko.observableArray<T>();
 
@@ -127,7 +135,7 @@ export class listViewModel<T>{
 
     searchField = ko.observable<string>();
 
-    searchPredicate: (string, T) => boolean = null;
+    searchPredicate: (string, t:T) => boolean = null;
 
     filteredData = ko.computed(function () {
         if (!this.searchPredicate) {

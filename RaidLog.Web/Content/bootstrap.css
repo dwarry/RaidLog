@@ -2246,7 +2246,7 @@ table th[class*="span"],
 }
 
 .table tbody tr.error > td {
-  background-color: #f2dede;
+  background-color: #f24e4e;
 }
 
 .table tbody tr.warning > td {
@@ -2254,7 +2254,7 @@ table th[class*="span"],
 }
 
 .table tbody tr.info > td {
-  background-color: #d9edf7;
+  background-color: #498df7;
 }
 
 .table-hover tbody tr.success:hover > td {

@@ -3,17 +3,30 @@
 /// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
 
 import router = require("durandal/plugins/router");
-import app = require("durandal/app");
+import ko = require("knockout");
 
 var shell = {
     router: router,
-    search: function () {
-        app.showMessage("Search not implemented yet");
+    canSearch: ko.computed(function () {
+        return router.activeItem() && 'search' in router.activeItem();
+    }),
+    searchField: ko.observable(""),
+    search: function (formElement:HTMLFormElement) {
+        var vm = router.activeItem();
+        if (vm && 'search' in vm) {
+            vm.search(this.searchField());
+        }
     },
     activate: function () {
+        debugger;
         router.map([
-            {url:'',title:'Projects', moduleId: 'viewmodels/projectList', nav:true},    
+            { route: '', title: 'Projects', moduleId: 'viewmodels/projectList', nav: true },
         ]);
+        
+
+        router.buildNavigationModel();
+
+        return router.activate();
     }
 };
 

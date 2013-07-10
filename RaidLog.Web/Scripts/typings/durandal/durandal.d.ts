@@ -372,15 +372,15 @@ declare module "durandal/plugins/router" {
       */
     interface IRouteInfoParameters {
         /** your url pattern. The only required parameter */
-        url: string;
+        route: string;
         /** if not supplied, router.convertRouteToName derives it */
         moduleId?: string;
         /** if not supplied, router.convertRouteToModuleId derives it */
         name?: string;
         /** used to set the document title */
-        caption?: string;
+        title?: string;
         /** determines whether or not to include it in the router's visibleRoutes array for easy navigation UI binding */
-        visible?: boolean;
+        nav?: boolean;
         settings?: Object;
     }
     /**
@@ -473,10 +473,13 @@ declare module "durandal/plugins/router" {
         (routeOrRouteArray: IRouteInfoParameters): IRouteInfo;
         (routeOrRouteArray: IRouteInfoParameters[]): IRouteInfo[];
     }
+    
+    export var buildNavigationModel: (defaultOrder?: number) => any;
+
     /**
       * After you've configured the router, you need to activate it. This is usually done in your shell. The activate function of the router returns a promise that resolves when the router is ready to start. To use the router, you should add an activate function to your shell and return the result from that. The application startup infrastructure of Durandal will detect your shell's activate function and call it at the appropriate time, waiting for it's promise to resolve. This allows Durandal to properly orchestrate the timing of composition and databinding along with animations and splash screen display.
       */
-    export var activate: (defaultRoute: string) => JQueryPromise;
+    export var activate: (defaultRoute?: string) => JQueryPromise;
 }
 
 declare module "durandal/widget" {
