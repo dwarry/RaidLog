@@ -139,14 +139,43 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\DurandalBundleConfig.cs" />
+    <Compile Include="Models\ReferenceData.cs" />
+    <Compile Include="Queries\AssumptionsQueries.cs" />
+    <Compile Include="Queries\ProjectQueries.cs" />
+    <Compile Include="Queries\ReferenceDataQueries.cs" />
+    <Compile Include="Queries\RiskQueries.cs" />
     <Content Include="App\main.js" />
-    <Content Include="App\viewmodels\flickr.js" />
+    <Content Include="App\services\dataService.js">
+      <DependentUpon>dataService.ts</DependentUpon>
+    </Content>
+    <Content Include="App\services\dataService.min.js">
+      <DependentUpon>dataService.ts</DependentUpon>
+    </Content>
+    <Content Include="App\services\dataService.ts" />
+    <Content Include="App\services\logger.js">
+      <DependentUpon>logger.ts</DependentUpon>
+    </Content>
+    <Content Include="App\services\logger.min.js">
+      <DependentUpon>logger.ts</DependentUpon>
+    </Content>
+    <Content Include="App\services\logger.ts" />
+    <Content Include="App\viewmodels\pagedGrid.js">
+      <DependentUpon>pagedGrid.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\pagedGrid.min.js">
+      <DependentUpon>pagedGrid.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\pagedGrid.ts" />
+    <Content Include="App\viewmodels\projectList.js">
+      <DependentUpon>projectList.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\projectList.min.js">
+      <DependentUpon>projectList.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\projectList.ts" />
     <Content Include="App\viewmodels\shell.js" />
-    <Content Include="App\viewmodels\welcome.js" />
-    <Content Include="App\views\detail.html" />
-    <Content Include="App\views\flickr.html" />
+    <Content Include="App\views\projectList.html" />
     <Content Include="App\views\shell.html" />
-    <Content Include="App\views\welcome.html" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\durandal.css" />
     <Content Include="Content\font-awesome-ie7.css" />
@@ -158,6 +187,7 @@
     <Content Include="Content\toastr.less" />
     <None Include="Controllers\DurandalController.cs.pp" />
     <Compile Include="Controllers\DurandalController.cs" />
+    <Compile Include="Controllers\ReferenceDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -273,7 +303,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>4434</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:19319/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
