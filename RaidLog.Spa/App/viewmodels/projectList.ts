@@ -1,10 +1,8 @@
 ﻿/// <reference path="pagedGrid.ts" />
-/// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
 /// <reference path="../services/dataService.ts" />
-
+/// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
 /// <reference path='../../Scripts/typings/jquery/jquery.d.ts' />
 /// <reference path='../../Scripts/typings/requirejs/require.d.ts' />
-/// <reference path='../../Scripts/typings/knockout/knockout.amd.d.ts' />
 /// <reference path='../../Scripts/typings/knockout.mapping/knockout.mapping.d.ts' />
 /// <reference path='../../Scripts/typings/knockout.validation/knockout.validation.d.ts' />
 /// <reference path='../../Scripts/typings/durandal/durandal.d.ts' />
@@ -12,9 +10,6 @@
 import dataService = require("services/dataService");
 import ko = require("knockout")
 import pg = require("viewmodels/pagedGrid");
-
-
-debugger;
 
 class projectList {
     
@@ -30,7 +25,6 @@ class projectList {
     }
     
     constructor() {
-        debugger;
 
         var listConfig = { data: this.projects };
 

@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
-
 using Dapper;
-
+using RaidLog.Models;
 using RaidLog.Queries;
-using RaidLog.Web.Models;
 
-namespace RaidLog.Web.Controllers
+namespace RaidLog.Controllers
 {
     public class ReferenceDataController : ApiController
     {

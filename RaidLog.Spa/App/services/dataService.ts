@@ -72,7 +72,7 @@ var referenceData: ReferenceDataDto;
 var refDataDfd = http.get('/api/ReferenceData/')
     .done(function (data) {
         referenceData = data;
-        logger.log("Retrieved reference data", {}, "services/dataService", true);
+        logger.logSuccess("Retrieved reference data", {}, "services/dataService", true);
     })
     .fail(function (jqxhr, status, err) {
         logger.logError("Could not retrieve reference data (" + status + ")", arguments, "services/dataService", true);
@@ -85,8 +85,8 @@ export function getReferenceData() {
 
 export function getProjects() {
 
-    return http.get('/api/project/').done((data: ProjectSummaryWithCounts) => {
-        logger.log("Retrieved Projects", data, "services/dataService", true);
+    return http.get('/api/projects/').done((data: ProjectSummaryWithCounts) => {
+        logger.logSuccess("Retrieved Projects", data, "services/dataService", true);
     }).fail((jqxhr, status, ex) =>{
             logger.logError("Could not retrieve Projects", arguments, "services/dataService", true);
     });

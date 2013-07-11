@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 
-namespace RaidLog.Web.Models
+namespace RaidLog.Models
 {
     public class ReferenceData
     {
-        public ReferenceData(IEnumerable<ApproachDto> approaches,
-                             IEnumerable<ImpactDto> impacts,
-                             IEnumerable<LikelihoodDto> likelihoods,
-                             IEnumerable<RifCategoryDto> rifCategories,
-                             IEnumerable<AssumptionStatusDto> assumptionStatuses)
+        public ReferenceData(IEnumerable<ApproachDto> approaches, 
+            IEnumerable<ImpactDto> impacts, 
+            IEnumerable<LikelihoodDto> likelihoods, 
+            IEnumerable<RifCategoryDto> rifCategories,
+            IEnumerable<AssumptionStatusDto> assumptionStatuses )
         {
             Approaches = approaches.ToArray();
             Impacts = impacts.ToArray();
@@ -18,7 +19,6 @@ namespace RaidLog.Web.Models
             RifCategories = rifCategories.ToArray();
             AssumptionStatuses = assumptionStatuses.ToArray();
         }
-
 
         public ApproachDto[] Approaches { get; private set; }
 
@@ -47,6 +47,7 @@ namespace RaidLog.Web.Models
 
     public class ImpactDto
     {
+
         public int Id { get; private set; }
 
         public string Description { get; private set; }
@@ -69,10 +70,12 @@ namespace RaidLog.Web.Models
         public string Description { get; private set; }
 
         public int Score { get; private set; }
+
     }
 
     public class RifCategoryDto
     {
+
         public int Id { get; private set; }
 
         public string Description { get; private set; }

@@ -31,24 +31,9 @@
             @Html.Partial("_splash")
         </div>
 
+        @Scripts.Render("~/Scripts/static")
         <script type="text/javascript" src="~/Scripts/require.js" data-main="App/main"></script>
         
-    <!--
-addTemplate("ko_simpleGrid_grid", "\
-                    <table class="ko-grid" cellspacing="0">\
-                        <thead>\
-                            <tr data-bind="foreach: columns">\
-                               <th data-bind="text: headerText"></th>\
-                            </tr>\
-                        </thead>\
-                        <tbody data-bind="foreach: itemsOnCurrentPage">\
-                           <tr data-bind="foreach: $parent.columns">\
-                               <td data-bind="text: typeof rowText == 'function' ? rowText($parent) : $parent[rowText] "></td>\
-                            </tr>\
-                        </tbody>\
-                    </table>");
-        
-        -->
         <!-- Templates for the pagedGrid binding -->
         <script id="ko_simpleGrid_grid" type="text/html">
 <table class="ko-grid" cellspacing="0">

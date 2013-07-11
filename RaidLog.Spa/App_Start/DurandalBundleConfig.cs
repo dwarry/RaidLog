@@ -17,8 +17,16 @@ namespace RaidLog.Spa
                             .Include("~/Content/bootstrap-responsive.min.css")
                             .Include("~/Content/font-awesome.min.css")
                             .Include("~/Content/durandal.css")
+                            .Include("~/Content/toastr.css")
                             .Include("~/Content/site.css")
                 );
+
+
+            bundles.Add(new ScriptBundle("~/Scripts/static")
+                            .Include("~/Scripts/jquery-2.0.2.js",
+                                     "~/Scripts/knockout-2.2.1.js",
+                                     "~/Scripts/moment.js",
+                                     "~/Scripts/toastr.js"));
         }
 
 

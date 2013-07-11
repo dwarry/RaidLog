@@ -139,7 +139,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\DurandalBundleConfig.cs" />
-    <Compile Include="Models\ReferenceData.cs" />
+    <Compile Include="Controllers\AssumptionsController.cs" />
+    <Compile Include="Controllers\DependenciesController.cs" />
+    <Compile Include="Controllers\IssuesController.cs" />
+    <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\QueriesController.cs" />
+    <Compile Include="Controllers\RisksController.cs" />
+    <Compile Include="Models\AssumptionDto.cs" />
+    <Compile Include="Models\DeleteProject.cs" />
+    <Compile Include="Models\DependencyDto.cs" />
+    <Compile Include="Models\EditAssumptionDto.cs" />
+    <Compile Include="Models\EditProject.cs" />
+    <Compile Include="Models\EditRiskDto.cs" />
+    <Compile Include="Models\IssueDto.cs" />
+    <Compile Include="Models\NewAssumptionDto.cs" />
+    <Compile Include="Models\NewProject.cs" />
+    <Compile Include="Models\NewRiskDto.cs" />
+    <Compile Include="Models\ProjectDetails.cs" />
+    <Compile Include="Models\ProjectSummaryWithCounts.cs" />
+    <Compile Include="Models\QueryDto.cs" />
+    <Compile Include="Models\ReferenceData.cs">
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="Models\RiskDto.cs" />
+    <Compile Include="Models\UpdateFailure.cs" />
     <Compile Include="Queries\AssumptionsQueries.cs" />
     <Compile Include="Queries\ProjectQueries.cs" />
     <Compile Include="Queries\ReferenceDataQueries.cs" />
@@ -173,7 +197,13 @@
       <DependentUpon>projectList.ts</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\projectList.ts" />
-    <Content Include="App\viewmodels\shell.js" />
+    <Content Include="App\viewmodels\shell.js">
+      <DependentUpon>shell.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\shell.min.js">
+      <DependentUpon>shell.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\shell.ts" />
     <Content Include="App\views\projectList.html" />
     <Content Include="App\views\shell.html" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
@@ -185,9 +215,15 @@
     <Content Include="Content\font\FontAwesome.otf" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.less" />
+    <Content Include="App\services\dataService.min.js.map">
+      <DependentUpon>dataService.js</DependentUpon>
+    </Content>
     <None Include="Controllers\DurandalController.cs.pp" />
     <Compile Include="Controllers\DurandalController.cs" />
-    <Compile Include="Controllers\ReferenceDataController.cs" />
+    <Compile Include="Controllers\ReferenceDataController.cs">
+      <SubType>
+      </SubType>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

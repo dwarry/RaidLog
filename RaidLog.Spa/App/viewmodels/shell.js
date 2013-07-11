@@ -1,17 +1,30 @@
-﻿define(['plugins/router', 'durandal/app'], function (router, app) {
-    return {
+﻿define(["require", "exports", "plugins/router", "knockout"], function(require, exports, __router__, __ko__) {
+    var router = __router__;
+    var ko = __ko__;
+
+    var shell = {
         router: router,
-        search: function() {
-            //It's really easy to show a message box.
-            //You can add custom options too. Also, it returns a promise for the user's response.
-            app.showMessage('Search not yet implemented...');
+        canSearch: ko.computed(function () {
+            return router.activeItem() && 'search' in router.activeItem();
+        }),
+        searchField: ko.observable(""),
+        search: function (formElement) {
+            var vm = router.activeItem();
+            if (vm && 'search' in vm) {
+                vm.search(this.searchField());
+            }
         },
         activate: function () {
             router.map([
-                { route: '', title:'Projects', moduleId: 'viewmodels/projectList', nav: true },
-            ]).buildNavigationModel();
-            
-            return router.activate();
+                { route: '', title: 'Projects', moduleId: 'viewmodels/projectList', nav: true }
+            ]);
+
+            router.buildNavigationModel();
+
+            return router.activate('');
         }
     };
+
+    
+    return shell;
 });

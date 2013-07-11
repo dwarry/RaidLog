@@ -3,18 +3,14 @@
         'text': '../Scripts/text',
         'durandal': '../Scripts/durandal',
         'plugins': '../Scripts/durandal/plugins',
-        'transitions': '../Scripts/durandal/transitions',
-        'knockout': '../Scripts/knockout-2.2.1',
-        'bootstrap': '../Scripts/bootstrap',
-        'jquery': '../Scripts/jquery-2.0.2'
-    },
-    shim: {
-        'bootstrap': {
-            deps: ['jquery'],
-            exports: 'jQuery'
-        }
+        'transitions': '../Scripts/durandal/transitions'
     }
 });
+
+define('jquery', [], function () { return jQuery; });
+define('knockout', [], function () { return ko; });
+define('moment', [], function () { return moment; });
+define('toastr', [], function () { return toastr; });
 
 define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  function (system, app, viewLocator) {
     //>>excludeStart("build", true);
@@ -29,6 +25,7 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  function (s
         widget: true,
         http:   true
     });
+
 
     app.start().then(function() {
         //Replace 'viewmodels' in the moduleId with 'views' to locate the view.

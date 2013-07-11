@@ -3,14 +3,10 @@
     var ko = __ko__;
     var pg = __pg__;
 
-    debugger;
-
     var projectList = (function () {
         function projectList() {
             this.title = "Projects";
             this.projects = ko.observableArray();
-            debugger;
-
             var listConfig = { data: this.projects };
 
             this.listViewModel = new pg.ListViewModel(listConfig);
