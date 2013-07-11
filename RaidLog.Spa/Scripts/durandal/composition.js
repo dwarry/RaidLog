@@ -115,20 +115,20 @@ define(['durandal/system', 'durandal/viewLocator', 'durandal/viewModelBinder', '
             if (context.composingNewView && context.model) {
                 if (context.model.compositionComplete) {
                     composition.current.complete(function () {
-                        context.model.compositionComplete(context.child, context);
+                        context.model.compositionComplete(context.child, context.parent, context);
                     });
                 }
 
                 if (context.model.detached) {
                     ko.utils.domNodeDisposal.addDisposeCallback(context.child, function () {
-                        context.model.detached(context.child, context);
+                        context.model.detached(context.child, context.parent, context);
                     });
                 }
             }
 
             if (context.compositionComplete) {
                 composition.current.complete(function () {
-                    context.compositionComplete(context.child, context);
+                    context.compositionComplete(context.child, context.parent, context);
                 });
             }
         }
@@ -524,7 +524,7 @@ define(['durandal/system', 'durandal/viewLocator', 'durandal/viewModelBinder', '
         /**
          * Initiates a composition.
          * @method compose
-         * @param {DOMElement} element The DOMElement of knockout virtual element that serves as the parent for the composition.
+         * @param {DOMElement} element The DOMElement or knockout virtual element that serves as the parent for the composition.
          * @param {object} settings The composition settings.
          * @param {object} [bindingContext] The current binding context.
          */
