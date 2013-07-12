@@ -1,13 +1,4 @@
-﻿USE [RaidLog_dev]
-GO
-
-/****** Object:  Table [dbo].[Assumption]    Script Date: 30/06/2013 21:59:02 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
+﻿/****** Object:  Table [dbo].[Assumption]    Script Date: 30/06/2013 21:59:02 ******/
 CREATE TABLE [dbo].[Assumption](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
     [Version] [Timestamp] NOT NULL,
@@ -27,7 +18,7 @@ CREATE TABLE [dbo].[Assumption](
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY], 
     CONSTRAINT [FK_Assumption_To_AssumptionStatus] FOREIGN KEY ([AssumptionStatusId]) REFERENCES [AssumptionStatus]([Id])
-) ON [PRIMARY]
+) 
 
 GO
 
@@ -37,10 +28,6 @@ GO
 
 ALTER TABLE [dbo].[Assumption] CHECK CONSTRAINT [FK_Assumptions_Project]
 GO
-
-USE [RaidLog_dev]
-GO
-
 /****** Object:  Index [UX_Assumption]    Script Date: 30/06/2013 22:00:16 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [UX_Assumption] ON [dbo].[Assumption]
 (

@@ -24,14 +24,14 @@ BEGIN
     WHERE sts.Id = @statusId;
 
     IF @@ROWCOUNT = 0
-        THROW 50001, 'No such AssumptionStatus.', 1 
+        THROW 50001, 'No such AssumptionStatus.', 1;
 
     IF @isFinalState = 1
     BEGIN
         IF @validatedBy IS NULL 
-            THROW 50001, 'ValidatedBy must be set for a final State.', 2
+            THROW 50001, 'ValidatedBy must be set for a final State.', 2;
         IF @supportingDocumentation is null
-            THROW 50001, 'SupportingDocumentation must be set for a final State', 3
+            THROW 50001, 'SupportingDocumentation must be set for a final State', 3;
     END
     ELSE
     BEGIN

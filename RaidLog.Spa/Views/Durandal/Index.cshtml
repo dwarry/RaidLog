@@ -1,0 +1,62 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Project RAID Logs</title>
+        
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="format-detection" content="telephone=no"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        <link rel="apple-touch-startup-image" href="~/Content/images/ios-startup-image-landscape.png" media="(orientation:landscape)" />
+        <link rel="apple-touch-startup-image" href="~/Content/images/ios-startup-image-portrait.png" media="(orientation:portrait)" />
+        <link rel="apple-touch-icon" href="~/Content/images/icon.png"/>
+        
+        @Styles.Render("~/Content/css")
+        
+        <script type="text/javascript">
+            if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+                var msViewportStyle = document.createElement("style");
+                var mq = "@@-ms-viewport{width:auto!important}";
+                msViewportStyle.appendChild(document.createTextNode(mq));
+                document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+            }
+        </script>
+    </head>
+    <body>
+        <div id="applicationHost">
+            @Html.Partial("_splash")
+        </div>
+
+        @Scripts.Render("~/Scripts/static")
+        <script type="text/javascript" src="~/Scripts/require.js" data-main="App/main"></script>
+        
+        <!-- Templates for the pagedGrid binding -->
+        <script id="ko_simpleGrid_grid" type="text/html">
+<table class="ko-grid" cellspacing="0">
+    <thead>
+        <tr data-bind="foreach: columns">
+           <th data-bind="text: headerText"></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: itemsOnCurrentPage">
+       <tr data-bind="foreach: $parent.columns">
+           <td data-bind="text: typeof rowText == 'function' ? rowText($parent) : $parent[rowText] "></td>
+        </tr>
+    </tbody>
+</table>  
+        </script>
+        <script id="ko_simpleGrid_pageLinks" type="text/html">
+<div class="ko_grid_pageLinks" data-bind="visible:maxPageIndex > 0">
+    <span>Page:</span>
+    <!-- ko foreach: ko.utils.range(0, maxPageIndex) -->
+    <a href="#" data-bind="text: $data + 1, click: function() { $root.currentPageIndex($data) }, css: { selected: $data == $root.currentPageIndex() }">
+    </a>
+    <!-- /ko -->
+</div>
+        </script>
+    </body>
+</html>

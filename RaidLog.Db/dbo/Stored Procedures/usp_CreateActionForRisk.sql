@@ -22,7 +22,7 @@ BEGIN
            ,[Actor]
            ,[IsComplete]
            ,[Resolution]
-           ,[VersionNumber]
+           ,[Version]
            ,[UpdatedBy]
            ,[UpdatedTimestamp])
      VALUES
