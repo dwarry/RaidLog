@@ -1,8 +1,4 @@
-﻿
-/// <reference path='../../Scripts/typings/knockout/knockout.amd.d.ts' />
-/// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
-import ko = require("knockout")
-
+﻿/// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
 export interface ListViewModelConfiguration<T>{
     data: KnockoutObservableArray<T>;
 
@@ -32,21 +28,22 @@ ko.bindingHandlers['pagedGrid'] = {
         update: function (element, viewModelAccessor, allBindingsAccessor) {
             var viewModel = viewModelAccessor(), allBindings = allBindingsAccessor();
 
+            
+            // Allow the default templates to be overridden
+            var gridTemplate = allBindings.gridTemplateName || "ko_simpleGrid_grid",
+                pageLinksTemplate = allBindings.pagerTemplateName || "ko_simpleGrid_pageLinks";
+
             // Empty the element
             while (element.firstChild)
                 ko.removeNode(element.firstChild);
 
-            // Allow the default templates to be overridden
-            var gridTemplateName = allBindings.simpleGridTemplate || "ko_simpleGrid_grid",
-                pageLinksTemplateName = allBindings.simpleGridPagerTemplate || "ko_simpleGrid_pageLinks";
-
             // Render the main grid
             var gridContainer = element.appendChild(document.createElement("DIV"));
-            ko.renderTemplate(gridTemplateName, viewModel, { templateEngine: templateEngine }, gridContainer, "replaceNode");
+            ko.renderTemplate(gridTemplate, viewModel, { templateEngine: templateEngine }, gridContainer, "replaceNode");
 
             // Render the page links
             var pageLinksContainer = element.appendChild(document.createElement("DIV"));
-            ko.renderTemplate(pageLinksTemplateName, viewModel, { templateEngine: templateEngine }, pageLinksContainer, "replaceNode");
+            ko.renderTemplate(pageLinksTemplate, viewModel, { templateEngine: templateEngine }, pageLinksContainer, "replaceNode");
         }
     };
 
@@ -79,7 +76,7 @@ export class ListViewModel<T>{
 
     selected = ko.observable<T>(null);
 
-    searchField = ko.observable<string>();
+    searchField = ko.observable<string>("");
 
     searchPredicate: (string, t: T) => boolean = null;
 
@@ -90,13 +87,15 @@ export class ListViewModel<T>{
         this.pageSize = config.pageSize || 10;
 
         this.filteredData = ko.computed(() => {
-            if (!this.searchPredicate) {
-                return ko.utils.unwrapObservable(this.allData());
+            var sf = this.searchField().trim();
+
+            if (!this.searchPredicate || sf.length === 0) {
+                return ko.utils.unwrapObservable(this.allData);
             }
 
             var result = ko.utils.arrayFilter(
-                ko.utils.unwrapObservable(this.allData()),
-                x => this.searchPredicate(this.searchField, x));
+                ko.utils.unwrapObservable(this.allData),
+                x => this.searchPredicate(sf, x));
 
             return result;
         },this);

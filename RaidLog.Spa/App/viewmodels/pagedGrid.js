@@ -1,6 +1,4 @@
-﻿define(["require", "exports", "knockout"], function(require, exports, __ko__) {
-    var ko = __ko__;
-
+﻿define(["require", "exports"], function(require, exports) {
     var templateEngine = new ko.templateEngine();
 
     ko.bindingHandlers['pagedGrid'] = {
@@ -10,16 +8,16 @@
         update: function (element, viewModelAccessor, allBindingsAccessor) {
             var viewModel = viewModelAccessor(), allBindings = allBindingsAccessor();
 
+            var gridTemplate = allBindings.gridTemplateName || "ko_simpleGrid_grid", pageLinksTemplate = allBindings.pagerTemplateName || "ko_simpleGrid_pageLinks";
+
             while (element.firstChild)
                 ko.removeNode(element.firstChild);
 
-            var gridTemplateName = allBindings.simpleGridTemplate || "ko_simpleGrid_grid", pageLinksTemplateName = allBindings.simpleGridPagerTemplate || "ko_simpleGrid_pageLinks";
-
             var gridContainer = element.appendChild(document.createElement("DIV"));
-            ko.renderTemplate(gridTemplateName, viewModel, { templateEngine: templateEngine }, gridContainer, "replaceNode");
+            ko.renderTemplate(gridTemplate, viewModel, { templateEngine: templateEngine }, gridContainer, "replaceNode");
 
             var pageLinksContainer = element.appendChild(document.createElement("DIV"));
-            ko.renderTemplate(pageLinksTemplateName, viewModel, { templateEngine: templateEngine }, pageLinksContainer, "replaceNode");
+            ko.renderTemplate(pageLinksTemplate, viewModel, { templateEngine: templateEngine }, pageLinksContainer, "replaceNode");
         }
     };
 
@@ -40,18 +38,20 @@
             this.allData = ko.observableArray();
             this.currentPageIndex = ko.observable(0);
             this.selected = ko.observable(null);
-            this.searchField = ko.observable();
+            this.searchField = ko.observable("");
             this.searchPredicate = null;
             this.allData = config.data;
             this.pageSize = config.pageSize || 10;
 
             this.filteredData = ko.computed(function () {
-                if (!_this.searchPredicate) {
-                    return ko.utils.unwrapObservable(_this.allData());
+                var sf = _this.searchField().trim();
+
+                if (!_this.searchPredicate || sf.length === 0) {
+                    return ko.utils.unwrapObservable(_this.allData);
                 }
 
-                var result = ko.utils.arrayFilter(ko.utils.unwrapObservable(_this.allData()), function (x) {
-                    return _this.searchPredicate(_this.searchField, x);
+                var result = ko.utils.arrayFilter(ko.utils.unwrapObservable(_this.allData), function (x) {
+                    return _this.searchPredicate(sf, x);
                 });
 
                 return result;
