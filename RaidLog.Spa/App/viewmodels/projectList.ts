@@ -10,6 +10,7 @@
 import dataService = require("services/dataService");
 import ko = require("knockout")
 import pg = require("viewmodels/pagedGrid");
+import maintainProject = require("viewmodels/maintainProject");
 
 class projectList {
     
@@ -37,19 +38,32 @@ class projectList {
 
     activate() {
         this.refresh();
+
     }
 
     refresh() {
-        dataService.getProjects().done((data: dataService.ProjectSummaryWithCounts[]) => this.projects(data));
+        dataService.getProjects().done((data: dataService.ProjectSummaryWithCounts[]) => {
+            this.projects(data);
+            this.listViewModel.setSelected(null);
+        });
     }
 
     canEditProject: KnockoutComputed<boolean>;
 
     editProject() {
-    
+        var dlg = new maintainProject(this.listViewModel.selected()); 
+
+        dlg.show().done((successful) => {
+            if (successful) { this.refresh(); }
+        });
     }
 
     newProject() {
+        var dlg = new maintainProject(null);
+
+        dlg.show().done((successful) => {
+            if (successful) { this.refresh(); }
+        });
     }
 
     canArchiveProject: KnockoutComputed<boolean>;

@@ -189,6 +189,13 @@
       <DependentUpon>logger.ts</DependentUpon>
     </Content>
     <Content Include="App\services\logger.ts" />
+    <Content Include="App\viewmodels\maintainProject.js">
+      <DependentUpon>maintainProject.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\maintainProject.min.js">
+      <DependentUpon>maintainProject.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\maintainProject.ts" />
     <Content Include="App\viewmodels\pagedGrid.js">
       <DependentUpon>pagedGrid.ts</DependentUpon>
     </Content>
@@ -210,6 +217,7 @@
       <DependentUpon>shell.ts</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\shell.ts" />
+    <Content Include="App\views\maintainProject.html" />
     <Content Include="App\views\projectList.html" />
     <Content Include="App\views\shell.html" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />

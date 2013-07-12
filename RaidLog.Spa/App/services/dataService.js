@@ -24,4 +24,27 @@
         });
     }
     exports.getProjects = getProjects;
+
+    function saveProject(proj) {
+        var options = {
+            url: "/api/projects/",
+            data: proj,
+            dataType: 'json'
+        };
+
+        if (proj.id) {
+            options.url = options.url + proj.id;
+            options.type = "PUT";
+        } else {
+            options.type = "POST";
+        }
+
+        return $.ajax(options).done(function (data, status, jqxhr) {
+            logger.logSuccess("Saved Project", null, "services/dataService", true);
+        }).fail(function (jqxhr, status, ex) {
+            logger.logError("Error saving the Project", {}, "services/dataService", true);
+            logger.logError(status + " " + jqxhr.responseText, proj, "services/dataService", false);
+        });
+    }
+    exports.saveProject = saveProject;
 });

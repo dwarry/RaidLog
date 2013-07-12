@@ -5,6 +5,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -112,9 +113,11 @@ namespace RaidLog.Controllers
                                                            tx)
                                                .First();
                         
-                        var response = Request.CreateResponse(HttpStatusCode.Created);
+                        var response = Request.CreateResponse(HttpStatusCode.Created,new object());
 
-                        response.Headers.Location = new Uri("/api/project/" + newId, UriKind.Relative);
+                        response.Headers.Location = new Uri("/api/projects/" + newId, UriKind.Relative);
+
+                        
 
                         tx.Commit();
 

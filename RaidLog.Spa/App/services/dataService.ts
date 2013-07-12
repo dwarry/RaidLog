@@ -47,11 +47,15 @@ export interface ReferenceDataDto{
     assumptionStatuses: AssumptionStatusDto[];
 }
 
-export interface ProjectSummaryWithCounts{
+
+export interface Project {
     id: number;
     version: string;
     code: string;
     name: string;
+}
+
+export interface ProjectSummaryWithCounts extends Project{
     activeRisks: number;
     activeAssumptions: number;
     activeIssues: number;
@@ -91,7 +95,32 @@ export function getProjects() {
             logger.logError("Could not retrieve Projects", arguments, "services/dataService", true);
     });
 }
- 
+
+export function saveProject(proj): JQueryPromise {
+    var options: JQueryAjaxSettings = {
+        url: "/api/projects/",
+        data: proj,
+        dataType: 'json'
+    };
+
+    if (proj.id) {
+        options.url = options.url + proj.id;
+        options.type = "PUT";
+    } else {
+        options.type = "POST";
+    }
+
+    return $.ajax(options)
+        .done(function (data, status, jqxhr) {
+            logger.logSuccess("Saved Project", null, "services/dataService", true);
+        })
+        .fail(function (jqxhr, status, ex) {
+            logger.logError("Error saving the Project", {}, "services/dataService", true);
+            logger.logError(status + " " + jqxhr.responseText, proj, "services/dataService", false);
+        });
+
+
+} 
 /*
 define(['services/logger','durandal/http'], function (logger: Logger,http) {
     var referenceData: ReferenceDataDto;

@@ -147,6 +147,8 @@ declare module "plugins/http" {
 }
 
 declare module "plugins/dialog" {
+
+    export var close: (obj: any, result: any) => void;
     /**
       * the default is 1050
       */
@@ -174,7 +176,7 @@ declare module "plugins/dialog" {
     /**
       * This API uses the composition module to compose your obj into a modal popover. It also uses the viewModel module to check and enforce any screen lifecycle needs that obj may have. A promise is returned which will be resolved when the modal dialog is dismissed. The obj is the view model for your modal dialog, or a moduleId for the view model to load. Your view model instance will have a single property added to it by this mechanism called modal which represents the dialog infrastructure itself. This modal object has a single function called close which can be invoked to close the modal. You may also pass data to close which will be returned via the promise mechanism. The modal object also references it's owner, activator, the composition settings it was created with and its display context. Speaking of context, this parameter represents the display context or modal style. By default, there is one context registered with the system, named 'default'. If no context is specified, the default context with be used to display the modal. You can also specify activationData which is an arbitrary object that will be passed to your modal's activate function, if it has one.
       */
-    export var show: (obj: any, activationData: any, context: any) => JQueryPromise;
+    export var show: (obj: any, activationData: any, context?: any) => JQueryPromise;
 }
 
 declare module "durandal/viewEngine" {

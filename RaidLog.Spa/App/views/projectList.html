@@ -1,9 +1,9 @@
 ﻿<section>
     <h2>Projects
     <div class="btn-group pull-right">
-        <button class="btn"><i class="icon-plus icon-white" /> Add Project</button>
-        <button class="btn" data-bind="enable: listViewModel.selected"><i class="icon-edit icon-white" /> Edit Project</button>
-        <button class="btn" data-bind="enable: listViewModel.selected()"><i class="icon-remove icon-white"/> Archive Project</button> 
+        <button class="btn" data-bind="click:newProject"><i class="icon-plus icon-white" /> Add Project</button>
+        <button class="btn" data-bind="enable: listViewModel.selected, click:editProject"><i class="icon-edit icon-white" /> Edit Project</button>
+        <button class="btn" data-bind="enable: false"><i class="icon-remove icon-white"/> Archive Project</button> 
     </div></h2>
     <br />
     <div class="row-fluid">

@@ -27,6 +27,8 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  function (s
     });
 
 
+    ko.validation.init({ decorateElement: false, insertMessages: false, messagesOnModified: false });
+
     app.start().then(function() {
         //Replace 'viewmodels' in the moduleId with 'views' to locate the view.
         //Look for partial views in a 'views' folder in the root.

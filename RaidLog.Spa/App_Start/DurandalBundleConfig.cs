@@ -26,6 +26,7 @@ namespace RaidLog.Spa
             bundles.Add(new ScriptBundle("~/Scripts/static")
                             .Include("~/Scripts/jquery-2.0.2.js",
                                      "~/Scripts/knockout-2.2.1.js",
+                                     "~/Scripts/knockout.validation.js",
                                      "~/Scripts/moment.js",
                                      "~/Scripts/toastr.js"));
         }

@@ -17,6 +17,8 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'durandal/plu
             //Look for partial views in a 'views' folder in the root.
             viewLocator.useConvention();
 
+
+            ko.validation.init({ decorateElement: true, errorElementClass: 'error', insertMessages: false, messagesOnModified: false });
             //configure routing
             setupRouter();
             
