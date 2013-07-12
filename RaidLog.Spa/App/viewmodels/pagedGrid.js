@@ -1,5 +1,5 @@
 ﻿define(["require", "exports"], function(require, exports) {
-    var templateEngine = new ko.templateEngine();
+    var templateEngine = new ko.nativeTemplateEngine();
 
     ko.bindingHandlers['pagedGrid'] = {
         init: function () {
@@ -67,14 +67,15 @@
             }, this);
 
             this.columns = config.columns || getColumnsForScaffolding(ko.utils.unwrapObservable(this.allData));
+
+            this.setSelected = function (item) {
+                if (_this.selected() === item) {
+                    _this.selected(null);
+                } else {
+                    _this.selected(item);
+                }
+            };
         }
-        ListViewModel.prototype.setSelected = function (item) {
-            if (this.selected() === item) {
-                this.selected(null);
-            } else {
-                this.selected(item);
-            }
-        };
         return ListViewModel;
     })();
     exports.ListViewModel = ListViewModel;

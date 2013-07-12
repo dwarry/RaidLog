@@ -1,11 +1,13 @@
 ﻿<section>
+    <h2>Projects
+    <div class="btn-group pull-right">
+        <button class="btn"><i class="icon-plus icon-white" /> Add Project</button>
+        <button class="btn" data-bind="enable: listViewModel.selected"><i class="icon-edit icon-white" /> Edit Project</button>
+        <button class="btn" data-bind="enable: listViewModel.selected()"><i class="icon-remove icon-white"/> Archive Project</button> 
+    </div></h2>
+    <br />
     <div class="row-fluid">
-        <div class="span1">
-            <button class="btn"><i class="icon-plus icon-white" /> Add Project</button><br />
-            <button class="btn"><i class="icon-edit icon-white" />Edit Project</button><br />
-            <button class="btn btn-danger"><i class="icon-remove icon-white"/>Archive Project</button> 
-        </div>
-        <div class="span11" data-bind="pagedGrid:listViewModel,gridTemplateName:'projectListTemplate'"></div>
+        <div class="span10 offset1" data-bind="pagedGrid:listViewModel,gridTemplateName:'projectListTemplate'"></div>
     </div>
 </section>
 
@@ -13,18 +15,18 @@
     <table class="table table-condensed table-bordered table-striped">
         <thead>
             <tr>
-                <th>Code</th>
+                <th style="width: 10ex;">Code</th>
                 <th>Name</th>
-                <th><abbr title="Risks">R</abbr> </th>
-                <th><abbr title="Assumptions">A</abbr> </th> 
-                <th><abbr title="Issues">I</abbr> </th>
-                <th><abbr title="Dependencies">D</abbr></th>
-                <th><abbr title="Queries">Q</abbr></th>
+                <th style="width: 12ex;">Risks</th>
+                <th style="width: 12ex;">Assumptions</th> 
+                <th style="width: 12ex;">Issues</th>
+                <th style="width: 12ex;">Dependencies</th>
+                <th style="width: 12ex;">Queries</th>
 
             </tr>
         </thead>
         <tbody data-bind="foreach:filteredData">
-            <tr data-bind="click:setSelected, css:{selected:$data===$parent.selected}">
+            <tr data-bind="click:$parent.setSelected, css:{selected:$data===$parent.selected()}">
                 <td><a data-bind="text: $data.code, click: $root.viewProject"></a></td>
                 <td data-bind="text: $data.name"></td>
                 <td>

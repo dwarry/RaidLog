@@ -18,7 +18,7 @@ interface KnockoutBindingHandlers {
     pagedGrid: KnockoutBindingHandler;
 }
 
-var templateEngine = new ko.templateEngine();
+var templateEngine = new ko.nativeTemplateEngine();
 
 ko.bindingHandlers['pagedGrid'] = {
         init: function () {
@@ -82,6 +82,8 @@ export class ListViewModel<T>{
 
     filteredData: KnockoutComputed<T[]>;
 
+    setSelected: (item: T) => void;
+
     constructor(config: ListViewModelConfiguration<T>) {
         this.allData = config.data;
         this.pageSize = config.pageSize || 10;
@@ -110,16 +112,18 @@ export class ListViewModel<T>{
         }, this);
 
         this.columns = config.columns || getColumnsForScaffolding(ko.utils.unwrapObservable(this.allData));
+
+        this.setSelected = (item: T) => {
+            if (this.selected() === item) {
+                this.selected(null);
+            }
+            else {
+                this.selected(item);
+            }
+        };
+
     }
 
-    setSelected(item: T) {
-        if (this.selected() === item) {
-            this.selected(null);
-        }
-        else {
-            this.selected(item);
-        }
-    }
 
         
 }

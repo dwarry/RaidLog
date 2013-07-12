@@ -18,6 +18,7 @@ namespace RaidLog.Spa
                             .Include("~/Content/font-awesome.min.css")
                             .Include("~/Content/durandal.css")
                             .Include("~/Content/toastr.css")
+                            .Include("~/Content/knockout.simpleGrid.css")
                             .Include("~/Content/site.css")
                 );
 
