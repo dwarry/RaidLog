@@ -8,7 +8,7 @@
 /// <reference path='../../Scripts/typings/durandal/durandal.d.ts' />
 
 import dataService = require("services/dataService");
-import ko = require("knockout")
+//import ko = require("knockout")
 import pg = require("viewmodels/pagedGrid");
 import maintainProject = require("viewmodels/maintainProject");
 

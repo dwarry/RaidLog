@@ -14,8 +14,11 @@ export interface PagedGridColumns {
     rowText: any;
 }
 
-interface KnockoutBindingHandlers {
-    pagedGrid: KnockoutBindingHandler;
+// Hmmm. Still need to work out how to do this 'properly'...
+module Knockout {
+    interface KnockoutBindingHandlers {
+        pagedGrid: KnockoutBindingHandler;
+    }
 }
 
 var templateEngine = new ko.nativeTemplateEngine();

@@ -106,6 +106,12 @@ interface KnockoutValidationGroup {
     isAnyMessageShown?: () => boolean;
 }
 
+interface KnockoutValidatedObservable {
+    errors?: KnockoutValidationErrors;
+    isValid?: () => boolean;
+}
+
+
 interface KnockoutValidationStatic {
     init(options?: KnockoutValidationConfiguration, force?: boolean): void;
     configure(options: KnockoutValidationConfiguration): void;
@@ -134,7 +140,7 @@ interface KnockoutValidationStatic {
 
 interface KnockoutStatic {
     validation: KnockoutValidationStatic;
-    validatedObservable(initialValue: any): KnockoutObservableBase;
+    validatedObservable(initialValue: any): KnockoutValidatedObservable;
     applyBindingsWithValidation(viewModel: any, rootNode?: any, options?: KnockoutValidationConfiguration): void;
 }
 
