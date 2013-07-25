@@ -1,20 +1,46 @@
-﻿var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define(["require", "exports", "services/dataService", "EditableViewModel"], function(require, exports, __dataService__, __evm__) {
+﻿define(["require", "exports", "services/dataService"], function(require, exports, __dataService__) {
     var dataService = __dataService__;
     
-    var evm = __evm__;
 
-    var RiskViewModel = (function (_super) {
-        __extends(RiskViewModel, _super);
-        function RiskViewModel(item, projectId) {
+    var refData;
+
+    dataService.getReferenceData().done(function (rd) {
+        refData = rd;
+    });
+
+    function impactScore(impactId) {
+        var result = 0;
+
+        $.each(this.impacts(), function (i, impact) {
+            if (impact.id === impactId) {
+                result = impact.score;
+                return false;
+            }
+            return true;
+        });
+
+        return result;
+    }
+
+    function likelihoodScore(likelihoodId) {
+        var result = 0;
+
+        $.each(this.likelihoods, function (i, likelihood) {
+            if (likelihood.id === likelihoodId) {
+                result = likelihood.score;
+                return false;
+            }
+            return true;
+        });
+
+        return result;
+    }
+
+    var RiskViewModel = (function () {
+        function RiskViewModel(item, newItemCallback) {
             var _this = this;
-            _super.call(this, item, "Risk");
-            this.projectId = projectId;
+            this.newItemCallback = newItemCallback;
+            this.projectId = 0;
             this.riskNumber = ko.observable(0);
             this.description = ko.observable("").extend({ required: true, maxLength: 2048 });
             this.raisedDate = ko.observable(moment().local().format("YYYY-MM-DD")).extend({ required: true, dateISO: true });
@@ -28,10 +54,22 @@ define(["require", "exports", "services/dataService", "EditableViewModel"], func
             this.likelihoodId = ko.observable(null).extend({ required: true });
             this.owner = ko.observable("").extend({ required: true, maxLength: 50 });
             this.isActive = ko.observable(true);
-
-            this.isNewItem = ko.computed(function () {
-                return _this.id === 0;
+            this.score = ko.computed(function () {
+                return impactScore(_this.impactId()) * likelihoodScore(_this.likelihoodId());
             }, this);
+
+            this.rag = ko.computed(function () {
+                var sc = _this.score();
+
+                if (sc <= 5) {
+                    return "ragGreen";
+                }
+                if (sc >= 15) {
+                    return "ragRed";
+                }
+
+                return "ragAmber";
+            });
 
             this.validation = ko.validatedObservable([
                 this.riskNumber,
@@ -49,11 +87,51 @@ define(["require", "exports", "services/dataService", "EditableViewModel"], func
                 this.isActive
             ]);
 
+            this.updateFromItem(item);
+
             this.canSave = ko.computed(function () {
                 return _this.validation.isValid();
             }, this);
+
+            this.canDelete = ko.computed(function () {
+                return _this.id !== 0;
+            });
         }
-        RiskViewModel.prototype.doSaveItem = function () {
+        RiskViewModel.prototype.updateFromItem = function (item) {
+            if (item == null) {
+                this.id = 0;
+                this.version = "";
+                this.riskNumber(null);
+                this.description("");
+                this.raisedDate(moment().format("YYYY-MM-DD"));
+                this.raisedBy("");
+                this.rifCategoryId(null);
+                this.isProjectRisk(true);
+                this.workstream("");
+                this.commentary("");
+                this.approachId(null);
+                this.impactId(null);
+                this.likelihoodId(null);
+                this.owner("");
+            } else {
+                this.id = item.id;
+                this.version = item.version;
+                this.riskNumber(item.riskNumber);
+                this.description(item.description);
+                this.raisedDate(item.raisedDate);
+                this.raisedBy(item.raisedBy);
+                this.rifCategoryId(item.rifCategoryId);
+                this.isProjectRisk(item.isProjectRisk);
+                this.workstream(item.workstream);
+                this.commentary(item.commentary);
+                this.approachId(item.approachId);
+                this.impactId(item.impactId);
+                this.likelihoodId(item.likelihoodId);
+                this.owner(item.owner);
+            }
+        };
+
+        RiskViewModel.prototype.saveItem = function () {
             var _this = this;
             var dto = {
                 description: this.description(),
@@ -69,17 +147,22 @@ define(["require", "exports", "services/dataService", "EditableViewModel"], func
                 owner: this.owner()
             };
 
-            if (!this.isNewItem()) {
+            var isNewItem = this.isNewItem();
+
+            if (!isNewItem) {
                 dto['id'] = this.id;
                 dto['version'] = this.version;
             }
 
             return dataService.saveRisk(this.projectId, dto).done(function (data) {
-                _this.item = data;
-                _this.updateFromItem();
+                _this.updateFromItem(data);
+
+                if (isNewItem) {
+                    _this.newItemCallback(_this);
+                }
             });
         };
         return RiskViewModel;
-    })(evm.EditableViewModel);
+    })();
     exports.RiskViewModel = RiskViewModel;
 });

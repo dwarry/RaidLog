@@ -6,9 +6,45 @@
 
 import dataService = module("services/dataService");
 import logger = module("services/logger");
-import evm = module("EditableViewModel");
+//import evm = module("EditableViewModel");
 
-export class RiskViewModel extends evm.EditableViewModel<dataService.RiskDto>{
+var refData: dataService.ReferenceDataDto;
+
+dataService.getReferenceData().done((rd) => { refData = rd; });
+
+function impactScore(impactId: number):number {
+    var result = 0;
+
+    $.each(this.impacts(), (i, impact) => {
+        if (impact.id === impactId) {
+            result = impact.score;
+            return false;
+        }
+        return true;
+    });
+
+    return result;
+}
+
+function likelihoodScore(likelihoodId: number): number {
+    var result = 0;
+
+    $.each(this.likelihoods, (i, likelihood) => {
+        if (likelihood.id === likelihoodId) {
+            result = likelihood.score;
+            return false;
+        }
+        return true;
+    });
+
+    return result;
+}
+
+
+export class RiskViewModel {
+
+
+    projectId: number = 0;
 
     id: number;
 
@@ -40,12 +76,36 @@ export class RiskViewModel extends evm.EditableViewModel<dataService.RiskDto>{
 
     isActive = ko.observable(true);
     
+    isNewItem: KnockoutComputed<bool>;
+
+    validation: KnockoutValidatedObservable;
+
+    score: KnockoutComputer<number>;
+
+    rag: KnockoutComputed<string>;
+
+    canSave: KnockoutComputed<bool>;
+
+    canDelete: KnockoutComputed<bool>;
+
     
 
-    constructor(item: dataService.RiskDto, public projectId: number) {
-        super(item, "Risk");
+    constructor(item: dataService.RiskDto, private newItemCallback: (rvm: RiskViewModel) => void) {
 
-        this.isNewItem = ko.computed<boolean>(() => this.id === 0, this);
+        this.score = ko.computed(() => impactScore(this.impactId()) * likelihoodScore(this.likelihoodId()), this);
+        
+        this.rag = ko.computed(() => {
+            var sc = this.score();
+
+            if (sc <= 5) {
+                return "ragGreen";
+            }
+            if (sc >= 15) {
+                return "ragRed";
+            }
+
+            return "ragAmber";
+        });
 
         this.validation = ko.validatedObservable([
             this.riskNumber,
@@ -63,11 +123,51 @@ export class RiskViewModel extends evm.EditableViewModel<dataService.RiskDto>{
             this.isActive
         ]);
         
+        this.updateFromItem(item);
+
         this.canSave = ko.computed<boolean>(() => this.validation.isValid(), this);        
         
+        this.canDelete = ko.computed<boolean>(() => this.id !== 0);
     }
 
-    doSaveItem() {
+    updateFromItem(item: dataService.RiskDto) {
+        
+        if (item == null) {
+            this.id = 0;
+            this.version = "";
+            this.riskNumber(null);
+            this.description("");
+            this.raisedDate(moment().format("YYYY-MM-DD"));
+            this.raisedBy("");
+            this.rifCategoryId(null);
+            this.isProjectRisk(true);
+            this.workstream("");
+            this.commentary("");
+            this.approachId(null);
+            this.impactId(null);
+            this.likelihoodId(null);
+            this.owner("");
+        }
+        else {
+            this.id = item.id;
+            this.version = item.version;
+            this.riskNumber(item.riskNumber);
+            this.description(item.description);
+            this.raisedDate(item.raisedDate);
+            this.raisedBy(item.raisedBy);
+            this.rifCategoryId(item.rifCategoryId);
+            this.isProjectRisk(item.isProjectRisk);
+            this.workstream(item.workstream);
+            this.commentary(item.commentary);
+            this.approachId(item.approachId);
+            this.impactId(item.impactId);
+            this.likelihoodId(item.likelihoodId);
+            this.owner(item.owner);
+             
+        }
+    }
+
+    saveItem() {
         var dto: dataService.NewRiskDto = {
             description: this.description(),
             raisedDate: this.raisedDate(),
@@ -82,17 +182,24 @@ export class RiskViewModel extends evm.EditableViewModel<dataService.RiskDto>{
             owner: this.owner()
         };
 
-        if (!this.isNewItem()) {
+        var isNewItem = this.isNewItem();
+
+        if (!isNewItem) {
             dto['id'] = this.id;
             dto['version'] = this.version;       
         }
 
         return dataService.saveRisk(this.projectId, dto).done(
             (data) => {
-                this.item = data;
-                this.updateFromItem();
+                this.updateFromItem(data);
+
+                if (isNewItem) {
+                    this.newItemCallback(this);
+                }
             });
-            
+    
     }
+
+
 
 }

@@ -7,16 +7,19 @@ import md = module("MasterDetailViewModel");
 import rvm = module("./RiskViewModel");
 import dataService = module("services/dataService");
 import logger = module("services/logger");
+import pg = module("./pagedGrid");
 
-class RiskListViewModel extends md.MasterDetailViewModel<dataService.RiskDto>{
+class RiskListViewModel {
 
     projectId: number;
-    
+
     projectCode = ko.observable("");
 
     projectName = ko.observable("");
 
     activeItems = ko.observable(true);
+
+    risks = ko.observableArray<rvm.RiskViewModel>();
 
     approaches = ko.observableArray<dataService.ApproachDto>();
 
@@ -24,18 +27,32 @@ class RiskListViewModel extends md.MasterDetailViewModel<dataService.RiskDto>{
 
     likelihoods = ko.observableArray<dataService.LikelihoodDto>();
 
-    riskViewModel = new rvm.RiskViewModel();
-    
+    rifCategories = ko.observableArray<dataService.RifCategoryDto>();
+
+    listViewModel: pg.ListViewModel<rvm.RiskViewModel>;
+
+    private _mappingOptions: KnockoutMappingOptions;
 
 
     constructor() {
+        var listConfig = { data: this.risks };
 
-        super();
-
-        this.koMappingOptions = {
-            key: (x) => x.id,
+        this._mappingOptions = {
+            key: (data) => data.id,
+            create: (options: KnockoutMappingCreateOptions) =>
+                new rvm.RiskViewModel(<dataService.RiskDto>options.data,
+                    (newItem: rvm.RiskViewModel) => { this.listViewModel.allData.push(newItem); }),
         };
+
+        this.listViewModel = new pg.ListViewModel<rvm.RiskViewModel>(listConfig);
+        
+        this.listViewModel.searchPredicate = (s, item) => item.description.indexOf(s) !== -1;
     }
+
+    search(s: string) {
+        this.listViewModel.searchField(s);
+    }
+
 
     activate(projectIdParam, activeParam){
         this.projectId = projectIdParam;
@@ -45,6 +62,7 @@ class RiskListViewModel extends md.MasterDetailViewModel<dataService.RiskDto>{
             this.approaches(data.approaches);
             this.impacts(data.impacts);
             this.likelihoods(data.likelihoods);
+            this.rifCategories(data.rifCategories);
         });
 
         var getProject = dataService.getProject(this.projectId).done((data: dataService.ProjectDto) => {
@@ -58,36 +76,11 @@ class RiskListViewModel extends md.MasterDetailViewModel<dataService.RiskDto>{
         return $.when([getRefData, getProject, getRisks]);
     }
 
-    doRefresh() {
-        return dataService.getProjectRisks(this.projectId, this.activeItems());   
+    refresh() {
+        return dataService.getProjectRisks(this.projectId, this.activeItems())
+                          .done((data) => ko.mapping.fromJS(this.risks(data),this._mappingOptions));   
     }
 
-    private impactScore(impactId: number):number {
-        var result = 0;
 
-        $.each(this.impacts(), (i, impact) => {
-            if (impact.id === impactId) {
-                result = impact.score;
-                return false;
-            }
-            return true;
-        });
-
-        return result;
-    }
-
-    private likelihoodScore(likelihoodId: number): number {
-        var result = 0;
-
-        $.each(this.likelihoods, (i, likelihood) => {
-            if (likelihood.id === likelihoodId) {
-                result = likelihood.score;
-                return false;
-            }
-            return true;
-        });
-
-        return result;
-    }
 }
 

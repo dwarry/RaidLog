@@ -1,0 +1,116 @@
+﻿<h1><span data-bind="text:projectCode"></span>: <span data-bind="text:projectName"></span> Risks</h1>
+<div class="row-fluid">
+    <div class="span6">
+        <div class="btn-group">
+            <button class="btn" data-bind="click:newRisk"><i class="icon-plus-sign icon-white"></i> Add New Risk</button>
+            <button class="btn" data-bind="click:refreshRisks"><i class="icon-refresh icon-white"></i> Refresh</button>
+        </div>
+        <div id="riskListContainer" data-bind="simpleGrid:risks,simpleGridTemplate:riskListTemplate">
+        </div>
+        <h2 data-bind="visible:risks.data().length == 0" class="alert alert-info">No Risks</h2>
+    </div>
+    
+    
+    <div class='span6 well' data-bind='with: risks.selected, visible: $data != null, validationOptions: {insertMessages:true,errorMessageClass:""}'>
+        <form class="form-horizontal">
+            <!-- Description -->
+            <div class="control-group">
+                <label class="control-label" for="description" accesskey="D">Description</label>
+                <div class="controls">                     
+                    <textarea id="description" name="description" data-bind="value: description" class="input-xlarge" rows="5" cols="40">There is a risk that...
+because ...
+leading to ...</textarea>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="raisedDate">Raised On</label>
+                <div class="controls">
+                    <input id="raisedDate" name="raisedDate" type="text" placeholder="yyyy-mm-dd" class="input-small" required="required" data-bind="value: raisedDate, enabled: id() === 0">
+                
+                    Raised By
+                
+                    <input id="raisedBy" name="raisedBy" type="text" placeholder="Some User"
+                           data-bind="value: raisedBy, enabled:id() === 0"
+                           class="input-xlarge" required="required">
+                </div>
+            </div>
+
+            <!-- Select Basic -->
+            <div class="control-group">
+                <label class="control-label" for="rifCategoryId">RIF Category</label>
+                <div class="controls">
+                    <select id="rifCategoryId" name="rifCategoryId" 
+                            data-bind="value: rifCategoryId, options: $root.rifCategories, optionsText: 'description', optionsCaption: 'Choose...', optionsValue: 'id'"    
+                            class="input-xlarge">
+                    </select>
+                </div>
+            </div>
+
+            <!-- Prepended checkbox -->
+            <div class="control-group">
+                <label class="control-label" for="workstream">Project Risk? / Workstream</label>
+                <div class="controls">
+                    <div class="input-prepend">
+                        <span class="add-on">
+                            <label class="checkbox">
+                                <input type="checkbox" checked="checked" id="isProjectRisk" data-bind="checked: isProjectRisk">
+                            </label>
+                        </span>
+                        <input id="workstream" name="workstream" class="input-xlarge" type="text" placeholder="placeholder" required="required" data-bind="value: workstream">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Select Basic -->
+            <div class="control-group">
+                <label class="control-label" for="approachId">Approach</label>
+                <div class="controls">
+                    <select id="approachId" 
+                            name="approachId" 
+                            class="input-xlarge" 
+                            data-bind="value: approachId, options: $root.approaches, optionsText: 'description', optionsCaption: 'Choose...', optionsValue: 'id'">
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Select Basic -->
+            <div class="control-group">
+                <label class="control-label" for="likelihoodId">Likelihood</label>
+                <div class="controls">
+                    <select id="likelihoodId" 
+                            name="likelihoodId" 
+                            class="input-large" 
+                            data-bind="value: likelihoodId, options: $root.likelihoods, optionsText: 'description', optionsCaption: 'Choose...', optionsValue: 'id'">
+                    </select>
+                    &nbsp;Impact&nbsp;
+                    <select id="impactId" 
+                            name="impactId" 
+                            class="input-large" 
+                            data-bind="value: impactId, options: $root.impacts, optionsText: 'description', optionsCaption: 'Choose...', optionsValue: 'id'">
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="commentary">Impact Commentary</label>
+                <div class="controls">                     
+                    <textarea id="commentary" name="commentary" class="input-xlarge" rows="5" data-bind="value: commentary"></textarea>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="owner">Owner</label>
+                <div class="controls">
+                    <input id="owner" name="owner" type="text" placeholder="John Q User" class="input-xlarge" data-bind="value: owner">
+                </div>
+            </div>
+
+            <div>
+                <button data-bind="click: $root.save, enable: $root.canSave" class="btn btn-primary" accesskey="s"><i class="icon-save icon-white"/> Save</button>
+            </div>
+            
+
+        </form>
+    </div>
+</div>
