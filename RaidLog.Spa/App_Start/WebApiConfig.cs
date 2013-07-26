@@ -15,6 +15,11 @@ namespace RaidLog.Spa
                                                id = RouteParameter.Optional
                                            }
                 );
+
+            config.Routes.MapHttpRoute(
+                "ProjectItems",
+                "api/Project/{projectId}/{controller}/{id}",
+                new { id = RouteParameter.Optional });
         }
     }
 }

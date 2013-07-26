@@ -10,7 +10,7 @@
             var _this = this;
             this.projectCode = ko.observable("");
             this.projectName = ko.observable("");
-            this.activeItems = ko.observable(true);
+            this.hideClosedItems = ko.observable(true);
             this.risks = ko.observableArray();
             this.approaches = ko.observableArray();
             this.impacts = ko.observableArray();
@@ -31,6 +31,20 @@
 
             this.listViewModel = new pg.ListViewModel(listConfig);
 
+            this.listViewModel.filteredData = ko.computed(function () {
+                var sf = _this.listViewModel.searchField().trim();
+
+                if (!_this.listViewModel.searchPredicate || sf.length === 0) {
+                    return ko.utils.unwrapObservable(_this.listViewModel.allData);
+                }
+
+                var result = ko.utils.arrayFilter(ko.utils.unwrapObservable(_this.listViewModel.allData), function (x) {
+                    return (_this.hideClosedItems() && !x.isActive()) ? false : _this.listViewModel.searchPredicate(sf, x);
+                });
+
+                return result;
+            }, this);
+
             this.listViewModel.searchPredicate = function (s, item) {
                 return item.description.indexOf(s) !== -1;
             };
@@ -39,10 +53,10 @@
             this.listViewModel.searchField(s);
         };
 
-        RiskListViewModel.prototype.activate = function (projectIdParam, activeParam) {
+        RiskListViewModel.prototype.activate = function (projectIdParam) {
             var _this = this;
+            debugger;
             this.projectId = projectIdParam;
-            this.activeItems(activeParam);
 
             var getRefData = dataService.getReferenceData().done(function (data) {
                 _this.approaches(data.approaches);
@@ -64,8 +78,8 @@
 
         RiskListViewModel.prototype.refresh = function () {
             var _this = this;
-            return dataService.getProjectRisks(this.projectId, this.activeItems()).done(function (data) {
-                return ko.mapping.fromJS(_this.risks(data), _this._mappingOptions);
+            return dataService.getProjectRisks(this.projectId).done(function (data) {
+                return ko.mapping.fromJS(data, _this._mappingOptions, _this.risks);
             });
         };
         return RiskListViewModel;

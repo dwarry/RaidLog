@@ -16,7 +16,8 @@
         },
         activate: function () {
             router.map([
-                { route: '', title: 'Projects', moduleId: 'viewmodels/projectList', nav: true }
+                { route: '', title: 'Projects', moduleId: 'viewmodels/projectList', nav: true },
+                { route: 'projects/:projectId/risks', title: 'Project Risks', moduleId: 'viewmodels/RiskListViewModel', nav: true },
             ]);
 
             router.buildNavigationModel();

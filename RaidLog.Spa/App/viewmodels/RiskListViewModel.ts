@@ -17,7 +17,7 @@ class RiskListViewModel {
 
     projectName = ko.observable("");
 
-    activeItems = ko.observable(true);
+    hideClosedItems = ko.observable(true);
 
     risks = ko.observableArray<rvm.RiskViewModel>();
 
@@ -45,7 +45,23 @@ class RiskListViewModel {
         };
 
         this.listViewModel = new pg.ListViewModel<rvm.RiskViewModel>(listConfig);
-        
+       
+        this.listViewModel.filteredData = ko.computed(() => {
+            var sf = this.listViewModel.searchField().trim();
+            
+            if (!this.listViewModel.searchPredicate || sf.length === 0) {
+                return ko.utils.unwrapObservable(this.listViewModel.allData);
+            }
+
+            var result = ko.utils.arrayFilter(
+                ko.utils.unwrapObservable(this.listViewModel.allData),
+                x => (this.hideClosedItems() && !x.isActive())
+                     ? false
+                     : this.listViewModel.searchPredicate(sf, x));
+
+            return result;
+        }, this);
+
         this.listViewModel.searchPredicate = (s, item) => item.description.indexOf(s) !== -1;
     }
 
@@ -54,10 +70,10 @@ class RiskListViewModel {
     }
 
 
-    activate(projectIdParam, activeParam){
+    activate(projectIdParam) {
+        debugger;
         this.projectId = projectIdParam;
-        this.activeItems(activeParam);
-
+        
         var getRefData = dataService.getReferenceData().done((data: dataService.ReferenceDataDto) => {
             this.approaches(data.approaches);
             this.impacts(data.impacts);
@@ -77,8 +93,8 @@ class RiskListViewModel {
     }
 
     refresh() {
-        return dataService.getProjectRisks(this.projectId, this.activeItems())
-                          .done((data) => ko.mapping.fromJS(this.risks(data),this._mappingOptions));   
+        return dataService.getProjectRisks(this.projectId)
+            .done((data) => ko.mapping.fromJS(data, this._mappingOptions, this.risks));   
     }
 
 
