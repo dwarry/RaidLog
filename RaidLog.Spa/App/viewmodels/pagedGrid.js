@@ -74,6 +74,8 @@
                 } else {
                     _this.selected(item);
                 }
+
+                return true;
             };
         }
         return ListViewModel;

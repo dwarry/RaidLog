@@ -32,7 +32,7 @@ export interface ImpactDto {
 export interface LikelihoodDto{
     id: number;
     description: string;
-    score: string;
+    score: number;
 }
 
 export interface RifCategoryDto{

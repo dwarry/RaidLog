@@ -194,6 +194,13 @@
       <DependentUpon>logger.ts</DependentUpon>
     </Content>
     <Content Include="App\services\logger.ts" />
+    <Content Include="App\services\routeFactory.js">
+      <DependentUpon>routeFactory.ts</DependentUpon>
+    </Content>
+    <Content Include="App\services\routeFactory.min.js">
+      <DependentUpon>routeFactory.ts</DependentUpon>
+    </Content>
+    <Content Include="App\services\routeFactory.ts" />
     <Content Include="App\viewmodels\EditableViewModel.js">
       <DependentUpon>EditableViewModel.ts</DependentUpon>
     </Content>
@@ -229,6 +236,12 @@
       <DependentUpon>projectList.ts</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\projectList.ts" />
+    <Content Include="App\viewmodels\riskDetails.js">
+      <DependentUpon>riskDetails.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\riskDetails.min.js">
+      <DependentUpon>riskDetails.ts</DependentUpon>
+    </Content>
     <Content Include="App\viewmodels\riskList.js">
       <DependentUpon>riskList.ts</DependentUpon>
     </Content>
@@ -236,20 +249,7 @@
       <DependentUpon>riskList.ts</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\riskList.ts" />
-    <Content Include="App\viewmodels\RiskListViewModel.js">
-      <DependentUpon>RiskListViewModel.ts</DependentUpon>
-    </Content>
-    <Content Include="App\viewmodels\RiskListViewModel.min.js">
-      <DependentUpon>RiskListViewModel.ts</DependentUpon>
-    </Content>
-    <Content Include="App\viewmodels\RiskListViewModel.ts" />
-    <Content Include="App\viewmodels\RiskViewModel.js">
-      <DependentUpon>RiskViewModel.ts</DependentUpon>
-    </Content>
-    <Content Include="App\viewmodels\RiskViewModel.min.js">
-      <DependentUpon>RiskViewModel.ts</DependentUpon>
-    </Content>
-    <Content Include="App\viewmodels\RiskViewModel.ts" />
+    <Content Include="App\viewmodels\riskDetails.ts" />
     <Content Include="App\viewmodels\shell.js">
       <DependentUpon>shell.ts</DependentUpon>
     </Content>
@@ -336,6 +336,7 @@
     <Content Include="Scripts\knockout-2.3.0.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
+    <Content Include="Scripts\knockout.simpleGrid.1.3.js" />
     <Content Include="Scripts\knockout.validation.debug.js" />
     <Content Include="Scripts\knockout.validation.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />

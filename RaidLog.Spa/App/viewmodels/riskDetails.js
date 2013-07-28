@@ -11,7 +11,7 @@
     function impactScore(impactId) {
         var result = 0;
 
-        $.each(this.impacts(), function (i, impact) {
+        $.each(refData.impacts, function (i, impact) {
             if (impact.id === impactId) {
                 result = impact.score;
                 return false;
@@ -25,7 +25,7 @@
     function likelihoodScore(likelihoodId) {
         var result = 0;
 
-        $.each(this.likelihoods, function (i, likelihood) {
+        $.each(refData.likelihoods, function (i, likelihood) {
             if (likelihood.id === likelihoodId) {
                 result = likelihood.score;
                 return false;
@@ -36,8 +36,8 @@
         return result;
     }
 
-    var RiskViewModel = (function () {
-        function RiskViewModel(item, newItemCallback) {
+    var RiskDetails = (function () {
+        function RiskDetails(item, newItemCallback) {
             var _this = this;
             this.newItemCallback = newItemCallback;
             this.projectId = 0;
@@ -97,7 +97,7 @@
                 return _this.id !== 0;
             });
         }
-        RiskViewModel.prototype.updateFromItem = function (item) {
+        RiskDetails.prototype.updateFromItem = function (item) {
             if (item == null) {
                 this.id = 0;
                 this.version = "";
@@ -131,7 +131,7 @@
             }
         };
 
-        RiskViewModel.prototype.saveItem = function () {
+        RiskDetails.prototype.saveItem = function () {
             var _this = this;
             var dto = {
                 description: this.description(),
@@ -162,7 +162,9 @@
                 }
             });
         };
-        return RiskViewModel;
+        return RiskDetails;
     })();
-    exports.RiskViewModel = RiskViewModel;
+
+    
+    return RiskDetails;
 });

@@ -6,7 +6,6 @@
 
 import dataService = module("services/dataService");
 import logger = module("services/logger");
-//import evm = module("EditableViewModel");
 
 var refData: dataService.ReferenceDataDto;
 
@@ -15,7 +14,7 @@ dataService.getReferenceData().done((rd) => { refData = rd; });
 function impactScore(impactId: number):number {
     var result = 0;
 
-    $.each(this.impacts(), (i, impact) => {
+    $.each(refData.impacts, (i, impact) => {
         if (impact.id === impactId) {
             result = impact.score;
             return false;
@@ -29,7 +28,7 @@ function impactScore(impactId: number):number {
 function likelihoodScore(likelihoodId: number): number {
     var result = 0;
 
-    $.each(this.likelihoods, (i, likelihood) => {
+    $.each(refData.likelihoods, (i, likelihood) => {
         if (likelihood.id === likelihoodId) {
             result = likelihood.score;
             return false;
@@ -41,7 +40,7 @@ function likelihoodScore(likelihoodId: number): number {
 }
 
 
-export class RiskViewModel {
+class RiskDetails {
 
 
     projectId: number = 0;
@@ -90,7 +89,7 @@ export class RiskViewModel {
 
     
 
-    constructor(item: dataService.RiskDto, private newItemCallback: (rvm: RiskViewModel) => void) {
+    constructor(item: dataService.RiskDto, private newItemCallback: (rvm: RiskDetails) => void) {
 
         this.score = ko.computed(() => impactScore(this.impactId()) * likelihoodScore(this.likelihoodId()), this);
         
@@ -203,3 +202,5 @@ export class RiskViewModel {
 
 
 }
+
+export = RiskDetails;

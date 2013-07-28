@@ -123,6 +123,8 @@ export class ListViewModel<T>{
             else {
                 this.selected(item);
             }
+
+            return true;
         };
 
     }

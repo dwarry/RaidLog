@@ -8,14 +8,17 @@
 /// <reference path='../../Scripts/typings/durandal/durandal.d.ts' />
 
 import dataService = require("services/dataService");
+import routeFactory = require("services/routeFactory");
+import router = require("plugins/router");
 //import ko = require("knockout")
 import pg = require("viewmodels/pagedGrid");
 import maintainProject = require("viewmodels/maintainProject");
 
+
 class projectList {
     
     title = "Projects"; 
-    
+     
     projects = ko.observableArray<dataService.ProjectSummaryWithCounts>();
 
     
@@ -43,6 +46,13 @@ class projectList {
 
     refresh() {
         dataService.getProjects().done((data: dataService.ProjectSummaryWithCounts[]) => {
+            $.each(data, function (i, x) {
+                x['projectRisksLink'] = routeFactory.makeProjectRiskLink(x.id);
+                x['projectAssumptionsLink'] = routeFactory.makeProjectAssumptionLink(x.id);
+                x['projectIssuesLink'] = routeFactory.makeProjectIssueLink(x.id);
+                x['projectDependenciesLink'] = routeFactory.makeProjectDependencyLink(x.id);
+                x['projectQueriesLink'] = routeFactory.makeProjectQueryLink(x.id);
+            });
             this.projects(data);
             this.listViewModel.setSelected(null);
         });
@@ -72,7 +82,9 @@ class projectList {
     
     }
 
-
+    viewRisks(p) {
+        router.navigateTo(p.projectRisksLink);
+    }
 }
 
 export = projectList;
