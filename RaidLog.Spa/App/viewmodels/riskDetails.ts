@@ -62,7 +62,7 @@ class RiskDetails {
 
     workstream = ko.observable("").extend({ required: true, maxLength: 50 });
 
-    commentary = ko.observable("").extend({ required: true, maxLength: 2048 });
+    commentary = ko.observable("").extend({ maxLength: 2048 });
     
     approachId = ko.observable<number>(null).extend({ required: true });
 
@@ -70,7 +70,7 @@ class RiskDetails {
 
     likelihoodId = ko.observable<number>(null).extend({ required: true });
 
-    owner = ko.observable("").extend({ required: true, maxLength: 50 });
+    owner = ko.observable("").extend({ maxLength: 50 });
 
     isActive = ko.observable(true);
     
@@ -153,7 +153,7 @@ class RiskDetails {
             this.version = item.version;
             this.riskNumber(item.riskNumber);
             this.description(item.description);
-            this.raisedDate(item.raisedDate);
+            this.raisedDate(item.raisedDate.substring(0,10));
             this.raisedBy(item.raisedBy);
             this.rifCategoryId(item.rifCategoryId);
             this.isProjectRisk(item.isProjectRisk);

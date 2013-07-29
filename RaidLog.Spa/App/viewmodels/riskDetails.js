@@ -48,11 +48,11 @@
             this.rifCategoryId = ko.observable().extend({ required: true });
             this.isProjectRisk = ko.observable(true);
             this.workstream = ko.observable("").extend({ required: true, maxLength: 50 });
-            this.commentary = ko.observable("").extend({ required: true, maxLength: 2048 });
+            this.commentary = ko.observable("").extend({ maxLength: 2048 });
             this.approachId = ko.observable(null).extend({ required: true });
             this.impactId = ko.observable(null).extend({ required: true });
             this.likelihoodId = ko.observable(null).extend({ required: true });
-            this.owner = ko.observable("").extend({ required: true, maxLength: 50 });
+            this.owner = ko.observable("").extend({ maxLength: 50 });
             this.isActive = ko.observable(true);
             this.score = ko.computed(function () {
                 return impactScore(_this.impactId()) * likelihoodScore(_this.likelihoodId());
@@ -118,7 +118,7 @@
                 this.version = item.version;
                 this.riskNumber(item.riskNumber);
                 this.description(item.description);
-                this.raisedDate(item.raisedDate);
+                this.raisedDate(item.raisedDate.substring(0, 10));
                 this.raisedBy(item.raisedBy);
                 this.rifCategoryId(item.rifCategoryId);
                 this.isProjectRisk(item.isProjectRisk);
