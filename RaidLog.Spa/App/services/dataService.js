@@ -98,32 +98,36 @@
     }
     exports.getProject = getProject;
 
-    function getProjectRisks(id, active) {
-        return $.getJSON("/api/project/" + id + "/risks/", { active: active });
+    function getProjectRisks(id) {
+        return $.getJSON("/api/project/" + id + "/risks/").done(function (data) {
+            return logger.logSuccess("Retrieved Project Risks", data, MODULE_NAME, true);
+        }).fail(function (jqxhr, status, ex) {
+            return logger.logError("Error retrieving Project Risks", jqxhr, MODULE_NAME, true);
+        });
     }
     exports.getProjectRisks = getProjectRisks;
     ;
 
-    function getProjectAssumptions(id, active) {
-        return $.getJSON("/api/project/" + id + "/assumptions/", { active: active });
+    function getProjectAssumptions(id) {
+        return $.getJSON("/api/project/" + id + "/assumptions/");
     }
     exports.getProjectAssumptions = getProjectAssumptions;
     ;
 
-    function getProjectIssues(id, active) {
-        return $.getJSON("/api/project/" + id + "/issues/", { active: active });
+    function getProjectIssues(id) {
+        return $.getJSON("/api/project/" + id + "/issues/");
     }
     exports.getProjectIssues = getProjectIssues;
     ;
 
-    function getProjectDependencies(id, active) {
-        return $.getJSON("/api/project/" + id + "/dependencies/", { active: active });
+    function getProjectDependencies(id) {
+        return $.getJSON("/api/project/" + id + "/dependencies/");
     }
     exports.getProjectDependencies = getProjectDependencies;
     ;
 
-    function getProjectQueries(id, active) {
-        return $.getJSON("/api/project/" + id + "/queries/", { active: active });
+    function getProjectQueries(id) {
+        return $.getJSON("/api/project/" + id + "/queries/");
     }
     exports.getProjectQueries = getProjectQueries;
     ;

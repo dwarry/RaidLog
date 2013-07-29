@@ -272,32 +272,34 @@ export function getProject(id: number): JQueryPromise<ProjectDto>{
 }
 // id - project id
 // active - true for open risks, false for closed, null for both.
-export function getProjectRisks(id : number, active? : boolean):JQueryPromise<RiskDto[]> {
-    return $.getJSON("/api/project/" + id + "/risks/", { active: active });
+export function getProjectRisks(id : number):JQueryPromise<RiskDto[]> {
+    return $.getJSON("/api/project/" + id + "/risks/")
+        .done(data => logger.logSuccess("Retrieved Project Risks", data, MODULE_NAME, true))
+        .fail((jqxhr,status,ex) => logger.logError("Error retrieving Project Risks", jqxhr,MODULE_NAME, true));
 };
 
 // id - project id
 // active - true for open risks, false for closed, null for both.
-export function getProjectAssumptions(id: number, active?:boolean): JQueryPromise<AssumptionDto[]> {
-    return $.getJSON("/api/project/" + id + "/assumptions/", { active: active });
+export function getProjectAssumptions(id: number): JQueryPromise<AssumptionDto[]> {
+    return $.getJSON("/api/project/" + id + "/assumptions/");
 };
 
 // id - project id
 // active - true for open risks, false for closed, null for both.
-export function getProjectIssues(id:number, active?:boolean): JQueryPromise<IssueDto[]> {
-    return $.getJSON("/api/project/" + id + "/issues/", { active: active });
+export function getProjectIssues(id:number): JQueryPromise<IssueDto[]> {
+    return $.getJSON("/api/project/" + id + "/issues/");
 };
 
 // id - project id
 // active - true for open risks, false for closed, null for both.
-export function getProjectDependencies(id:number, active?:boolean): JQueryPromise<DependencyDto[]> {
-    return $.getJSON("/api/project/" + id + "/dependencies/", { active: active });
+export function getProjectDependencies(id:number): JQueryPromise<DependencyDto[]> {
+    return $.getJSON("/api/project/" + id + "/dependencies/");
 };
 
 // id - project id
 // active - true for open risks, false for closed, null for both.
-export function getProjectQueries(id:number, active?:boolean): JQueryPromise <QueryDto[] > {
-    return $.getJSON("/api/project/" + id + "/queries/", { active: active });
+export function getProjectQueries(id:number): JQueryPromise <QueryDto[] > {
+    return $.getJSON("/api/project/" + id + "/queries/");
 };
 
 

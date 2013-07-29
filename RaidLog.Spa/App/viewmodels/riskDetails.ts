@@ -43,7 +43,6 @@ function likelihoodScore(likelihoodId: number): number {
 class RiskDetails {
 
 
-    projectId: number = 0;
 
     id: number;
 
@@ -89,7 +88,9 @@ class RiskDetails {
 
     
 
-    constructor(item: dataService.RiskDto, private newItemCallback: (rvm: RiskDetails) => void) {
+    constructor(item: dataService.RiskDto,
+        private projectId: number, 
+        private newItemCallback: (rvm: RiskDetails) => void ) {
 
         this.score = ko.computed(() => impactScore(this.impactId()) * likelihoodScore(this.likelihoodId()), this);
         

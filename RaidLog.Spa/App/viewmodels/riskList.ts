@@ -19,7 +19,7 @@ class riskList {
 
     hideClosedItems = ko.observable(true);
 
-    risks = ko.observableArray<rvm.RiskViewModel>();
+    risks = ko.observableArray<rvm.RiskViewModel>([]);
 
     approaches = ko.observableArray<dataService.ApproachDto>();
 
@@ -41,6 +41,7 @@ class riskList {
             key: (data) => data.id,
             create: (options: KnockoutMappingCreateOptions) =>
                 new rvm(<dataService.RiskDto>options.data,
+                    this.projectId,
                     (newItem: rvm) => { this.listViewModel.allData.push(newItem); }),
         };
 
@@ -71,7 +72,7 @@ class riskList {
 
 
     activate(projectIdParam) {
-        debugger;
+        
         this.projectId = projectIdParam;
         
         var getRefData = dataService.getReferenceData().done((data: dataService.ReferenceDataDto) => {

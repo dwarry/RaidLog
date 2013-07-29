@@ -37,10 +37,10 @@
     }
 
     var RiskDetails = (function () {
-        function RiskDetails(item, newItemCallback) {
+        function RiskDetails(item, projectId, newItemCallback) {
             var _this = this;
+            this.projectId = projectId;
             this.newItemCallback = newItemCallback;
-            this.projectId = 0;
             this.riskNumber = ko.observable(0);
             this.description = ko.observable("").extend({ required: true, maxLength: 2048 });
             this.raisedDate = ko.observable(moment().local().format("YYYY-MM-DD")).extend({ required: true, dateISO: true });

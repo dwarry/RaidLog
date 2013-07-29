@@ -120,8 +120,8 @@
                 ko.removeNode(element.firstChild);
 
             // Allow the default templates to be overridden
-            var gridTemplateName = allBindings.simpleGridTemplate || "ko_simpleGrid_grid",
-                pageLinksTemplateName = allBindings.simpleGridPagerTemplate || "ko_simpleGrid_pageLinks";
+            var gridTemplateName = allBindings.pagedGridTemplate || "ko_simpleGrid_grid",
+                pageLinksTemplateName = allBindings.pagedGridPagerTemplate || "ko_simpleGrid_pageLinks";
 
             // Render the main grid
             var gridContainer = element.appendChild(document.createElement("DIV"));

@@ -33,8 +33,8 @@ ko.bindingHandlers['pagedGrid'] = {
 
             
             // Allow the default templates to be overridden
-            var gridTemplate = allBindings.gridTemplateName || "ko_simpleGrid_grid",
-                pageLinksTemplate = allBindings.pagerTemplateName || "ko_simpleGrid_pageLinks";
+            var gridTemplate = allBindings.pagedGridTemplate || "ko_simpleGrid_grid",
+                pageLinksTemplate = allBindings.pagedGridPagerTemplate || "ko_simpleGrid_pageLinks";
 
             // Empty the element
             while (element.firstChild)

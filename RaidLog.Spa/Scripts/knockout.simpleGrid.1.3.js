@@ -49,62 +49,6 @@
         document.write("<script type='text/html' id='" + templateName + "'>" + templateMarkup + "<" + "/script>");
     };
 
-    templateEngine.addTemplate("ko_simpleGrid_grid", "\
-                    <table class=\"ko-grid\" cellspacing=\"0\">\
-                        <thead>\
-                            <tr data-bind=\"foreach: columns\">\
-                               <th data-bind=\"text: headerText\"></th>\
-                            </tr>\
-                        </thead>\
-                        <tbody data-bind=\"foreach: itemsOnCurrentPage\">\
-                           <tr data-bind=\"foreach: $parent.columns\">\
-                               <td data-bind=\"text: typeof rowText == 'function' ? rowText($parent) : $parent[rowText] \"></td>\
-                            </tr>\
-                        </tbody>\
-                    </table>");
-    templateEngine.addTemplate("ko_simpleGrid_pageLinks", "\
-                    <div class=\"ko-grid-pageLinks\">\
-                        <span>Page:</span>\
-                        <!-- ko foreach: ko.utils.range(0, maxPageIndex) -->\
-                               <a href=\"#\" data-bind=\"text: $data + 1, click: function() { $root.currentPageIndex($data) }, css: { selected: $data == $root.currentPageIndex() }\">\
-                            </a>\
-                        <!-- /ko -->\
-                    </div>");
-
-    templateEngine.addTemplate("riskListTemplate", "<table id='riskTable' class='table table-bordered table-condensed table-striped'>\
-            <thead>\
-                <tr>\
-                    <th>#</th>\
-                    <th>Description</th>\
-                    <th>Score</th>\
-                </tr>\
-            </thead>\
-            <tbody data-bind='foreach: itemsOnCurrentPage'>\
-                <tr data-bind='css:{listSelection:$root.selected() == $data}'>\
-                    <td data-bind='text: riskNumber'></td>\
-                    <td data-bind='text: description'></td>\
-                    <td data-bind='text: score, css: rag'></td>\
-                </tr>\
-            </tbody>\
-        </table>");
-
-    templateEngine.addTemplate("assumptionListTemplate", "<table id='assumptionTable' class='table table-bordered table-condensed table-striped'>\
-            <thead>\
-                <tr>\
-                    <th>#</th>\
-                    <th>Description</th>\
-                    <th>Status</th>\
-                </tr>\
-            </thead>\
-            <tbody data-bind='foreach: itemsOnCurrentPage'>\
-                <tr data-bind='css:{listSelection:$root.selected() == $data}'>\
-                    <td data-bind='text: assumptionNumber'></td>\
-                    <td data-bind='text: description'></td>\
-                    <td data-bind='text: status'></td>\
-                </tr>\
-            </tbody>\
-        </table>");
-
 
     // The "simpleGrid" binding
     ko.bindingHandlers.simpleGrid = {

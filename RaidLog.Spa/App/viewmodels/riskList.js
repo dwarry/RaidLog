@@ -11,7 +11,7 @@
             this.projectCode = ko.observable("");
             this.projectName = ko.observable("");
             this.hideClosedItems = ko.observable(true);
-            this.risks = ko.observableArray();
+            this.risks = ko.observableArray([]);
             this.approaches = ko.observableArray();
             this.impacts = ko.observableArray();
             this.likelihoods = ko.observableArray();
@@ -23,7 +23,7 @@
                     return data.id;
                 },
                 create: function (options) {
-                    return new rvm(options.data, function (newItem) {
+                    return new rvm(options.data, _this.projectId, function (newItem) {
                         _this.listViewModel.allData.push(newItem);
                     });
                 }
@@ -55,7 +55,6 @@
 
         riskList.prototype.activate = function (projectIdParam) {
             var _this = this;
-            debugger;
             this.projectId = projectIdParam;
 
             var getRefData = dataService.getReferenceData().done(function (data) {

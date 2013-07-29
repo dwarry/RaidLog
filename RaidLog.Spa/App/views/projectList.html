@@ -7,7 +7,7 @@
     </div></h2>
     <br />
     <div class="row-fluid">
-        <div class="span10 offset1" data-bind="pagedGrid:listViewModel,gridTemplateName:'projectListTemplate'"></div>
+        <div class="span10 offset1" data-bind="pagedGrid:listViewModel,pagedGridTemplate:'projectListTemplate'"></div>
     </div>
 </section>
 
@@ -25,8 +25,8 @@
 
             </tr>
         </thead>
-        <tbody data-bind="foreach:filteredData">
-            <tr data-bind="click:$parent.setSelected, clickBubble:false, css:{selected:$data===$parent.selected()}">
+        <tbody data-bind="foreach:itemsOnCurrentPage">
+            <tr data-bind="click:$parent.setSelected, css:{selected:$data===$parent.selected()}">
                 <td data-bind="text: $data.code"></td>
                 <td data-bind="text: $data.name"></td>
                 <td>

@@ -5,13 +5,13 @@
             <button class="btn" data-bind="click:newRisk"><i class="icon-plus-sign icon-white"></i> Add New Risk</button>
             <button class="btn" data-bind="click:refresh"><i class="icon-refresh icon-white"></i> Refresh</button>
         </div>
-        <div id="riskListContainer" data-bind="simpleGrid:risks,simpleGridTemplate:riskListTemplate">
+        <div id="riskListContainer" data-bind="pagedGrid:listViewModel,pagedGridTemplate:'riskListTemplate'">
         </div>
-        <h2 data-bind="visible:risks.data().length == 0" class="alert alert-info">No Risks</h2>
+        <h2 data-bind="visible:listViewModel.filteredData().length == 0" class="alert alert-info">No Risks</h2>
     </div>
     
     
-    <div class='span6 well' data-bind='with: risks.selected, visible: $data != null, validationOptions: {insertMessages:true,errorMessageClass:""}'>
+    <div class='span6 well' data-bind='with: listViewModel.selected, visible: $data != null, validationOptions: {insertMessages:true,errorMessageClass:""}'>
         <form class="form-horizontal">
             <!-- Description -->
             <div class="control-group">
@@ -31,7 +31,7 @@ leading to ...</textarea>
                     Raised By
                 
                     <input id="raisedBy" name="raisedBy" type="text" placeholder="Some User"
-                           data-bind="value: raisedBy, enabled:id() === 0"
+                           data-bind="value: raisedBy, enabled:id === 0"
                            class="input-xlarge" required="required">
                 </div>
             </div>
@@ -114,3 +114,24 @@ leading to ...</textarea>
         </form>
     </div>
 </div>
+
+
+<script id="riskListTemplate" type="text/html">
+    <table class='table table-bordered table-condensed table-striped'>
+        <thead>
+          <tr>
+            <th>#<th>
+            <th>Description<th>
+            <th>Score<th>
+          <tr>
+        <thead>
+        <tbody data-bind='foreach: itemsOnCurrentPage'>
+          <tr data-bind='click: $parent.setSelected, css: { selected: $data === $parent.selected() }'>
+            <td data-bind='text: riskNumber'><td>
+            <td data-bind='text: description'><td>
+            <td data-bind='text: score, css: rag'><td>
+          <tr>
+        </tbody>
+    </table>
+</script>
+      
