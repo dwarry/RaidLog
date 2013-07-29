@@ -26,7 +26,7 @@ leading to ...</textarea>
             <div class="control-group">
                 <label class="control-label" for="raisedDate">Raised On</label>
                 <div class="controls">
-                    <input id="raisedDate" name="raisedDate" type="text" placeholder="yyyy-mm-dd" class="input-small" required="required" data-bind="value: raisedDate, enabled: id() === 0">
+                    <input id="raisedDate" name="raisedDate" type="text" placeholder="yyyy-mm-dd" class="input-small" required="required" data-bind="value: raisedDate, enabled: id === 0">
                 
                     Raised By
                 
@@ -120,17 +120,17 @@ leading to ...</textarea>
     <table class='table table-bordered table-condensed table-striped'>
         <thead>
           <tr>
-            <th>#<th>
-            <th>Description<th>
-            <th>Score<th>
-          <tr>
-        <thead>
+            <th>#</th>
+            <th>Description</th>
+            <th>Score</th>
+          </tr>
+        </thead>
         <tbody data-bind='foreach: itemsOnCurrentPage'>
           <tr data-bind='click: $parent.setSelected, css: { selected: $data === $parent.selected() }'>
-            <td data-bind='text: riskNumber'><td>
-            <td data-bind='text: description'><td>
-            <td data-bind='text: score, css: rag'><td>
-          <tr>
+            <td data-bind='text: riskNumber'></td>
+            <td data-bind='text: description'></td>
+            <td data-bind='text: score, css: rag'></td>
+          </tr>
         </tbody>
     </table>
 </script>
