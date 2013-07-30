@@ -1,0 +1,4 @@
+﻿class IssueList{
+}
+
+export = IssueList;
