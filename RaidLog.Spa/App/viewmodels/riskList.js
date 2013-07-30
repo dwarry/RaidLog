@@ -46,7 +46,8 @@
             }, this);
 
             this.listViewModel.searchPredicate = function (s, item) {
-                return item.description.indexOf(s) !== -1;
+                var desc = item.description();
+                return desc && desc.indexOf(s) !== -1;
             };
         }
         riskList.prototype.search = function (s) {

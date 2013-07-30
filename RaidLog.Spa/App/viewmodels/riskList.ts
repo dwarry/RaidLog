@@ -63,7 +63,10 @@ class riskList {
             return result;
         }, this);
 
-        this.listViewModel.searchPredicate = (s, item) => item.description.indexOf(s) !== -1;
+        this.listViewModel.searchPredicate = (s, item) => {
+            var desc = item.description();
+            return desc && desc.indexOf(s) !== -1;
+        };
     }
 
     search(s: string) {
