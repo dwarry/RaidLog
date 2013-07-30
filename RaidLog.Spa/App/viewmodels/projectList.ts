@@ -38,7 +38,7 @@ class projectList {
 
         this.canEditProject = this.canArchiveProject = ko.computed(function () { return this.listViewModel.selected() !== null }, this);
     }
-
+       
     activate() {
         this.refresh();
 

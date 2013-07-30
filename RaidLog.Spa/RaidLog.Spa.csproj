@@ -391,6 +391,7 @@
     <Content Include="Scripts\text.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Scripts\typings\bootstrap.datepicker\bootstrap.datepicker.d.ts" />
     <Content Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
     <Content Include="Scripts\typings\durandal\durandal.d.ts" />
     <Content Include="Scripts\typings\jquery\jquery.d.ts" />
