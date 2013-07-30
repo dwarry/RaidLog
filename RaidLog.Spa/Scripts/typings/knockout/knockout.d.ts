@@ -87,6 +87,7 @@ interface KnockoutObservableArray<T> extends KnockoutObservableArrayFunctions<T>
     (): T[];
     (value: T[]): void;
 
+    getSubscriptionsCount(): number;
     subscribe(callback: (newValue: T[]) => void, target?:any, topic?: string): KnockoutSubscription;
     notifySubscribers(valueToWrite: T[], topic?: string);
 }
