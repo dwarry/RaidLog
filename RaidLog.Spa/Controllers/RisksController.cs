@@ -180,6 +180,7 @@ namespace RaidLog.Controllers
                         result = args.Get<int>("returnValue");
                         tx.Commit();
                     }
+
                     if (result == 0)
                     {
                         RiskDto dto = null;

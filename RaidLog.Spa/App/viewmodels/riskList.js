@@ -16,7 +16,7 @@
             this.impacts = ko.observableArray();
             this.likelihoods = ko.observableArray();
             this.rifCategories = ko.observableArray();
-            var listConfig = { data: this.risks };
+            var listConfig = { data: this.risks, pageSize: 12 };
 
             this._mappingOptions = {
                 key: function (data) {
@@ -84,7 +84,7 @@
         };
 
         riskList.prototype.newRisk = function () {
-            this.listViewModel.selected(dataService.makeRiskDto());
+            this.listViewModel.selected(ko.mapping.fromJS(dataService.makeRiskDto(), this._mappingOptions));
         };
         return riskList;
     })();

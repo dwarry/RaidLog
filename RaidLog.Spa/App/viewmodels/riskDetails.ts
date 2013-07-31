@@ -191,8 +191,6 @@ class RiskDetails {
             dto['version'] = this.version;       
         }
 
-        debugger;
-
         return dataService.saveRisk(this.projectId, dto).done(
             (data) => {
                 this.updateFromItem(data);

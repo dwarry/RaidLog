@@ -4,10 +4,10 @@
 /// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
 
 import md = module("MasterDetailViewModel");
-import rvm = module("./riskDetails");
-import dataService = module("services/dataService");
-import logger = module("services/logger");
-import pg = module("./pagedGrid");
+import rvm = require("./riskDetails");
+import dataService = require("services/dataService");
+import logger = require("services/logger");
+import pg = require("./pagedGrid");
 
 class riskList {
 
@@ -35,7 +35,7 @@ class riskList {
 
 
     constructor() {
-        var listConfig = { data: this.risks };
+        var listConfig = { data: this.risks, pageSize:12 };
 
         this._mappingOptions = {
             key: (data) => data.id,
@@ -102,7 +102,8 @@ class riskList {
     }
 
     newRisk() {
-        this.listViewModel.selected(dataService.makeRiskDto());
+        this.listViewModel.selected(
+            ko.mapping.fromJS(dataService.makeRiskDto(), this._mappingOptions));
     }
 }
 

@@ -101,9 +101,9 @@ export interface RiskDto{
 
 export function makeRiskDto(): RiskDto {
     return {
-        id: null,
-        version: null,
-        riskNumber: null,
+        id: 0,
+        version: "",
+        riskNumber: 0,
         description: "",
         raisedDate: moment().format("YYYY-MM-DD"),
         raisedBy: "",

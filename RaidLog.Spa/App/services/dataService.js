@@ -1,9 +1,9 @@
 ﻿define(["require", "exports", "services/logger", "plugins/http"], function(require, exports, __logger__, __http__) {
     function makeRiskDto() {
         return {
-            id: null,
-            version: null,
-            riskNumber: null,
+            id: 0,
+            version: "",
+            riskNumber: 0,
             description: "",
             raisedDate: moment().format("YYYY-MM-DD"),
             raisedBy: "",

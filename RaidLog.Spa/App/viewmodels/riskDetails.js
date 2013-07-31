@@ -162,8 +162,6 @@
                 dto['version'] = this.version;
             }
 
-            debugger;
-
             return dataService.saveRisk(this.projectId, dto).done(function (data) {
                 _this.updateFromItem(data);
 
