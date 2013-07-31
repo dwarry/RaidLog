@@ -74,8 +74,6 @@ class RiskDetails {
 
     isActive = ko.observable(true);
     
-    isNewItem: KnockoutComputed<bool>;
-
     validation: KnockoutValidatedObservable;
 
     score: KnockoutComputer<number>;
@@ -130,6 +128,10 @@ class RiskDetails {
         this.canDelete = ko.computed<boolean>(() => this.id !== 0);
     }
 
+    get isNewItem(): bool {
+        return this.id === 0;
+    } 
+
     updateFromItem(item: dataService.RiskDto) {
         
         if (item == null) {
@@ -182,12 +184,14 @@ class RiskDetails {
             owner: this.owner()
         };
 
-        var isNewItem = this.isNewItem();
+        var isNewItem = this.isNewItem;
 
         if (!isNewItem) {
             dto['id'] = this.id;
             dto['version'] = this.version;       
         }
+
+        debugger;
 
         return dataService.saveRisk(this.projectId, dto).done(
             (data) => {

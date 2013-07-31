@@ -177,6 +177,7 @@ namespace RaidLog.Controllers
                                                 tx,
                                                 commandType: CommandType.StoredProcedure);
 
+                        result = args.Get<int>("returnValue");
                         tx.Commit();
                     }
                     if (result == 0)

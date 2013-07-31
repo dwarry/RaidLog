@@ -98,11 +98,11 @@ class riskList {
 
     refresh() {
         return dataService.getProjectRisks(this.projectId)
-            .done((data) => ko.mapping.fromJS(data, this._mappingOptions, this.risks));   
+            .done((data) => { ko.mapping.fromJS(data, this._mappingOptions, this.risks); } );   
     }
 
     newRisk() {
-    
+        this.listViewModel.selected(dataService.makeRiskDto());
     }
 }
 

@@ -79,11 +79,12 @@
         riskList.prototype.refresh = function () {
             var _this = this;
             return dataService.getProjectRisks(this.projectId).done(function (data) {
-                return ko.mapping.fromJS(data, _this._mappingOptions, _this.risks);
+                ko.mapping.fromJS(data, _this._mappingOptions, _this.risks);
             });
         };
 
         riskList.prototype.newRisk = function () {
+            this.listViewModel.selected(dataService.makeRiskDto());
         };
         return riskList;
     })();

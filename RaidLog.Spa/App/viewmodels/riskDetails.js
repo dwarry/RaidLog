@@ -97,6 +97,14 @@
                 return _this.id !== 0;
             });
         }
+        Object.defineProperty(RiskDetails.prototype, "isNewItem", {
+            get: function () {
+                return this.id === 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
         RiskDetails.prototype.updateFromItem = function (item) {
             if (item == null) {
                 this.id = 0;
@@ -147,12 +155,14 @@
                 owner: this.owner()
             };
 
-            var isNewItem = this.isNewItem();
+            var isNewItem = this.isNewItem;
 
             if (!isNewItem) {
                 dto['id'] = this.id;
                 dto['version'] = this.version;
             }
+
+            debugger;
 
             return dataService.saveRisk(this.projectId, dto).done(function (data) {
                 _this.updateFromItem(data);
