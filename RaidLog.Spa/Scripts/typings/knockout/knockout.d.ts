@@ -1,4 +1,4 @@
-// Type definitions for Knockout 2.2
+// Type definitions for Knockout 2.3
 // Project: http://knockoutjs.com
 // Definitions by: Boris Yankov <https://github.com/borisyankov/>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
@@ -15,6 +15,7 @@ interface KnockoutSubscribableFunctions {
 
 interface KnockoutComputedFunctions extends KnockoutSubscribableFunctions {
     getDependenciesCount(): number;
+    getSubscriptionsCount(): number;
     hasWriteFunction(): boolean;
 }
 
@@ -86,6 +87,7 @@ interface KnockoutObservableArray<T> extends KnockoutObservableArrayFunctions<T>
     (): T[];
     (value: T[]): void;
 
+    getSubscriptionsCount(): number;
     subscribe(callback: (newValue: T[]) => void, target?:any, topic?: string): KnockoutSubscription;
     notifySubscribers(valueToWrite: T[], topic?: string);
 }
@@ -256,6 +258,8 @@ interface KnockoutUtils {
     arrayFilter(array: any[], predicate: (item) => boolean): any[];
 
     arrayPushAll(array: any[], valuesToPush: any[]): any[];
+    
+    arrayPushAll(array: KnockoutObservableArray<any>, valuesToPush: any[]): any[];
 
     extend(target, source);
 
@@ -287,7 +291,7 @@ interface KnockoutUtils {
 
     triggerEvent(element: any, eventType: any): void;
 
-    unwrapObservable(value: any): any;
+    unwrapObservable<T>(value: KnockoutObservable<T>): T;
 
     toggleDomNodeCssClass(node: any, className: string, shouldHaveClass: boolean): void;
 
@@ -399,6 +403,7 @@ interface KnockoutStatic {
     cleanNode(node: Element);
     renderTemplate(template: Function, viewModel: any, options?: any, target?: any, renderMode?: any);
     renderTemplate(template: string, viewModel: any, options?: any, target?: any, renderMode?: any);
+    unwrap(value: any): any;
 
     //////////////////////////////////
     // templateSources.js

@@ -14,8 +14,11 @@ export interface PagedGridColumns {
     rowText: any;
 }
 
-interface KnockoutBindingHandlers {
-    pagedGrid: KnockoutBindingHandler;
+// Hmmm. Still need to work out how to do this 'properly'...
+module Knockout {
+    interface KnockoutBindingHandlers {
+        pagedGrid: KnockoutBindingHandler;
+    }
 }
 
 var templateEngine = new ko.nativeTemplateEngine();
@@ -30,8 +33,8 @@ ko.bindingHandlers['pagedGrid'] = {
 
             
             // Allow the default templates to be overridden
-            var gridTemplate = allBindings.gridTemplateName || "ko_simpleGrid_grid",
-                pageLinksTemplate = allBindings.pagerTemplateName || "ko_simpleGrid_pageLinks";
+            var gridTemplate = allBindings.pagedGridTemplate || "ko_simpleGrid_grid",
+                pageLinksTemplate = allBindings.pagedGridPagerTemplate || "ko_simpleGrid_pageLinks";
 
             // Empty the element
             while (element.firstChild)
@@ -120,6 +123,8 @@ export class ListViewModel<T>{
             else {
                 this.selected(item);
             }
+
+            return true;
         };
 
     }

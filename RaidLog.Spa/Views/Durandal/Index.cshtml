@@ -34,29 +34,6 @@
         @Scripts.Render("~/Scripts/static")
         <script type="text/javascript" src="~/Scripts/require.js" data-main="App/main"></script>
         
-        <!-- Templates for the pagedGrid binding -->
-        <script id="ko_simpleGrid_grid" type="text/html">
-<table class="ko-grid" cellspacing="0">
-    <thead>
-        <tr data-bind="foreach: columns">
-           <th data-bind="text: headerText"></th>
-        </tr>
-    </thead>
-    <tbody data-bind="foreach: itemsOnCurrentPage">
-       <tr data-bind="foreach: $parent.columns">
-           <td data-bind="text: typeof rowText == 'function' ? rowText($parent) : $parent[rowText] "></td>
-        </tr>
-    </tbody>
-</table>  
-        </script>
-        <script id="ko_simpleGrid_pageLinks" type="text/html">
-<div class="ko_grid_pageLinks" data-bind="visible:maxPageIndex > 0">
-    <span>Page:</span>
-    <!-- ko foreach: ko.utils.range(0, maxPageIndex) -->
-    <a href="#" data-bind="text: $data + 1, click: function() { $root.currentPageIndex($data) }, css: { selected: $data == $root.currentPageIndex() }">
-    </a>
-    <!-- /ko -->
-</div>
-        </script>
+      
     </body>
 </html>

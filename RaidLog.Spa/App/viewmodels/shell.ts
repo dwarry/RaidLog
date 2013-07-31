@@ -5,6 +5,7 @@
 
 import router = require("plugins/router");
 import ko = require("knockout");
+import routeFactory = module("services/routeFactory");
 
 var shell = {
     router: router,
@@ -19,13 +20,7 @@ var shell = {
         }
     },
     activate: function () {
-        router.map([
-            { route: '', title: 'Projects', moduleId: 'viewmodels/projectList', nav: true },
-        ]);
-
-        router.buildNavigationModel();
-
-        return router.activate('');
+        return routeFactory.initializeRouter();
     }
 };
 

@@ -8,7 +8,7 @@
         update: function (element, viewModelAccessor, allBindingsAccessor) {
             var viewModel = viewModelAccessor(), allBindings = allBindingsAccessor();
 
-            var gridTemplate = allBindings.gridTemplateName || "ko_simpleGrid_grid", pageLinksTemplate = allBindings.pagerTemplateName || "ko_simpleGrid_pageLinks";
+            var gridTemplate = allBindings.pagedGridTemplate || "ko_simpleGrid_grid", pageLinksTemplate = allBindings.pagedGridPagerTemplate || "ko_simpleGrid_pageLinks";
 
             while (element.firstChild)
                 ko.removeNode(element.firstChild);
@@ -74,6 +74,8 @@
                 } else {
                     _this.selected(item);
                 }
+
+                return true;
             };
         }
         return ListViewModel;

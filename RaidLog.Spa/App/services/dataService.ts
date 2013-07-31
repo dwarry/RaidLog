@@ -1,5 +1,6 @@
 ﻿/// <reference path='../../Scripts/typings/jquery/jquery.d.ts' />
 /// <reference path='../../Scripts/typings/requirejs/require.d.ts' />
+/// <reference path='../../Scripts/typings/moment/moment.d.ts' />
 /// <reference path='../../Scripts/typings/knockout/knockout.amd.d.ts' />
 /// <reference path='../../Scripts/typings/knockout/knockout.d.ts' />
 /// <reference path='../../Scripts/typings/knockout.mapping/knockout.mapping.d.ts' />
@@ -31,7 +32,7 @@ export interface ImpactDto {
 export interface LikelihoodDto{
     id: number;
     description: string;
-    score: string;
+    score: number;
 }
 
 export interface RifCategoryDto{
@@ -48,14 +49,14 @@ export interface ReferenceDataDto{
 }
 
 
-export interface Project {
+export interface ProjectDto {
     id: number;
     version: string;
     code: string;
     name: string;
 }
 
-export interface ProjectSummaryWithCounts extends Project{
+export interface ProjectSummaryWithCounts extends ProjectDto {
     activeRisks: number;
     activeAssumptions: number;
     activeIssues: number;
@@ -68,18 +69,186 @@ export interface ProjectSummaryWithCounts extends Project{
     closedQueries: number;
 }
 
-import http = require("plugins/http");
+export interface RiskDto{
+    id: number;
+
+    version: string;
+
+    riskNumber: number;
+
+    description: string;
+
+    raisedDate: string;
+
+    raisedBy: string;
+
+    rifCategoryId: number;
+
+    isProjectRisk: boolean;
+
+    workstream: string;
+
+    commentary: string;
+
+    approachId: number;
+
+    impactId: number;
+
+    likelihoodId: number;
+
+    owner: string;
+}
+
+export function makeRiskDto(): RiskDto {
+    return {
+        id: 0,
+        version: "",
+        riskNumber: 0,
+        description: "",
+        raisedDate: moment().format("YYYY-MM-DD"),
+        raisedBy: "",
+        rifCategoryId: null,
+        isProjectRisk: true,
+        workstream: "",
+        commentary: "",
+        approachId: null,
+        impactId: null,
+        likelihoodId: null,
+        owner: ""
+    };
+}
+
+export interface NewRiskDto {
+    description: string;
+
+    raisedDate: string;
+
+    raisedBy: string;
+
+    rifCategoryId: number;
+
+    isProjectRisk: boolean;
+
+    workstream: string;
+
+    commentary: string;
+
+    approachId: number;
+
+    impactId: number;
+
+    likelihoodId: number;
+
+    owner: string;
+}
+
+
+export interface EditRiskDto extends NewRiskDto {
+    id: number;
+
+    version: string;
+}
+
+
+
+export interface AssumptionDto{
+    id: number;
+
+    version: string;
+
+    assumptionNumber: number;
+
+    description: string;
+
+    workstream: string;
+
+    owner: string;
+
+    validatedBy: string;
+
+    statusId: string;
+
+    supportingDocumentation: string;
+}
+
+export function makeNewAssumption(): AssumptionDto{
+    return {
+        id: null,
+        version: null,
+        assumptionNumber: null,
+        description: "",
+        workstream: "",
+        owner: "",
+        validatedBy: "",
+        statusId: "",
+        supportingDocumentation: "",
+    };
+}
+
+export interface IssueDto{
+    id: number;
+
+    version: string;
+
+    issueNumber: number;
+}
+
+export function makeNewIssueDto(): IssueDto{
+    return {
+        id: null,
+        version: null,
+        issueNumber: null
+    };
+}
+
+export interface DependencyDto{
+    id: number;
+
+    version: string;
+
+    dependencyNumber: number;
+
+
+}
+
+export function makeNewDependencyDto(): DependencyDto{
+    return {
+        id: null,
+        version: null,
+        dependencyNumber: null
+    };
+}
+
+export interface QueryDto{
+    id: number;
+
+    version: string;
+
+    queryNumber: number;
+}
+
+export function makeNewQueryDto(): QueryDto {
+    return {
+        id: null,
+        version: null,
+        queryNumber: null
+    };
+}
+
 import logger = require("services/logger");
+import http = require("plugins/http");
 
 var referenceData: ReferenceDataDto;
 
-var refDataDfd = http.get('/api/ReferenceData/')
+var MODULE_NAME = "services/dataService";
+
+var refDataDfd: JQueryPromise<ReferenceDataDto> = http.get('/api/ReferenceData/')
     .done(function (data) {
         referenceData = data;
-        logger.logSuccess("Retrieved reference data", {}, "services/dataService", true);
+        logger.logSuccess("Retrieved reference data", {}, MODULE_NAME, true);
     })
     .fail(function (jqxhr, status, err) {
-        logger.logError("Could not retrieve reference data (" + status + ")", arguments, "services/dataService", true);
+        logger.logError("Could not retrieve reference data (" + status + ")", arguments, MODULE_NAME, true);
     });
 
 
@@ -90,11 +259,50 @@ export function getReferenceData() {
 export function getProjects() {
 
     return http.get('/api/projects/').done((data: ProjectSummaryWithCounts) => {
-        logger.logSuccess("Retrieved Projects", data, "services/dataService", true);
+        logger.logSuccess("Retrieved Projects", data, MODULE_NAME, true);
     }).fail((jqxhr, status, ex) =>{
-            logger.logError("Could not retrieve Projects", arguments, "services/dataService", true);
+            logger.logError("Could not retrieve Projects", arguments, MODULE_NAME, true);
     });
 }
+
+export function getProject(id: number): JQueryPromise<ProjectDto>{
+    return http.get('/api/projects/' + id)
+        .done((data: ProjectDto) =>  logger.logSuccess("Retrieved Project", data, MODULE_NAME, false))
+        .fail((jqxhr, status, ex) => logger.logError("Error retrieving Project", jqxhr, MODULE_NAME, true));
+}
+// id - project id
+// active - true for open risks, false for closed, null for both.
+export function getProjectRisks(id : number):JQueryPromise<RiskDto[]> {
+    return $.getJSON("/api/project/" + id + "/risks/")
+        .done(data => logger.logSuccess("Retrieved Project Risks", data, MODULE_NAME, true))
+        .fail((jqxhr,status,ex) => logger.logError("Error retrieving Project Risks", jqxhr,MODULE_NAME, true));
+};
+
+// id - project id
+// active - true for open risks, false for closed, null for both.
+export function getProjectAssumptions(id: number): JQueryPromise<AssumptionDto[]> {
+    return $.getJSON("/api/project/" + id + "/assumptions/");
+};
+
+// id - project id
+// active - true for open risks, false for closed, null for both.
+export function getProjectIssues(id:number): JQueryPromise<IssueDto[]> {
+    return $.getJSON("/api/project/" + id + "/issues/");
+};
+
+// id - project id
+// active - true for open risks, false for closed, null for both.
+export function getProjectDependencies(id:number): JQueryPromise<DependencyDto[]> {
+    return $.getJSON("/api/project/" + id + "/dependencies/");
+};
+
+// id - project id
+// active - true for open risks, false for closed, null for both.
+export function getProjectQueries(id:number): JQueryPromise <QueryDto[] > {
+    return $.getJSON("/api/project/" + id + "/queries/");
+};
+
+
 
 export function saveProject(proj): JQueryPromise {
     var options: JQueryAjaxSettings = {
@@ -121,6 +329,29 @@ export function saveProject(proj): JQueryPromise {
 
 
 } 
+
+export function saveRisk(projectId:number, risk: NewRiskDto): JQueryPromise<RiskDto> {
+    var options: JQueryAjaxSettings = {
+        data: risk
+    };
+
+    if ('id' in risk) {
+        options.url = "/api/risks/" + risk['id'];
+        options.type = "PUT";
+    } else {
+        options.url = "/api/project/" + projectId + "/risks/";
+        options.type = "POST";
+    }
+
+
+    return $.ajax(options).done(function (data, status, jqxhr) {
+        logger.log("Saved Risk", null, null, true);
+    }).fail(function (jqxhr, status, ex) {
+            logger.logError(status + " " + jqxhr.responseText, risk, "backend", false);
+            logger.logError("Error saving the Risk", null, "backend", true);
+        });
+}
+
 /*
 define(['services/logger','durandal/http'], function (logger: Logger,http) {
     var referenceData: ReferenceDataDto;

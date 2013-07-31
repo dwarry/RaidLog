@@ -55,25 +55,14 @@ namespace RaidLog.Controllers
         }
 
         // /api/risks/?projectId={projectId}[&active=true]
-        public IEnumerable<RiskDto> GetRisksForProject(int projectId, bool? active)
+        public IEnumerable<RiskDto> GetRisksForProject(int projectId)
         {
          
             _connection.Open();
             try
             {
-                string q;
-
-                if (active.HasValue)
-                {
-                    q = active.Value
-                            ? RiskQueries.ActiveRisksForProject
-                            : RiskQueries.ClosedRisksForProject;
-                }
-                else
-                {
-                    q = RiskQueries.AllRisksForProject;
-                }
-
+                string q = RiskQueries.ActiveRisksForProject;
+             
                 return _connection.Query<RiskDto>(q, new{id=projectId});
             }
             finally
@@ -188,8 +177,10 @@ namespace RaidLog.Controllers
                                                 tx,
                                                 commandType: CommandType.StoredProcedure);
 
+                        result = args.Get<int>("returnValue");
                         tx.Commit();
                     }
+
                     if (result == 0)
                     {
                         RiskDto dto = null;

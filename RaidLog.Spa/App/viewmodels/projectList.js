@@ -1,6 +1,8 @@
-﻿define(["require", "exports", "services/dataService", "knockout", "viewmodels/pagedGrid", "viewmodels/maintainProject"], function(require, exports, __dataService__, __ko__, __pg__, __maintainProject__) {
+﻿define(["require", "exports", "services/dataService", "services/routeFactory", "plugins/router", "viewmodels/pagedGrid", "viewmodels/maintainProject"], function(require, exports, __dataService__, __routeFactory__, __router__, __pg__, __maintainProject__) {
     var dataService = __dataService__;
-    var ko = __ko__;
+    var routeFactory = __routeFactory__;
+    var router = __router__;
+
     var pg = __pg__;
     var maintainProject = __maintainProject__;
 
@@ -31,6 +33,13 @@
         projectList.prototype.refresh = function () {
             var _this = this;
             dataService.getProjects().done(function (data) {
+                $.each(data, function (i, x) {
+                    x['projectRisksLink'] = routeFactory.makeProjectRiskLink(x.id);
+                    x['projectAssumptionsLink'] = routeFactory.makeProjectAssumptionLink(x.id);
+                    x['projectIssuesLink'] = routeFactory.makeProjectIssueLink(x.id);
+                    x['projectDependenciesLink'] = routeFactory.makeProjectDependencyLink(x.id);
+                    x['projectQueriesLink'] = routeFactory.makeProjectQueryLink(x.id);
+                });
                 _this.projects(data);
                 _this.listViewModel.setSelected(null);
             });
@@ -59,6 +68,10 @@
         };
 
         projectList.prototype.archiveProject = function () {
+        };
+
+        projectList.prototype.viewRisks = function (p) {
+            router.navigateTo(p.projectRisksLink);
         };
         return projectList;
     })();
