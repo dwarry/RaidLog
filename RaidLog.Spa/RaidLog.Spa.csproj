@@ -157,6 +157,7 @@
     <Compile Include="Controllers\IssuesController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\QueriesController.cs" />
+    <Compile Include="Controllers\RaidLogApiController.cs" />
     <Compile Include="Controllers\RisksController.cs" />
     <Compile Include="Models\AssumptionDto.cs" />
     <Compile Include="Models\DeleteProject.cs" />

@@ -1,6 +1,6 @@
 ﻿namespace RaidLog.Queries
 {
-    public static class ProjectQueries
+    internal static class ProjectQueries
     {
         public const string GetAllActiveProjects = @"
 select 
@@ -70,6 +70,12 @@ UPDATE [dbo].[Project]
 UPDATE [dbo].[Project]
    SET [IsActive] = 0
  WHERE [Id] = @id;
+";
+
+        public const string ActiveProjectCheck = @"
+SELECT TOP 1 Id from [dbo].[Project] 
+ WHERE Id = @id
+   AND IsActive = 1
 ";
     }
 }

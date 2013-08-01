@@ -5,7 +5,7 @@ using System.Web;
 
 namespace RaidLog.Queries
 {
-    public class AssumptionsQueries
+    internal class AssumptionsQueries
     {
         public const string GetAssumptionsForProject = @"
     SELECT Id
@@ -19,14 +19,14 @@ namespace RaidLog.Queries
          , SupportingDocumentation
 FROM 
          [dbo].[Assumption] a
-INNER JOIN
-         [dbo].[AssumptionStatus] sts
-ON
-         a.StatusId = sts.Id
 WHERE
          ProjectId = @projectId
-AND
-         (@isActive is null or (sts.IsFinalState <> @isActive))
+ORDER BY 
+         AssumptionNumber
 ";
+        public const string InsertAssumption = @"usp_CreateAssumption";
+
+        public const string UpdateAssumption = @"usp_UpdateAssumption";
+
     }
 }

@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Web.Http;
+
+using Dapper;
 
 using RaidLog.Models;
 
-namespace RaidLog.Controllers
+namespace RaidLog.Spa.Controllers
 {
     [Authorize]
-    public class AssumptionsController
+    public class AssumptionsController : RaidLogApiController
     {
         private readonly IDbConnection _connection;
 
-        public AssumptionsController(IDbConnection connection)
+        public AssumptionsController(IDbConnection connection) : base(connection)
         {
             if (connection == null) throw new ArgumentNullException("connection");
             _connection = connection;
@@ -30,6 +33,23 @@ namespace RaidLog.Controllers
             {
                 using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
+                    CheckProjectIsActive(tx, projectId);
+
+                    var args = new DynamicParameters(new
+                    {
+                        projectId = projectId,
+                        description = newAssumption.Description,
+                        workstream = newAssumption.Workstream,
+                        owner = newAssumption.Owner,
+                        validatedBy = newAssumption.ValidatedBy,
+                        statusId = newAssumption.StatusId,
+                        supportingDocumentation = newAssumption.SupportingDocumentation
+                    });
+
+                    args.Add("assumptionId", 0, DbType.Int32, ParameterDirection.Output);
+
+
+
                     return new AssumptionDto();
                 }
             }
