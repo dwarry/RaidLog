@@ -55,14 +55,14 @@ BEGIN
            (@projectId
            ,@riskNumber
            ,@description
-           ,CURRENT_TIMESTAMP
+           ,SYSDATETIME()
            ,@userName
            ,@rifCategoryId
            ,@isProjectRisk
            ,@workstream
            ,@impactCommentary
            ,@approachId
-           ,CURRENT_TIMESTAMP
+           ,SYSDATETIME()
            ,@userName);
     
     set @riskId = SCOPE_IDENTITY();       
@@ -77,7 +77,7 @@ BEGIN
            ,[Owner])
         VALUES
            (@riskId
-           ,CURRENT_TIMESTAMP
+           ,SYSDATETIME()
            ,@impactId
            ,@likelihoodId
            ,@owner);

@@ -3,7 +3,7 @@
 -- Create date: 2013-05-15
 -- Description:	Add an action to a risk
 -- =============================================
-CREATE PROCEDURE usp_CreateActionForRisk 
+CREATE PROCEDURE [dbo].[usp_CreateActionForRisk] 
 	-- Add the parameters for the stored procedure here
 	@riskId int, 
 	@description nvarchar(256),
@@ -18,34 +18,24 @@ BEGIN
 	declare @actionId int;
 
 	INSERT INTO [dbo].[Action]
-           ([Description]
+           ([RiskId]
+           ,[Description]
            ,[Actor]
            ,[IsComplete]
            ,[Resolution]
-           ,[Version]
            ,[UpdatedBy]
            ,[UpdatedTimestamp])
      VALUES
-           (@description
+           (@riskId
+           ,@description
            ,@actor
            ,0
            ,null
-           ,1
            ,@updatedBy
            ,SYSDATETIME());
 
 	set @actionId = SCOPE_IDENTITY();
 	
-	INSERT INTO [dbo].[Risk_Action]
-           ([RiskId]
-           ,[ActionId])
-     VALUES
-           (@riskId
-           ,@actionId);
-           
     return 0;
-
-
-
 
 END
