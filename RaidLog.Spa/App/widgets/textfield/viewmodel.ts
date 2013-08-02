@@ -5,22 +5,23 @@
 
 import composition = require("durandal/composition");
 
-export interface TextFieldWidgetSettings {
-    field: KnockoutObservableBase;
-    fieldClass: string;
-    fieldName: string;
-    label: string;
-    labelClass: string;
-}
+//interface TextFieldWidgetSettings {
+//    field: KnockoutObservableBase;
+//    fieldClass: string;
+//    fieldName: string;
+//    label: string;
+//    labelClass: string;
+//}
 
-export class TextFieldWidget{
-    settings: TextFieldWidgetSettings;
+class TextFieldWidget{
+    settings: any;// TextFieldWidgetSettings;
 
     constructor() {
-    
+        debugger;  
     }
 
-    activate(settings: TextFieldWidgetSettings) {
+    activate(settings){//: TextFieldWidgetSettings) {
+        debugger;
         this.settings = settings;
     }
 
@@ -31,3 +32,5 @@ export class TextFieldWidget{
 
     }
 }
+
+export = TextFieldWidget;

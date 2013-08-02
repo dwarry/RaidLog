@@ -3,8 +3,10 @@
 
     var TextFieldWidget = (function () {
         function TextFieldWidget() {
+            debugger;
         }
         TextFieldWidget.prototype.activate = function (settings) {
+            debugger;
             this.settings = settings;
         };
 
@@ -15,5 +17,7 @@
         };
         return TextFieldWidget;
     })();
-    exports.TextFieldWidget = TextFieldWidget;
+
+    
+    return TextFieldWidget;
 });
