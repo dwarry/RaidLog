@@ -3,348 +3,1313 @@
  * Available via the MIT license.
  * see: http://durandaljs.com or https://github.com/BlueSpire/Durandal for details.
  */
-declare module "durandal/system" {
+
+/// <reference path="../jquery/jquery.d.ts" />
+/// <reference path="../knockout/knockout.d.ts" />
+
+/**
+ * The system module encapsulates the most basic features used by other modules.
+ * @module system
+ * @requires require
+ * @requires jquery
+ */
+declare module 'durandal/system' {
     /**
-      * Returns the module id associated with the specified object
-      */
-    export var getModuleId: (obj: any) => string;
+     * Durandal's version.
+     * @property {string} version
+     */
+    export var version: string;
+
     /**
-      * Sets the module id on the module.
-      */
-    export var setModuleId: (obj, id: string) => void;
+     * A noop function.
+     * @method noop
+     */
+    export var noop: Function;
+
     /**
-      * Call this function to enable or disable Durandal's debug mode. Calling it with no parameters will return true if the framework is currently in debug mode, false otherwise.
-      */
-    export var debug: (debug?: boolean) => boolean;
+     * Gets the module id for the specified object.
+     * @method getModuleId
+     * @param {object} obj The object whose module id you wish to determine.
+     * @return {string} The module id.
+     */
+    export function getModuleId(obj: any): string;
+
     /**
-      * Checks if the obj is an array
-      */
-    export var isArray: (obj: any) => boolean;
+     * Sets the module id for the specified object.
+     * @method setModuleId
+     * @param {object} obj The object whose module id you wish to set.
+     * @param {string} id The id to set for the specified object.
+     */
+    export function setModuleId(obj, id: string): void;
+
     /**
-      * Logs data to the console. Pass any number of parameters to be logged. Log output is not processed if the framework is not running in debug mode.
-      */
-    export var log: (...msgs: any[]) => void;
+     * Resolves the default object instance for a module. If the module is an object, the module is returned. If the module is a function, that function is called with `new` and it's result is returned.
+     * @method resolveObject
+     * @param {object} module The module to use to get/create the default object for.
+     * @return {object} The default object for the module.
+     */
+    export function resolveObject(module: any): any;
+
     /**
-      * Creates a deferred object which can be used to create a promise. Optionally pass a function action to perform which will be passed an object used in resolving the promise.
-      */
-    export var defer: (action?: Function) => JQueryDeferred;
+     * Gets/Sets whether or not Durandal is in debug mode.
+     * @method debug
+     * @param {boolean} [enable] Turns on/off debugging.
+     * @return {boolean} Whether or not Durandal is current debugging.
+     */
+    export function debug(enable?: boolean): boolean;
+
     /**
-      * Creates a simple V4 UUID. This should not be used as a PK in your database. It can be used to generate internal, unique ids.
-      */
-    export var guid: () => string;
+     * Logs data to the console. Pass any number of parameters to be logged. Log output is not processed if the framework is not running in debug mode.
+     * @method log
+     * @param {object} info* The objects to log.
+     */
+    export function log(...msgs: any[]): void;
+
     /**
-      * Uses require.js to obtain a module. This function returns a promise which resolves with the module instance. You can pass more than one module id to this function. If more than one is passed, then the promise will resolve with one callback parameter per module.
-      */
-    export var acquire: (...modules: string[]) => JQueryPromise;
+     * Logs an error.
+     * @method error
+     * @param {string} obj The error to report.
+     */
+    export function error(error: string): void;
+
+    /**
+     * Logs an error.
+     * @method error
+     * @param {Error} obj The error to report.
+     */
+    export function error(error: Error): void;
+
+    /**
+     * Asserts a condition by throwing an error if the condition fails.
+     * @method assert
+     * @param {boolean} condition The condition to check.
+     * @param {string} message The message to report in the error if the condition check fails.
+     */
+    export function assert(condition: boolean, message: string): void;
+
+    /**
+     * Creates a deferred object which can be used to create a promise. Optionally pass a function action to perform which will be passed an object used in resolving the promise.
+     * @method defer
+     * @param {function} [action] The action to defer. You will be passed the deferred object as a paramter.
+     * @return {JQueryDeferred} The deferred object.
+     */
+    export function defer<T>(action?: (dfd: JQueryDeferred<T>) => void ): JQueryDeferred<T>;
+
+    /**
+     * Creates a simple V4 UUID. This should not be used as a PK in your database. It can be used to generate internal, unique ids. For a more robust solution see [node-uuid](https://github.com/broofa/node-uuid).
+     * @method guid
+     * @return {string} The guid.
+     */
+    export function guid(): string;
+
+    /**
+     * Uses require.js to obtain a module. This function returns a promise which resolves with the module instance.
+     * @method acquire
+     * @param {string} moduleId The id of the module to load.
+     * @return {JQueryPromise} A promise for the loaded module.
+     */
+    export function acquire(moduleId: string): JQueryPromise<any>;
+
+    /**
+     * Uses require.js to obtain an array of modules. This function returns a promise which resolves with the modules instances in an array.
+     * @method acquire
+     * @param {string[]} moduleIds The ids of the modules to load.
+     * @return {JQueryPromise} A promise for the loaded module.
+     */
+    export function acquire(modules: string[]): JQueryPromise<any[]>;
+
+    /**
+     * Uses require.js to obtain multiple modules. This function returns a promise which resolves with the module instances in an array.
+     * @method acquire
+     * @param {string} moduleIds* The ids of the modules to load.
+     * @return {JQueryPromise} A promise for the loaded module.
+     */
+    export function acquire(...moduleIds: string[]): JQueryPromise<any[]>;
+
+    /**
+     * Extends the first object with the properties of the following objects.
+     * @method extend
+     * @param {object} obj The target object to extend.
+     * @param {object} extension* Uses to extend the target object.
+    */
+    export function extend(obj: any, ...extensions: any[]): any;
+    
+    /**
+     * Uses a setTimeout to wait the specified milliseconds.
+     * @method wait
+     * @param {number} milliseconds The number of milliseconds to wait.
+     * @return {JQueryPromise}
+    */
+    export function wait(milliseconds: number): JQueryPromise;
+
+    /**
+     * Gets all the owned keys of the specified object.
+     * @method keys
+     * @param {object} object The object whose owned keys should be returned.
+     * @return {string[]} The keys.
+     */
+    export function keys(obj: any): string[];
+
+    /**
+     * Determines if the specified object is an html element.
+     * @method isElement
+     * @param {object} object The object to check.
+     * @return {boolean} True if matches the type, false otherwise.
+     */
+    export function isElement(obj: any): boolean;
+
+    /**
+     * Determines if the specified object is an array.
+     * @method isArray
+     * @param {object} object The object to check.
+     * @return {boolean} True if matches the type, false otherwise.
+     */
+    export function isArray(obj: any): boolean;
+
+    /**
+     * Determines if the specified object is a boolean.
+     * @method isBoolean
+     * @param {object} object The object to check.
+     * @return {boolean} True if matches the type, false otherwise.
+     */
+    export function isObject(obj: any): boolean;
+
+    /**
+     * Determines if the specified object is a promise.
+     * @method isPromise
+     * @param {object} object The object to check.
+     * @return {boolean} True if matches the type, false otherwise.
+     */
+    export function isPromise(obj: any): boolean;
+
+    /**
+     * Determines if the specified object is a function arguments object.
+     * @method isArguments
+     * @param {object} object The object to check.
+     * @return {boolean} True if matches the type, false otherwise.
+     */
+    export function isArguments(obj: any): boolean;
+
+    /**
+     * Determines if the specified object is a function.
+     * @method isFunction
+     * @param {object} object The object to check.
+     * @return {boolean} True if matches the type, false otherwise.
+     */
+    export function isFunction(obj: any): boolean;
+
+    /**
+     * Determines if the specified object is a string.
+     * @method isString
+     * @param {object} object The object to check.
+     * @return {boolean} True if matches the type, false otherwise.
+     */
+    export function isString(obj: any): boolean;
+
+    /**
+     * Determines if the specified object is a number.
+     * @method isNumber
+     * @param {object} object The object to check.
+     * @return {boolean} True if matches the type, false otherwise.
+     */
+    export function isNumber(obj: any): boolean;
+
+    /**
+     * Determines if the specified object is a date.
+     * @method isDate
+     * @param {object} object The object to check.
+     * @return {boolean} True if matches the type, false otherwise.
+     */
+    export function isDate(obj: any): boolean;
+
+    /**
+     * Determines if the specified object is a boolean.
+     * @method isBoolean
+     * @param {object} object The object to check.
+     * @return {boolean} True if matches the type, false otherwise.
+     */
+    export function isBoolean(obj: any): boolean;
 }
 
-declare module "durandal/app" {
+/**
+ * The viewEngine module provides information to the viewLocator module which is used to locate the view's source file. The viewEngine also transforms a view id into a view instance.
+ * @module viewEngine
+ * @requires system
+ * @requires jquery
+ */
+declare module 'durandal/viewEngine' {
     /**
-      * Sets the title for the app. You must set this before calling start. This will set the document title and the default message box header. It is also used internally by the router to set the document title when pages change.
-      */
-    export var title: string;
-    /**
-      *  simple helper function that wraps a call to modalDialog.show()
-      */
-    export var showModal: (obj, activationData?, context?) => JQueryPromise;
-    /**
-      * A simple helper function that translates to return modalDialog.show(new MessageBox(message, title, options));
-      */
-    export var showMessage: (message: string, title?: string, options?: any) => JQueryPromise;
-    /**
-      * Call this function to bootstrap the Durandal framework. It returns a promise which is resolved when the framework is configured and the dom is ready. At that point you are ready to set your root.
-      */
-    export var start: () => JQueryPromise;
-    /**
-      * This sets the root view or view model and displays the composed application in the specified application host. 
-      * @param root parameter is required and can be anything that the composition module understands as a view or view model. This includes strings and objects. 
-      * @param transition If you have a splash screen, you may want to specify an optional transition to animate from the splash to your main shell. 
-      * @param applicationHost parameter is optional. If provided it should be an element id for the node into which the UI should be composed. If it is not provided the default is to look for an element with an id of "applicationHost".
-      */
-    export var setRoot: (root: any, transition?: string, applicationHost?: string) => void;
-    /**
-      * If you intend to run on mobile, you should also call app.adaptToDevice() before setting the root.
-      */
-    export var adaptToDevice: () => void;
-    /**
-      * The events parameter is a space delimited string containing one or more event identifiers. When one of these events is triggered, the callback is called and passed the event data provided by the trigger. The special events value of "all" binds all events on the object to the callback. If a context is provided, it will be bound to this for the callback. If the callback is omitted, then a promise-like object is returned from on. This object represents a subscription and has a then function used to register callbacks.
-      */
-    export var on: (events: string, callback: Function, context?) => IEventSubscription;
-    /**
-      * Unwires callbacks from events. If no context is specified, all callbacks with different contexts will be removed. If no callback is specified, all callbacks for the event will be removed. If no event is specified, all event callbacks on the object will be removed.
-      */
-    export var off: (events: string, callback: Function, context?) => any;
-    /**
-      * Triggers an event, or space-delimited list of events. Subsequent arguments to trigger will be passed along to the event callbacks.
-      */
-    export var trigger: (events: string, ...args: any[]) => any;
-    /**
-      * Provides a function which can be used as a callback to trigger the events. This is useful in combination with jQuery events which may need to trigger the aggregator's events.
-      */
-    export var proxy: (events) => Function;
-}
-
-declare module "durandal/composition" {
-    /**
-      * sets activate: true on every compose binding
-      */
-    export var activateDuringComposition: boolean;
-    /**
-      * changes the convention for finding where transitions are located
-      */
-    export var convertTransitionToModuleId: (name: string) => string;
-    /**
-      * sets a default transition for all compositions
-      */
-    export var defaultTransitionName: string;
-    /**
-      * the default implementation for switching the content during composition
-      */
-    export var switchContent: (parent: HTMLElement, newChild: HTMLElement, settings: any) => void;
-    /**
-      * the default implementation on binding and showing content during composition
-      */
-    export var bindAndShow: (element: HTMLElement, view: HTMLElement, settings: any) => void;
-    /**
-      * the default strategy which is: return viewLocator.locateViewForObject(settings.model, settings.viewElements);
-      */
-    export var defaultStrategy: (settings: any) => JQueryPromise;
-    /**
-      * the default method for getting settings from the binding handler compose.
-      */
-    export var getSettings: (valueAccessor: any) => any;
-    /**
-      * the default method for executing a strategy during composition
-      */
-    export var executeStrategy: (element: HTMLElement, settings: any) => void;
-    /**
-      * the default method for injecting during composition
-      */
-    export var inject: (element: HTMLElement, settings: any) => void;
-    /**
-      * the default method for composing
-      */
-    export var compose: (element: HTMLElement, settings: any, bindingContext: any) => void;
-}
-
-declare module "plugins/http" {
-    /**
-      * the default is 'callback'
-      */
-    export var defaultJSONPCallbackParam: string;
-    /**
-      * Performs an HTTP GET request on the specified URL. This function returns a promise which resolves with the returned response data. You can optionally return a query object whose properties will be used to construct a query string.
-      */
-    export var get: (url: string, query?: Object) => JQueryPromise;
-    /**
-      * Performs a JSONP request to the specified url. You can optionally include a query object whose properties will be used to construct the query string. Also, you can pass the name of the API's callback parameter. If none is specified, it defaults to "callback". This api returns a promise. If you are using a callback parameter other than "callback" consistently throughout your application, then you may want to set the http module's defaultJSONPCallbackParam so that you don't need to specify it on every request.
-      */
-    export var jsonp: (url: string, query?: Object, callbackParam?: string) => JQueryPromise;
-    /**
-      * Performs an HTTP POST request on the specified URL with the supplied data. The data object is converted to JSON and the request is sent with an application/json content type. Thie function returns a promise which resolves with the returned response data.
-      */
-    export var post: (url: string, data: Object) => JQueryPromise;
-}
-
-declare module "plugins/dialog" {
-
-    export var close: (obj: any, result: any) => void;
-    /**
-      * the default is 1050
-      */
-    export var currentZIndex: number;
-    /**
-      * This is a helper function which can be used in the creation of custom modal contexts. Each time it is called, it returns a successively higher zIndex value than the last time.
-      */
-    export var getNextZIndex: () => number;
-    /**
-      * This is a helper function which will tell you if any modals are currently open.
-      */
-    export var isModalOpen: () => boolean;
-    /**
-      * You may wish to customize modal displays or add additional contexts in order to display modals in different ways. To alter the default context, you would acquire it by calling getContext() and then alter it's pipeline. If you don't provide a value for name it returns the default context.
-      */
-    export var getContext: (name: string) => any;
-    /**
-      * Pass a name and an object which defines the proper modal display pipeline via the functions described in the next section. This creates a new modal context or "modal style."
-      */
-    export var addContext: (name: string, modalContext: any) => JQueryPromise;
-    /**
-      * creates a settings obj from the supplied params
-      */
-    export var createCompositionSettings: (obj: any, modalContext: any) => any;
-    /**
-      * This API uses the composition module to compose your obj into a modal popover. It also uses the viewModel module to check and enforce any screen lifecycle needs that obj may have. A promise is returned which will be resolved when the modal dialog is dismissed. The obj is the view model for your modal dialog, or a moduleId for the view model to load. Your view model instance will have a single property added to it by this mechanism called modal which represents the dialog infrastructure itself. This modal object has a single function called close which can be invoked to close the modal. You may also pass data to close which will be returned via the promise mechanism. The modal object also references it's owner, activator, the composition settings it was created with and its display context. Speaking of context, this parameter represents the display context or modal style. By default, there is one context registered with the system, named 'default'. If no context is specified, the default context with be used to display the modal. You can also specify activationData which is an arbitrary object that will be passed to your modal's activate function, if it has one.
-      */
-    export var show: (obj: any, activationData: any, context?: any) => JQueryPromise;
-}
-
-declare module "durandal/viewEngine" {
-    /**
-      * The file extension that view source files are expected to have.
-      */
+     * The file extension that view source files are expected to have.
+     * @property {string} viewExtension
+     * @default .html
+    */
     export var viewExtension: string;
+
     /**
-      * The name of the RequireJS loader plugin used by the viewLocator to obtain the view source. (Use requirejs to map the plugin's full path).
-      */
+     * The name of the RequireJS loader plugin used by the viewLocator to obtain the view source. (Use requirejs to map the plugin's full path).
+     * @property {string} viewPlugin
+     * @default text
+    */
     export var viewPlugin: string;
+
     /**
-      * Returns true if the potential string is a url for a view, according to the view engine.
-      */
-    export var isViewUrl: (url: string) => boolean;
+     * Determines if the url is a url for a view, according to the view engine.
+     * @method isViewUrl
+     * @param {string} url The potential view url.
+     * @return {boolean} True if the url is a view url, false otherwise.
+    */
+    export function isViewUrl(url: string):boolean;
+    
     /**
-      * Converts a view url into a view id.
-      */
-    export var convertViewUrlToViewId: (url: string) => string;
+     * Converts a view url into a view id.
+     * @method convertViewUrlToViewId
+     * @param {string} url The url to convert.
+     * @return {string} The view id.
+    */
+    export function convertViewUrlToViewId(url: string): string;
+
     /**
-      * Converts a view id into a full RequireJS path.
-      */
-    export var convertViewIdToRequirePath: (viewId: string) => string;
+     * Converts a view id into a full RequireJS path.
+     * @method convertViewIdToRequirePath
+     * @param {string} viewId The view id to convert.
+     * @return {string} The require path.
+    */
+    export function convertViewIdToRequirePath(viewId: string): string;
+
     /**
-      * Parses some markup and turns it into a dom element.
-      */
-    export var parseMarkup: (markup: string) => HTMLElement;
+     * Parses the view engine recognized markup and returns DOM elements.
+     * @method parseMarkup
+     * @param {string} markup The markup to parse.
+     * @return {HTMLElement[]} The elements.
+    */
+    export function parseMarkup(markup: string):Node[];
+
     /**
-      * Returns a promise for a dom element identified by the viewId parameter.
-      */
-    export var createView: (viewId: string) => JQueryPromise;
+     * Calls `parseMarkup` and then pipes the results through `ensureSingleElement`.
+     * @method processMarkup
+     * @param {string} markup The markup to process.
+     * @return {HTMLElement} The view.
+    */
+    export function processMarkup(markup: string): HTMLElement;
+
+    /**
+     * Converts an array of elements into a single element. White space and comments are removed. If a single element does not remain, then the elements are wrapped.
+     * @method ensureSingleElement
+     * @param {HTMLElement[]} allElements The elements.
+     * @return {HTMLElement} A single element.
+    */
+    export function ensureSingleElement(allElements: Node[]): HTMLElement;
+
+    /**
+     * Creates the view associated with the view id.
+     * @method createView
+     * @param {string} viewId The view id whose view should be created.
+     * @return {JQueryPromise<HTMLElement>} A promise of the view.
+    */
+    export function createView(viewId: string): JQueryPromise<HTMLElement>;
+
+    /**
+     * Called when a view cannot be found to provide the opportunity to locate or generate a fallback view. Mainly used to ease development.
+     * @method createFallbackView
+     * @param {string} viewId The view id whose view should be created.
+     * @param {string} requirePath The require path that was attempted.
+     * @param {Error} requirePath The error that was returned from the attempt to locate the default view.
+     * @return {Promise} A promise for the fallback view.
+    */
+    export function createFallbackView(viewId: string, requirePath: string, err: Error): JQueryPromise<HTMLElement>;
 }
 
-declare module "durandal/viewLocator" {
+/**
+* Represents an event subscription.
+* @class Subscription
+*/
+interface EventSubscription {
     /**
-      * Allows you to set up a convention for mapping module folders to view folders. modulesPath is a string in the path that will be replaced by viewsPath. Partial views will be mapped to the "views" folder unless an areasPath is specified. All parameters are optional. If none are specified, the convention will map modules in a "viewmodels" folder to views in a "views" folder.
-      */
-    export var useConvention: (modulesPath?: string, viewsPath?: string, areasPath?: string) => string;
+     * Attaches a callback to the event subscription.
+     * @method then
+     * @param {function} callback The callback function to invoke when the event is triggered.
+     * @param {object} [context] An object to use as `this` when invoking the `callback`.
+     * @chainable
+     */
+    then(thenCallback: Function, context?: any): EventSubscription;
+
     /**
-      * This function takes in an object instance, which it then maps to a view id. That id is then passed to the locateView function and it is processed as above. If elementsToSearch are provided, those are passed along to locateView. Following is a description of how locateViewForObject determines the view for a given object instance.
-      */
-    export var locateViewForObject: (obj: {}, elementsToSearch: HTMLElement[]) => JQueryPromise;
+     * Attaches a callback to the event subscription.
+     * @method on
+     * @param {function} [callback] The callback function to invoke when the event is triggered. If `callback` is not provided, the previous callback will be re-activated.
+     * @param {object} [context] An object to use as `this` when invoking the `callback`.
+     * @chainable
+     */
+    on(thenCallback: Function, context?: any): EventSubscription;
+
     /**
-      * This function does nothing by default which is why editCustomer.js is mapped to editCustomer.html (both have the same underlying id of editCustomer). Replace this function with your own implementation to easily create your own mapping logic based on moduleId.
-      */
-    export var convertModuleIdToViewId: (moduleId: string) => string;
-    /**
-      * As mentioned above, if no view id can be determined, the system falls back to attempting to determine the object's type and then uses that. This function contains the implementation of that fallback behavior. Replace it if you desire something different. Under normal usage however, this function should not be called.
-      */
-    export var determineFallbackViewId: (obj: any) => string;
-    /**
-      * When a view area is specified, it along with the requested view id will be passed to this function, allowing you to customize the path of your view. You can specify area as part of the locateView call, but more commonly you would specify it as part of a compose binding. Any compose binding that does not include a model, but only a view, has a default area of 'partial'.
-      */
-    export var translateViewIdToArea: (viewId: string, area?: string) => string;
-    /**
-      * The viewOrUrlOrId parameter represents a url/id for the view. The file extension is not necessary (ie. .html). When this function is called, the viewEngine will be used to construct the view. The viewEngine is passed the finalized id and returns a constructed DOM sub-tree, which is returned from this function. If the viewOrUrlOrId is not a string but is actually a DOM node, then the DOM node will be immediately returned. Optionally, you can pass an area string and it along with the url will be passed to the view locator's translateViewIdToArea before constructing the final id to pass to the view engine. If you provide an array of DOM elements for elementsToSearch, before we call the view engine, we will search the existing array for a match and return it if found.
-      */
-    export var locateView: (viewOrUrlOrId: any, area: string, elementsToSearch: HTMLElement[]) => JQueryPromise;
+     * Cancels the subscription.
+     * @method off
+     * @chainable
+     */
+    off(): EventSubscription;
 }
 
-declare module "durandal/viewModel" {
+/**
+ * Creates an object with eventing capabilities.
+ * @class Events
+*/
+declare class Events {
+    constructor();
+
     /**
-      * A property which is the home to some basic settings and functions that control how all activators work. These are used to create the instance settings object for each activator. They can be overriden on a per-instance-basis by passing a settings object when creating an activator or by accessing the settings property of the activator. To change them for all activators, change them on the defaults property. The two most common customizations are presented below. See the source for additional information.
-      */
-    export var defaults: IViewModelDefaults;
+     * Creates a subscription or registers a callback for the specified event.
+     * @method on
+     * @param {string} events One or more events, separated by white space.
+     * @return {Subscription} A subscription is returned.
+     */
+    on(events: string): EventSubscription; 
+
     /**
-      * This creates a computed observable which enforces a lifecycle on all values the observable is set to. When creating the activator, you can specify an initialActiveItem to activate. You can also specify a settings object. Use of the settings object is for advanced scenarios and will not be detailed much here.
-      */
-    export var activator: {
-        (): IDurandalViewModelActiveItem;
-        (initialActiveItem: any, settings?: IViewModelDefaults): IDurandalViewModelActiveItem;
+     * Creates a subscription or registers a callback for the specified event.
+     * @method on
+     * @param {string} events One or more events, separated by white space.
+     * @param {function} [callback] The callback function to invoke when the event is triggered.
+     * @param {object} [context] An object to use as `this` when invoking the `callback`.
+     * @return {Events} The events object is returned for chaining.
+     */
+    on(events: string, callback: Function, context?: any): Events;
+
+    /**
+     * Removes the callbacks for the specified events.
+     * @method off
+     * @param {string} [events] One or more events, separated by white space to turn off. If no events are specified, then the callbacks will be removed.
+     * @param {function} [callback] The callback function to remove. If `callback` is not provided, all callbacks for the specified events will be removed.
+     * @param {object} [context] The object that was used as `this`. Callbacks with this context will be removed.
+     * @chainable
+     */
+    off(events: string, callback: Function, context?: any): Events;
+
+    /**
+     * Triggers the specified events.
+     * @method trigger
+     * @param {string} [events] One or more events, separated by white space to trigger.
+     * @chainable
+     */
+    trigger(events: string, ...eventArgs:any[]): Events;
+
+    /**
+     * Creates a function that will trigger the specified events when called. Simplifies proxying jQuery (or other) events through to the events object.
+     * @method proxy
+     * @param {string} events One or more events, separated by white space to trigger by invoking the returned function.
+     * @return {function} Calling the function will invoke the previously specified events on the events object.
+     */
+    proxy(events: string): Function;
+
+    /**
+     * Adds eventing capabilities to the specified object.
+     * @method includeIn
+     * @param {object} targetObject The object to add eventing capabilities to.
+     */
+    static includeIn(targetObject: any): void;
+}
+
+/**
+ * Durandal events originate from backbone.js but also combine some ideas from signals.js as well as some additional improvements.
+ * Events can be installed into any object and are installed into the `app` module by default for convenient app-wide eventing.
+ * @module events
+ * @requires system
+ */
+declare module 'durandal/events' {
+    export = Events;
+}
+
+/**
+ * The binder joins an object instance and a DOM element tree by applying databinding and/or invoking binding lifecycle callbacks (binding and bindingComplete).
+ * @module binder
+ * @requires system
+ * @requires knockout
+ */
+declare module 'durandal/binder' {
+    interface BindingInstruction {
+        applyBindings: bool;
     }
+
+    /**
+     * Called before every binding operation. Does nothing by default.
+     * @method beforeBind
+     * @param {object} data The data that is about to be bound.
+     * @param {DOMElement} view The view that is about to be bound.
+     * @param {object} instruction The object that carries the binding instructions.
+    */
+    export var beforeBind: (data:any, view:HTMLElement, instruction:BindingInstruction) => void;
+
+    /**
+     * Called after every binding operation. Does nothing by default.
+     * @method afterBind
+     * @param {object} data The data that has just been bound.
+     * @param {DOMElement} view The view that has just been bound.
+     * @param {object} instruction The object that carries the binding instructions.
+    */
+    export var afterBind: (data: any, view: HTMLElement, instruction: BindingInstruction) => void;
+
+    /**
+     * Indicates whether or not the binding system should throw errors or not.
+     * @property {boolean} throwOnErrors
+     * @default false The binding system will not throw errors by default. Instead it will log them.
+    */
+    export var throwOnErrors: boolean;
+
+    /**
+     * Gets the binding instruction that was associated with a view when it was bound.
+     * @method getBindingInstruction
+     * @param {DOMElement} view The view that was previously bound.
+     * @return {object} The object that carries the binding instructions.
+    */
+    export function getBindingInstruction(view: HTMLElement): BindingInstruction;
+
+    /**
+     * Binds the view, preserving the existing binding context. Optionally, a new context can be created, parented to the previous context.
+     * @method bindContext
+     * @param {KnockoutBindingContext} bindingContext The current binding context.
+     * @param {DOMElement} view The view to bind.
+     * @param {object} [obj] The data to bind to, causing the creation of a child binding context if present.
+    */
+    export function bindContext(bindingContext: KnockoutBindingContext, view: HTMLElement, obj?: any): BindingInstruction;
+    
+    /**
+     * Binds the view, preserving the existing binding context. Optionally, a new context can be created, parented to the previous context.
+     * @method bind
+     * @param {object} obj The data to bind to.
+     * @param {DOMElement} view The view to bind.
+    */
+    export function bind(obj: any, view: HTMLElement): BindingInstruction;
 }
 
-declare module "durandal/viewModelBinder" {
+/**
+ * The activator module encapsulates all logic related to screen/component activation.
+ * An activator is essentially an asynchronous state machine that understands a particular state transition protocol.
+ * The protocol ensures that the following series of events always occur: `canDeactivate` (previous state), `canActivate` (new state), `deactivate` (previous state), `activate` (new state).
+ * Each of the _can_ callbacks may return a boolean, affirmative value or promise for one of those. If either of the _can_ functions yields a false result, then activation halts.
+ * @module activator
+ * @requires system
+ * @requires knockout
+ */
+declare module 'durandal/activator' {
+    interface ActivatorSettings {
+        /**
+         * The default value passed to an object's deactivate function as its close parameter.
+         * @property {boolean} closeOnDeactivate
+         * @default true
+        */
+        closeOnDeactivate: boolean;
+
+        /**
+         * Lower-cased words which represent a truthy value.
+         * @property {string[]} affirmations
+         * @default ['yes', 'ok', 'true']
+        */
+        affirmations: string[];
+
+        /**
+         * Interprets the response of a `canActivate` or `canDeactivate` call using the known affirmative values in the `affirmations` array.
+         * @method interpretResponse
+         * @param {object} value
+         * @return {boolean}
+        */
+        interpretResponse(value: any): boolean;
+
+        /**
+         * Determines whether or not the current item and the new item are the same.
+         * @method areSameItem
+         * @param {object} currentItem
+         * @param {object} newItem
+         * @param {object} currentActivationData
+         * @param {object} newActivationData
+         * @return {boolean}
+        */
+        areSameItem(currentItem: any, newItem: any, currentActivationData: any, newActivationData: any): boolean;
+
+        /**
+         * Called immediately before the new item is activated.
+         * @method beforeActivate
+         * @param {object} newItem
+        */
+        beforeActivate(newItem: any): any;
+
+        /**
+         * Called immediately after the old item is deactivated.
+         * @method afterDeactivate
+         * @param {object} oldItem The previous item.
+         * @param {boolean} close Whether or not the previous item was closed.
+         * @param {function} setter The activate item setter function.
+        */
+        afterDeactivate(oldItem: any, close: boolean, setter: Function): void;
+    }
+
+    interface Activator<T> extends KnockoutComputed<T> {
+        /**
+         * The settings for this activator.
+         * @property {ActivatorSettings} settings
+        */
+        settings: ActivatorSettings;
+
+        /**
+         * An observable which indicates whether or not the activator is currently in the process of activating an instance.
+         * @method isActivating
+         * @return {boolean}
+        */
+        isActivating: KnockoutObservable<boolean>;
+        
+        /**
+         * Determines whether or not the specified item can be deactivated.
+         * @method canDeactivateItem
+         * @param {object} item The item to check.
+         * @param {boolean} close Whether or not to check if close is possible.
+         * @return {promise}
+        */
+        canDeactivateItem(item: T, close: boolean): JQueryPromise<boolean>;
+
+        /**
+         * Deactivates the specified item.
+         * @method deactivateItem
+         * @param {object} item The item to deactivate.
+         * @param {boolean} close Whether or not to close the item.
+         * @return {promise}
+        */
+        deactivateItem(item: T, close: boolean): JQueryPromise<boolean>;
+
+        /**
+         * Determines whether or not the specified item can be activated.
+         * @method canActivateItem
+         * @param {object} item The item to check.
+         * @param {object} activationData Data associated with the activation.
+         * @return {promise}
+        */
+        canActivateItem(newItem: T, activationData?: any): JQueryPromise<boolean>;
+
+        /**
+         * Activates the specified item.
+         * @method activateItem
+         * @param {object} newItem The item to activate.
+         * @param {object} newActivationData Data associated with the activation.
+         * @return {promise}
+        */
+        activateItem(newItem: T, activationData?: any): JQueryPromise<boolean>;
+
+        /**
+         * Determines whether or not the activator, in its current state, can be activated.
+         * @method canActivate
+         * @return {promise}
+        */
+        canActivate(): JQueryPromise<boolean>;
+
+        /**
+         * Activates the activator, in its current state.
+         * @method activate
+         * @return {promise}
+        */
+        activate(): JQueryPromise<boolean>;
+
+        /**
+         * Determines whether or not the activator, in its current state, can be deactivated.
+         * @method canDeactivate
+         * @return {promise}
+        */
+        canDeactivate(close: boolean): JQueryPromise<boolean>;
+
+        /**
+         * Deactivates the activator, in its current state.
+         * @method deactivate
+         * @return {promise}
+        */
+        deactivate(close: boolean): JQueryPromise<boolean>;
+
+        /**
+          * Adds canActivate, activate, canDeactivate and deactivate functions to the provided model which pass through to the corresponding functions on the activator.
+          */
+        includeIn(includeIn: any): void;
+
+        /**
+          * Sets up a collection representing a pool of objects which the activator will activate. See below for details. Activators without an item bool always close their values on deactivate. Activators with an items pool only deactivate, but do not close them.
+          */
+        forItems(items): Activator<T>;
+    }
+
     /**
-      * Applies bindings to a view using a pre-existing bindingContext. This is used by the composition module when a view is supplied without a model. It allows the parent binding context to be preserved. If the optional obj parameter is supplied, a new binding context will be created that is a child of bindingContext with its model set to obj. This is used by the widget framework to provide the widget binding while allowing templated parts to access their surrounding scope.
-      */
-    export var bindContext: (bindingContext: KnockoutBindingContext, view: HTMLElement, obj?: any) => void;
+     * The default settings used by activators.
+     * @property {ActivatorSettings} defaults
+    */
+    export var defaults: ActivatorSettings;
+    
     /**
-      * Databinds obj, which can be an arbitrary object, to view which is a dom sub-tree. If obj has a function called setView, then, following binding, this function will be called, providing obj with an opportunity to interact directly with the dom fragment that it is bound to.
-      */
-    export var bind: (obj: any, view: HTMLElement) => void;
+    * Creates a new activator.
+     * @method create
+     * @param {object} [initialActiveItem] The item which should be immediately activated upon creation of the ativator.
+     * @param {ActivatorSettings} [settings] Per activator overrides of the default activator settings.
+     * @return {Activator} The created activator.
+    */
+    export function create<T>(initialActiveItem?: T, settings?: ActivatorSettings): Activator<T>;
+
+    /**
+     * Determines whether or not the provided object is an activator or not.
+     * @method isActivator
+     * @param {object} object Any object you wish to verify as an activator or not.
+     * @return {boolean} True if the object is an activator; false otherwise.
+    */
+    export function isActivator(object: any): boolean;
 }
 
-interface IViewModelDefaults {
+/**
+ * The viewLocator module collaborates with the viewEngine module to provide views (literally dom sub-trees) to other parts of the framework as needed. The primary consumer of the viewLocator is the composition module.
+ * @module viewLocator
+ * @requires system
+ * @requires viewEngine
+ */
+declare module 'durandal/viewLocator' {
     /**
-      * When the activator attempts to activate an item as described below, it will only activate the new item, by default, if it is a different instance than the current. Overwrite this function to change that behavior.
-      */
-    areSameItem(currentItem, newItem, activationData): boolean;
+     * Allows you to set up a convention for mapping module folders to view folders. It is a convenience method that customizes `convertModuleIdToViewId` and `translateViewIdToArea` under the covers.
+     * @method useConvention
+     * @param {string} [modulesPath] A string to match in the path and replace with the viewsPath. If not specified, the match is 'viewmodels'.
+     * @param {string} [viewsPath] The replacement for the modulesPath. If not specified, the replacement is 'views'.
+     * @param {string} [areasPath] Partial views are mapped to the "views" folder if not specified. Use this parameter to change their location.
+    */
+    export function useConvention(modulesPath?: string, viewsPath?: string, areasPath?: string): void;
+    
     /**
-      * default is true
-      */
-    closeOnDeactivate: boolean;
+     * Maps an object instance to a view instance.
+     * @method locateViewForObject
+     * @param {object} obj The object to locate the view for.
+     * @param {DOMElement[]} [elementsToSearch] An existing set of elements to search first.
+     * @return {Promise} A promise of the view.
+    */
+    export function locateViewForObject(obj: any, elementsToSearch?: HTMLElement[]): JQueryPromise<HTMLElement>;
+    
     /**
-      * Interprets values returned from guard methods like canActivate and canDeactivate by transforming them into bools. The default implementation translates string values "Yes" and "Ok" as true...and all other string values as false. Non string values evaluate according to the truthy/falsey values of JavaScript. Replace this function with your own to expand or set up different values. This transformation is used by the activator internally and allows it to work smoothly in the common scenario where a deactivated item needs to show a message box to prompt the user before closing. Since the message box returns a promise that resolves to the button option the user selected, it can be automatically processed as part of the activator's guard check.
-      */
-    interpretResponse(value: any): boolean;
+     * Converts a module id into a view id. By default the ids are the same.
+     * @method convertModuleIdToViewId
+     * @param {string} moduleId The module id.
+     * @return {string} The view id.
+    */
+    export function convertModuleIdToViewId(moduleId: string): string;
+
     /**
-      * called before activating a module
-      */
-    beforeActivate(newItem: any): any;
+     * If no view id can be determined, this function is called to genreate one. By default it attempts to determine the object's type and use that.
+     * @method determineFallbackViewId
+     * @param {object} obj The object to determine the fallback id for.
+     * @return {string} The view id.
+    */
+    export function determineFallbackViewId(obj: any): string;
+
     /**
-      * called after deactivating a module
-      */
-    afterDeactivate(): any;
+     * Takes a view id and translates it into a particular area. By default, no translation occurs.
+     * @method translateViewIdToArea
+     * @param {string} viewId The view id.
+     * @param {string} area The area to translate the view to.
+     * @return {string} The translated view id.
+    */
+    export function translateViewIdToArea(viewId: string, area: string): string;
+    
+    /**
+     * Locates the specified view.
+     * @method locateView
+     * @param {string|DOMElement} view A view. It will be immediately returned.
+     * @param {string} [area] The area to translate the view to.
+     * @param {DOMElement[]} [elementsToSearch] An existing set of elements to search first.
+     * @return {Promise} A promise of the view.
+    */
+    export function locateView(view: HTMLElement, area?: string, elementsToSearch?: HTMLElement[]): JQueryPromise<HTMLElement>;
+    
+    /**
+     * Locates the specified view.
+     * @method locateView
+     * @param {string|DOMElement} viewUrlOrId A view url or view id to locate.
+     * @param {string} [area] The area to translate the view to.
+     * @param {DOMElement[]} [elementsToSearch] An existing set of elements to search first.
+     * @return {Promise} A promise of the view.
+    */
+    export function locateView(viewUrlOrId: string, area?: string, elementsToSearch?: HTMLElement[]): JQueryPromise<HTMLElement>;
 }
 
-interface IDurandalViewModelActiveItem {
+/**
+ * The composition module encapsulates all functionality related to visual composition.
+ * @module composition
+ * @requires system
+ * @requires viewLocator
+ * @requires binder
+ * @requires viewEngine
+ * @requires activator
+ * @requires jquery
+ * @requires knockout
+ */
+declare module 'durandal/composition' {
+    interface CompositionTransation {
+        /**
+         * Registers a callback which will be invoked when the current composition transaction has completed. The transaction includes all parent and children compositions.
+         * @method complete
+         * @param {function} callback The callback to be invoked when composition is complete.
+        */
+        complete(callback: Function): void;
+    }
+
+    interface CompositionContext {
+        mode: string;
+        parent: HTMLElement;
+        activeView: HTMLElement;
+        triggerAttach(): void;
+        bindingContext?: KnockoutBindingContext;
+        cacheViews?: boolean;
+        viewElements?: HTMLElement[];
+        model?: any;
+        view?: any;
+        area?: string;
+        preserveContext?: boolean;
+        activate?: boolean;
+        strategy? (context: CompositionContext): JQueryPromise<HTMLElement>;
+        composingNewView: boolean;
+        child: HTMLElement;
+        beforeBind?: (child: HTMLElement, context: CompositionContext) => any;
+        tranistion?: string;
+    }
+
     /**
-      * knockout observable
-      */
-    (val?): any;
+     * Converts a transition name to its moduleId.
+     * @method convertTransitionToModuleId
+     * @param {string} name The name of the transtion.
+     * @return {string} The moduleId.
+    */
+    export function convertTransitionToModuleId(name: string): string;
+
     /**
-      * A property which is the home to some basic settings and functions that control how all activators work. These are used to create the instance settings object for each activator. They can be overriden on a per-instance-basis by passing a settings object when creating an activator or by accessing the settings property of the activator. To change them for all activators, change them on the defaults property. The two most common customizations are presented below. See the source for additional information.
-      */
-    settings: IViewModelDefaults;
+     * The name of the transition to use in all composigions.
+     * @property {string} defaultTransitionName
+     * @default null
+    */
+    export var defaultTransitionName: string;
+
     /**
-      * This observable is set internally by the activator during the activation process. It can be used to determine if an activation is currently happening.
-      */
-    isActivating(val?: boolean): boolean;
+     * Represents the currently executing composition transaction.
+     * @property {CompositionTransaction} current
+     */
+    export var current: CompositionTransation;
+
     /**
-      * Pass a specific item as well as an indication of whether it should be closed, and this function will tell you the answer.
-      */
-    canDeactivateItem(item, close): JQueryPromise;
+     * Registers a binding handler that will be invoked when the current composition transaction is complete.
+     * @method addBindingHandler
+     * @param {string} name The name of the binding handler.
+     * @param {object} [config] The binding handler instance. If none is provided, the name will be used to look up an existing handler which will then be converted to a composition handler.
+     * @param {function} [initOptionsFactory] If the registered binding needs to return options from its init call back to knockout, this function will server as a factory for those options. It will receive the same parameters that the init function does.
+    */
+    export function addBindingHandler(name, config?: KnockoutBindingHandler, initOptionsFactory?: (element?: HTMLElement, valueAccessor?: any, allBindingsAccessor?: any, viewModel?: any, bindingContext?: KnockoutBindingContext) => any);
+
     /**
-      * Deactivates the specified item (optionally closing it). Deactivation follows the lifecycle and thus only works if the item can be deactivated.
-      */
-    deactivateItem(item, close): JQueryDeferred;
+     * Gets an object keyed with all the elements that are replacable parts, found within the supplied elements. The key will be the part name and the value will be the element itself.
+     * @method getParts
+     * @param {DOMElement[]} elements The elements to search for parts.
+     * @return {object} An object keyed by part.
+    */
+    export function getParts(elements: HTMLElement[]): any;
+
     /**
-      * Determines if a specific item can be activated. You can pass an arbitrary object to this function, which will be passed to the item's canActivate function , if present. This is useful if you are manually controlling activation and you want to provide some context for the operation.
-      */
-    canActivateItem(newItem, activationData?): JQueryPromise;
+     * Gets an object keyed with all the elements that are replacable parts, found within the supplied element. The key will be the part name and the value will be the element itself.
+     * @method getParts
+     * @param {DOMElement} element The element to search for parts.
+     * @return {object} An object keyed by part.
+    */
+    export function getParts(element: HTMLElement): any;
+
     /**
-      * Activates a specific item. Activation follows the lifecycle and thus only occurs if possible. activationData functions as stated above.
-      */
-    activateItem(newItem, activationData?): JQueryPromise;
+     * Eecutes the default view location strategy.
+     * @method defaultStrategy
+     * @param {object} context The composition context containing the model and possibly existing viewElements.
+     * @return {promise} A promise for the view.
+    */
+    export var defaultStrategy: (context: CompositionContext) => JQueryPromise<HTMLElement>;
+
     /**
-      * Checks whether or not the activator itself can be activated...that is whether or not it's current item or initial value can be activated.
-      */
-    canActivate(): JQueryPromise;
-    /**
-      * Activates the activator...that is..it activates it's current item or initial value.
-      */
-    activate(): JQueryPromise;
-    /**
-      * Checks whether or not the activator itself can be deactivated...that is whether or not it's current item can be deactivated.
-      */
-    canDeactivate(): JQueryPromise;
-    /**
-      *  Deactivates the activator...interpreted as deactivating its current item.
-      */
-    deactivate(): JQueryDeferred;
-    /**
-      * Adds canActivate, activate, canDeactivate and deactivate functions to the provided model which pass through to the corresponding functions on the activator.
-      */
-    includeIn(includeIn: any): JQueryPromise;
-    /**
-      * Sets up a collection representing a pool of objects which the activator will activate. See below for details. Activators without an item bool always close their values on deactivate. Activators with an items pool only deactivate, but do not close them.
-      */
-    forItems(items): IDurandalViewModelActiveItem;
+     * Initiates a composition.
+     * @method compose
+     * @param {DOMElement} element The DOMElement or knockout virtual element that serves as the parent for the composition.
+     * @param {object} settings The composition settings.
+     * @param {object} [bindingContext] The current binding context.
+    */
+    export function compose(element: HTMLElement, settings: CompositionContext, bindingContext: KnockoutBindingContext): void;
 }
+
+/**
+ * The app module controls app startup, plugin loading/configuration and root visual display.
+ * @module app
+ * @requires system
+ * @requires viewEngine
+ * @requires composition
+ * @requires events
+ * @requires jquery
+ */
+declare module 'durandal/app' {
+    /**
+     * The title of your application.
+     * @property {string} title
+    */
+    export var title: string;
+    
+    /**
+     * Shows a dialog via the dialog plugin.
+     * @method showDialog
+     * @param {object|string} obj The object (or moduleId) to display as a dialog.
+     * @param {object} [activationData] The data that should be passed to the object upon activation.
+     * @param {string} [context] The name of the dialog context to use. Uses the default context if none is specified.
+     * @return {Promise} A promise that resolves when the dialog is closed and returns any data passed at the time of closing.
+    */
+    export function showDialog(obj: any, activationData?: any, context?: string):JQueryPromise;
+
+    /**
+     * Shows a message box via the dialog plugin.
+     * @method showMessage
+     * @param {string} message The message to display in the dialog.
+     * @param {string} [title] The title message.
+     * @param {string[]} [options] The options to provide to the user.
+     * @return {Promise} A promise that resolves when the message box is closed and returns the selected option.
+    */
+    export function showMessage(message: string, title?: string, options?: string[]): JQueryPromise<string>;
+    
+    /**
+     * Configures one or more plugins to be loaded and installed into the application.
+     * @method configurePlugins
+     * @param {object} config Keys are plugin names. Values can be truthy, to simply install the plugin, or a configuration object to pass to the plugin.
+     * @param {string} [baseUrl] The base url to load the plugins from.
+    */
+    export function configurePlugins(config: Object, baseUrl?: string): void;
+
+    /**
+     * Starts the application.
+     * @method start
+     * @return {promise}
+    */
+    export function start(): JQueryPromise;
+
+    /**
+     * Sets the root module/view for the application.
+     * @method setRoot
+     * @param {string} root The root view or module.
+     * @param {string} [transition] The transition to use from the previous root (or splash screen) into the new root.
+     * @param {string} [applicationHost] The application host element id. By default the id 'applicationHost' will be used.
+    */
+    export function setRoot(root: any, transition?: string, applicationHost?: string): void;
+
+    /**
+     * Sets the root module/view for the application.
+     * @method setRoot
+     * @param {string} root The root view or module.
+     * @param {string} [transition] The transition to use from the previous root (or splash screen) into the new root.
+     * @param {string} [applicationHost] The application host element. By default the id 'applicationHost' will be used.
+    */
+    export function setRoot(root: any, transition?: string, applicationHost?: HTMLElement): void;
+
+    /**
+     * Creates a subscription or registers a callback for the specified event.
+     * @method on
+     * @param {string} events One or more events, separated by white space.
+     * @return {Subscription} A subscription is returned.
+     */
+    export function on(events: string): EventSubscription;
+
+    /**
+     * Creates a subscription or registers a callback for the specified event.
+     * @method on
+     * @param {string} events One or more events, separated by white space.
+     * @param {function} [callback] The callback function to invoke when the event is triggered.
+     * @param {object} [context] An object to use as `this` when invoking the `callback`.
+     * @return {Events} The events object is returned for chaining.
+     */
+    export function on(events: string, callback: Function, context?: any): Events;
+
+    /**
+     * Removes the callbacks for the specified events.
+     * @method off
+     * @param {string} [events] One or more events, separated by white space to turn off. If no events are specified, then the callbacks will be removed.
+     * @param {function} [callback] The callback function to remove. If `callback` is not provided, all callbacks for the specified events will be removed.
+     * @param {object} [context] The object that was used as `this`. Callbacks with this context will be removed.
+     * @chainable
+     */
+    export function off(events: string, callback: Function, context?: any): Events;
+
+    /**
+     * Triggers the specified events.
+     * @method trigger
+     * @param {string} [events] One or more events, separated by white space to trigger.
+     * @chainable
+     */
+    export function trigger(events: string, ...eventArgs:any[]): Events;
+
+    /**
+     * Creates a function that will trigger the specified events when called. Simplifies proxying jQuery (or other) events through to the events object.
+     * @method proxy
+     * @param {string} events One or more events, separated by white space to trigger by invoking the returned function.
+     * @return {function} Calling the function will invoke the previously specified events on the events object.
+     */
+    export function proxy(events: string): Function;
+}
+
+/**
+ * The dialog module enables the display of message boxes, custom modal dialogs and other overlays or slide-out UI abstractions. Dialogs are constructed by the composition system which interacts with a user defined dialog context. The dialog module enforced the activator lifecycle.
+ * @module dialog
+ * @requires system
+ * @requires app
+ * @requires composition
+ * @requires activator
+ * @requires viewEngine
+ * @requires jquery
+ * @requires knockout
+ */
+declare module 'plugins/dialog' {
+    import activator = module('durandal/activator');
+    import composition = module('durandal/composition');
+
+    /**
+    * Models a message box's message, title and options.
+    * @class MessageBox
+    */
+    class Box {
+        constructor(message: string, title: string, options: string[]);
+
+        /**
+         * Selects an option and closes the message box, returning the selected option through the dialog system's promise.
+         * @method selectOption
+         * @param {string} dialogResult The result to select.
+         */
+        selectOptions(dialogResult: string): void;
+
+        /**
+         * Provides the view to the composition system.
+         * @method getView
+         * @return {DOMElement} The view of the message box.
+         */
+        getView(): HTMLElement;
+
+        /**
+         * The title to be used for the message box if one is not provided.
+         * @property {string} defaultTitle
+         * @default Application
+         * @static
+         */
+        static defaultTitle: string;
+
+        /**
+         * The options to display in the message box of none are specified.
+         * @property {string[]} defaultOptions
+         * @default ['Ok']
+         * @static
+         */
+        static defaultOptions: string[];
+
+        /**
+         * The markup for the message box's view.
+         * @property {string} defaultViewMarkup
+         * @static
+         */
+        static defaultViewMarkup: string;
+    }
+
+    interface DialogContext {
+        /**
+         * In this function, you are expected to add a DOM element to the tree which will serve as the "host" for the modal's composed view. You must add a property called host to the modalWindow object which references the dom element. It is this host which is passed to the composition module.
+         * @method addHost
+         * @param {Dialog} theDialog The dialog model.
+        */
+        addHost(theDialog: Dialog);
+
+        /**
+         * This function is expected to remove any DOM machinery associated with the specified dialog and do any other necessary cleanup.
+         * @method removeHost
+         * @param {Dialog} theDialog The dialog model.
+        */
+        removeHost(theDialog: Dialog);
+
+        /**
+         * This function is called after the modal is fully composed into the DOM, allowing your implementation to do any final modifications, such as positioning or animation. You can obtain the original dialog object by using `getDialog` on context.model.
+         * @method compositionComplete
+         * @param {DOMElement} child The dialog view.
+         * @param {DOMElement} parent The parent view.
+         * @param {object} context The composition context.
+        */
+        compositionComplete(child: HTMLElement, parent: HTMLElement, context: composition.CompositionContext);
+    }
+
+    interface Dialog {
+        owner: any;
+        context: DialogContext;
+        activator: activator.Activator<any>;
+        close(): JQueryPromise;
+        settings: composition.CompositionContext;
+    }
+
+    /**
+     * The constructor function used to create message boxes.
+     * @property {MessageBox} MessageBox
+    */
+    export var MessageBox: Box;
+
+    /**
+     * The css zIndex that the last dialog was displayed at.
+     * @property {int} currentZIndex
+    */
+    export var currentZIndex: number;
+
+    /**
+     * Gets the next css zIndex at which a dialog should be displayed.
+     * @method getNextZIndex
+     * @param {int} The zIndex.
+    */
+    export function getNextZIndex(): number;
+
+    /**
+     * Determines whether or not there are any dialogs open.
+     * @method isOpen
+     * @return {boolean} True if a dialog is open. false otherwise.
+    */
+    export function isOpen(): boolean;
+
+    /**
+     * Gets the dialog context by name or returns the default context if no name is specified.
+     * @method getContext
+     * @param {string} [name] The name of the context to retrieve.
+     * @return {DialogContext} True context.
+    */
+    export function getContext(name: string): DialogContext;
+
+    /**
+     * Adds (or replaces) a dialog context.
+     * @method addContext
+     * @param {string} name The name of the context to add.
+     * @param {DialogContext} dialogContext The context to add.
+    */
+    export function addContext(name: string, modalContext: DialogContext): void;
+    
+    /**
+     * Gets the dialog model that is associated with the specified object.
+     * @method getDialog
+     * @param {object} obj The object for whom to retrieve the dialog.
+     * @return {Dialog} The dialog model.
+    */
+    export function getDialog(obj: any): Dialog;
+
+    /**
+     * Closes the dialog associated with the specified object.
+     * @method close
+     * @param {object} obj The object whose dialog should be closed.
+     * @param {object} result* The results to return back to the dialog caller after closing.
+    */
+    export function close(obj: any): void;
+
+    /**
+     * Shows a dialog.
+     * @method show
+     * @param {object|string} obj The object (or moduleId) to display as a dialog.
+     * @param {object} [activationData] The data that should be passed to the object upon activation.
+     * @param {string} [context] The name of the dialog context to use. Uses the default context if none is specified.
+     * @return {Promise} A promise that resolves when the dialog is closed and returns any data passed at the time of closing.
+    */
+    export function show(obj: any, activationData?: any, context?: string): JQueryPromise;
+
+    /**
+     * Shows a message box.
+     * @method showMessage
+     * @param {string} message The message to display in the dialog.
+     * @param {string} [title] The title message.
+     * @param {string[]} [options] The options to provide to the user.
+     * @return {Promise} A promise that resolves when the message box is closed and returns the selected option.
+    */
+    export function showMessage(message: string, title?: string, options?: string[]): JQueryPromise<string>;
+
+    /**
+     * Installs this module into Durandal; called by the framework. Adds `app.showDialog` and `app.showMessage` convenience methods.
+     * @method install
+     * @param {object} [config] Add a `messageBox` property to supply a custom message box constructor. Add a `messageBoxView` property to supply custom view markup for the built-in message box.
+    */
+    export function install(config: any): void;
+}
+
+/**
+ * This module is based on Backbone's core history support. It abstracts away the low level details of working with browser history and url changes in order to provide a solid foundation for a router.
+ * @module history
+ * @requires system
+ * @requires jquery
+ */
+declare module 'plugins/history' {
+    interface HistoryOptions {
+        /**
+         * The function that will be called back when the fragment changes.
+         * @property {function} routeHandler
+         */
+        routeHandler: (fragment: string) => void;
+
+        /**
+         * The url root used to extract the fragment when using push state.
+         * @property {string} root
+         */
+        root?: string;
+
+        /**
+         * Use hash change when present.
+         * @property {boolean} hashChange
+         * @default true
+         */
+        hashChange?: boolean;
+
+        /**
+         * Use push state when present.
+         * @property {boolean} pushState
+         * @default false
+         */
+        pushState?: boolean;
+
+        /**
+         * Prevents loading of the current url when activating history.
+         * @property {boolean} silent
+         * @default false
+         */
+        silent?: boolean;
+    }
+
+    interface NavigationOptions {
+        trigger: boolean;
+        replace: boolean;
+    }
+
+    /**
+     * The setTimeout interval used when the browser does not support hash change events.
+     * @property {string} interval
+     * @default 50
+    */
+    export var interval: number;
+
+    /**
+     * Indicates whether or not the history module is actively tracking history.
+     * @property {string} active
+    */
+    export var active: boolean;
+
+    /**
+     * Gets the true hash value. Cannot use location.hash directly due to a bug in Firefox where location.hash will always be decoded.
+     * @method getHash
+     * @param {string} [window] The optional window instance
+     * @return {string} The hash.
+     */
+    export function getHash(window?: Window): string;
+
+    /**
+     * Get the cross-browser normalized URL fragment, either from the URL, the hash, or the override.
+     * @method getFragment
+     * @param {string} fragment The fragment.
+     * @param {boolean} forcePushState Should we force push state?
+     * @return {string} he fragment.
+     */
+    export function getFragment(fragment: string, forcePushState: boolean): string;
+
+    /**
+     * Activate the hash change handling, returning `true` if the current URL matches an existing route, and `false` otherwise.
+     * @method activate
+     * @param {HistoryOptions} options.
+     * @return {boolean|undefined} Returns true/false from loading the url unless the silent option was selected.
+     */
+    export function activate(options: HistoryOptions): boolean;
+
+    /**
+     * Disable history, perhaps temporarily. Not useful in a real app, but possibly useful for unit testing Routers.
+     * @method deactivate
+     */
+    export function deactivate(): void;
+
+    /**
+     * Checks the current URL to see if it has changed, and if it has, calls `loadUrl`, normalizing across the hidden iframe.
+     * @method checkUrl
+     * @return {boolean} Returns true/false from loading the url.
+     */
+    export function checkUrl(): boolean;
+
+    /**
+     * Attempts to load the current URL fragment. A pass-through to options.routeHandler.
+     * @method loadUrl
+     * @return {boolean} Returns true/false from the route handler.
+     */
+    export function loadUrl(): boolean;
+
+    /**
+     * Save a fragment into the hash history, or replace the URL state if the
+     * 'replace' option is passed. You are responsible for properly URL-encoding
+     * the fragment in advance.
+     * The options object can contain `trigger: true` if you wish to have the
+     * route callback be fired (not usually desirable), or `replace: true`, if
+     * you wish to modify the current URL without adding an entry to the history.
+     * @method navigate
+     * @param {string} fragment The url fragment to navigate to.
+     * @param {object|boolean} options An options object with optional trigger and replace flags. You can also pass a boolean directly to set the trigger option. Trigger is `true` by default.
+     * @return {boolean} Returns true/false from loading the url.
+     */
+    export function navigate(fragment: string, trigger?: boolean): boolean;
+
+    /**
+     * Save a fragment into the hash history, or replace the URL state if the
+     * 'replace' option is passed. You are responsible for properly URL-encoding
+     * the fragment in advance.
+     * The options object can contain `trigger: true` if you wish to have the
+     * route callback be fired (not usually desirable), or `replace: true`, if
+     * you wish to modify the current URL without adding an entry to the history.
+     * @method navigate
+     * @param {string} fragment The url fragment to navigate to.
+     * @param {object|boolean} options An options object with optional trigger and replace flags. You can also pass a boolean directly to set the trigger option. Trigger is `true` by default.
+     * @return {boolean} Returns true/false from loading the url.
+     */
+    export function navigate(fragment: string, options: NavigationOptions): boolean;
+}
+
+/**
+ * Enables common http request scenarios.
+ * @module http
+ * @requires jquery
+ * @requires knockout
+ */
+declare module 'plugins/http' {
+    /**
+     * The name of the callback parameter to inject into jsonp requests by default.
+     * @property {string} callbackParam
+     * @default callback
+    */
+    export var callbackParam: string;
+    
+    /**
+     * Makes an HTTP GET request.
+     * @method get
+     * @param {string} url The url to send the get request to.
+     * @param {object} [query] An optional key/value object to transform into query string parameters.
+     * @return {Promise} A promise of the get response data.
+    */
+    export function get(url: string, query?: Object): JQueryPromise;
+
+    /**
+     * Makes an JSONP request.
+     * @method jsonp
+     * @param {string} url The url to send the get request to.
+     * @param {object} [query] An optional key/value object to transform into query string parameters.
+     * @param {string} [callbackParam] The name of the callback parameter the api expects (overrides the default callbackParam).
+     * @return {Promise} A promise of the response data.
+    */
+    export function jsonp(url: string, query?: Object, callbackParam?: string): JQueryPromise;
+    
+    /**
+     * Makes an HTTP POST request.
+     * @method post
+     * @param {string} url The url to send the post request to.
+     * @param {object} data The data to post. It will be converted to JSON. If the data contains Knockout observables, they will be converted into normal properties before serialization.
+     * @return {Promise} A promise of the response data.
+    */
+    export function post(url: string, data: Object): JQueryPromise;
+}
+
+
 
 /**
   * A router plugin, currently based on SammyJS. The router abstracts away the core configuration of Sammy and re-interprets it in terms of durandal's composition and activation mechanism. To use the router, you must require it, configure it and bind it in the UI.
   * Documentation at http://durandaljs.com/documentation/Router/
   */
 declare module "plugins/router" {
+    import activator = module('durandal/activator');
+
     /**
       * Parameters to the map function. or information on route url patterns, see the SammyJS documentation. But 
       * basically, you can have simple routes my/route/, parameterized routes customers/:id or Regex routes. If you 
@@ -374,15 +1339,15 @@ declare module "plugins/router" {
       */
     interface IRouteInfoParameters {
         /** your url pattern. The only required parameter */
-        route: string;
+        url: any;
         /** if not supplied, router.convertRouteToName derives it */
         moduleId?: string;
         /** if not supplied, router.convertRouteToModuleId derives it */
         name?: string;
         /** used to set the document title */
-        title?: string;
+        caption?: string;
         /** determines whether or not to include it in the router's visibleRoutes array for easy navigation UI binding */
-        nav?: boolean;
+        visible?: boolean;
         settings?: Object;
     }
     /**
@@ -404,7 +1369,7 @@ declare module "plugins/router" {
     /**
       * An observable whose value is the currently active item/module/page.
       */
-    export var activeItem: IDurandalViewModelActiveItem;
+    export var activeItem: activator.Activator<any>;
     /**
       * An observable whose value is the currently active route.
       */
@@ -425,6 +1390,8 @@ declare module "plugins/router" {
       * Use router default convention.
       */
     export var useConvention: () => void;
+
+    export var buildNavigationMode: () => void;
     /**
       * Causes the router to navigate to a specific url.
       */
@@ -479,8 +1446,10 @@ declare module "plugins/router" {
       * After you've configured the router, you need to activate it. This is usually done in your shell. The activate function of the router returns a promise that resolves when the router is ready to start. To use the router, you should add an activate function to your shell and return the result from that. The application startup infrastructure of Durandal will detect your shell's activate function and call it at the appropriate time, waiting for it's promise to resolve. This allows Durandal to properly orchestrate the timing of composition and databinding along with animations and splash screen display.
       */
     export var activate: (defaultRoute: string) => JQueryPromise;
-
-    export var buildNavigationModel: (defaultOrder?:number) => void;
+    /**
+      * Before any route is activated, the guardRoute funtion is called. You can plug into this function to add custom logic to allow, deny or redirect based on the requested route. To allow, return true. To deny, return false. To redirect, return a string with the hash or url. You may also return a promise for any of these values.
+      */
+    export var guardRoute: (routeInfo: IRouteInfo, params: any, instance: any) => any;
 }
 
 declare module "durandal/widget" {
@@ -509,16 +1478,3 @@ declare module "durandal/widget" {
       */
     export function convertKindToViewId(kind): string;
 }
-
-interface IEventSubscription
-{
-    /**
-      * This function adding callback to event subscription
-      */
-    then(thenCallback: any): void;
-
-    /**
-      * This function removing current subscription from event handlers
-      */
-     off(): void;
- }

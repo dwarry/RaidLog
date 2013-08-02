@@ -31,13 +31,15 @@ namespace RaidLog.Spa.Controllers
             {
                 using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    return _connection.Query<AssumptionDto>(AssumptionsQueries.GetAllAssumptionsForProject,
+                    var assumptions = _connection.Query<AssumptionDto>(AssumptionsQueries.GetAllAssumptionsForProject,
                         new
                         {
                             projectId
                         },
                         tx)
                         .ToArray();
+
+                    return assumptions;
                 }
             }
             catch (Exception ex)

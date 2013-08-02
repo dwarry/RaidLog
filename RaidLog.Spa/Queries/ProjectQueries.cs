@@ -25,12 +25,22 @@ with re as
 	  from [dbo].[RiskEvaluation]
 )
     select r.[ProjectId]
-         , re.[RiskId]
+         , re.[RiskId] as RiskId
          , re.[IsActive] as IsActive
       from [dbo].[Risk] r 
  left join re on r.[Id] = re.[RiskId]
      where r.[ProjectId] in (select [Id] from [dbo].[Project] p where p.[IsActive] = 1) 
        and rn=1;";
+
+        public const string GetAllProjectsAndAssumptions = @"
+     select  a.[ProjectId]
+          ,  a.Id as AssumptionId
+          ,  ~sts.[IsFinalState] as IsActive
+       from  [dbo].[Assumption] a 
+  left join  [dbo].[AssumptionStatus] sts 
+         on  sts.[Id] = a.[AssumptionStatusId]
+      where  a.[ProjectId] in (select [Id] from [dbo].[Project] p where p.[IsActive] = 1);
+";
 
         public const string GetProjectDetails = @"
     Select [Id]
@@ -38,7 +48,7 @@ with re as
          , [Code]
          , [Name] 
       from [dbo].[Project] 
-     where [Id] = @id
+     where [Id] = @id;
 ";
 
         public const string InsertProject = @"

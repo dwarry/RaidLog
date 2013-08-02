@@ -1,6 +1,12 @@
 ﻿define(["require", "exports", 'services/dataService'], function(require, exports, __ds__) {
     var ds = __ds__;
 
+    var assumptionStatuses = ko.observableArray();
+
+    ds.getReferenceData().done(function (refData) {
+        assumptionStatuses(refData.assumptionStatuses);
+    });
+
     var AssumptionDetails = (function () {
         function AssumptionDetails(projectId, dto) {
             var _this = this;
@@ -23,11 +29,27 @@
                 this.supportingDocumentation
             ]);
 
+            this.updateFromDto(dto);
+
             this.canSave = ko.computed(function () {
                 return _this.validation.isValid();
             }, this);
 
-            this.updateFromDto(dto);
+            this.status = ko.computed(function () {
+                var result = "(unknown)";
+                var stsId = _this.statusId();
+
+                $.each(assumptionStatuses(), function (index, value) {
+                    if (value.id === stsId) {
+                        result = value.description;
+                        return false;
+                    } else {
+                        return true;
+                    }
+                });
+
+                return result;
+            }, this);
         }
         AssumptionDetails.prototype.updateFromDto = function (dto) {
             this.id = dto.id;

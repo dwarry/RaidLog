@@ -15,7 +15,7 @@ namespace RaidLog.Queries
          , Workstream
          , Owner
          , ValidatedBy
-         , AssumptionStatusId
+         , AssumptionStatusId as StatusId
          , SupportingDocumentation
 FROM 
          [dbo].[Assumption] a
@@ -34,7 +34,7 @@ SELECT
          ,a.Workstream
          ,a.Owner
          ,a.ValidatedBy
-         ,a.AssumptionStatusId
+         ,a.AssumptionStatusId as StatusId
          ,a.SupportingDocumentation
 FROM 
          [dbo].[Assumption] a

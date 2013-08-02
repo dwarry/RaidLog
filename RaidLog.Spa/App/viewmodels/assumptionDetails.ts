@@ -1,9 +1,13 @@
 ﻿/// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
-/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />y
 /// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
 /// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
 
 import ds = require('services/dataService');
+
+var assumptionStatuses: KnockoutObservableArray< ds.AssumptionStatusDto> = ko.observableArray();
+
+ds.getReferenceData().done( (refData:ds.ReferenceDataDto) => { assumptionStatuses(refData.assumptionStatuses); });
 
 class AssumptionDetails{
 
@@ -29,8 +33,9 @@ class AssumptionDetails{
 
     canSave: KnockoutComputed<bool>;
 
-    constructor(private projectId: number, dto: ds.AssumptionDto) {
+    status: KnockoutComputed<string>;
 
+    constructor(private projectId: number, dto: ds.AssumptionDto) {
         this.validation = ko.validatedObservable([
             this.description,
             this.workstream,
@@ -40,9 +45,27 @@ class AssumptionDetails{
             this.supportingDocumentation
         ]);
 
-        this.canSave = ko.computed(() => this.validation.isValid(), this);
 
         this.updateFromDto(dto);
+        
+        this.canSave = ko.computed(() => this.validation.isValid(), this);
+
+        this.status = ko.computed(() => {
+            var result = "(unknown)";
+            var stsId = this.statusId();
+
+            $.each(assumptionStatuses(), (index, value) => {
+                if (value.id === stsId) {
+                    result = value.description;
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+
+            return result;
+        }, this);
+
     }
 
     updateFromDto(dto: ds.AssumptionDto) {

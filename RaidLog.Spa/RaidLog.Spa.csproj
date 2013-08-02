@@ -274,10 +274,19 @@
       <DependentUpon>shell.ts</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\shell.ts" />
+    <Content Include="App\views\assumptionList.html" />
     <Content Include="App\views\maintainProject.html" />
     <Content Include="App\views\projectList.html" />
     <Content Include="App\views\riskList.html" />
     <Content Include="App\views\shell.html" />
+    <Content Include="App\widgets\textfield\view.html" />
+    <Content Include="App\widgets\textfield\viewmodel.js">
+      <DependentUpon>viewmodel.ts</DependentUpon>
+    </Content>
+    <Content Include="App\widgets\textfield\viewmodel.min.js">
+      <DependentUpon>viewmodel.ts</DependentUpon>
+    </Content>
+    <Content Include="App\widgets\textfield\viewmodel.ts" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\durandal.css" />
