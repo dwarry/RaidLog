@@ -1,4 +1,0 @@
-﻿class IssueList{
-}
-
-export = IssueList;

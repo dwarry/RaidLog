@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Web.Http;
 
 using Dapper;
 
 using RaidLog.Models;
+using RaidLog.Queries;
 
 namespace RaidLog.Spa.Controllers
 {
@@ -21,9 +23,28 @@ namespace RaidLog.Spa.Controllers
             _connection = connection;
         }
 
-        public IEnumerable<dynamic> GetAssumptionsForProject(int projectId, bool? active )
+        public AssumptionDto[] GetAssumptionsForProject(int projectId)
         {
-            yield break;
+            _connection.Open();
+
+            try
+            {
+                using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
+                {
+                    return _connection.Query<AssumptionDto>(AssumptionsQueries.GetAllAssumptionsForProject,
+                        new
+                        {
+                            projectId
+                        },
+                        tx)
+                        .ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
         } 
 
         public AssumptionDto PostNewAssumption(int projectId, NewAssumptionDto newAssumption)
@@ -35,8 +56,7 @@ namespace RaidLog.Spa.Controllers
                 {
                     CheckProjectIsActive(tx, projectId);
 
-                    var args = new DynamicParameters(new
-                    {
+                    var args = new {
                         projectId = projectId,
                         description = newAssumption.Description,
                         workstream = newAssumption.Workstream,
@@ -44,13 +64,14 @@ namespace RaidLog.Spa.Controllers
                         validatedBy = newAssumption.ValidatedBy,
                         statusId = newAssumption.StatusId,
                         supportingDocumentation = newAssumption.SupportingDocumentation
-                    });
+                    };
 
-                    args.Add("assumptionId", 0, DbType.Int32, ParameterDirection.Output);
+                    return _connection.Query<AssumptionDto>(AssumptionsQueries.InsertAssumption,
+                        args,
+                        tx)
+                        .FirstOrDefault();
 
 
-
-                    return new AssumptionDto();
                 }
             }
             finally
@@ -66,7 +87,24 @@ namespace RaidLog.Spa.Controllers
             {
                 using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    return new AssumptionDto();
+                    CheckProjectIsActive(tx, editAssumption.ProjectId);
+
+                    var args = new
+                    {
+                        id = assumptionId,
+                        version = Convert.FromBase64String(editAssumption.Version),
+                        description = editAssumption.Description,
+                        workstream = editAssumption.Workstream,
+                        owner = editAssumption.Owner,
+                        validatedBy = editAssumption.ValidatedBy,
+                        statusId = editAssumption.StatusId,
+                        supportingDocumentation = editAssumption.SupportingDocumentation
+
+                    };
+
+                    return _connection.Query<AssumptionDto>(AssumptionsQueries.UpdateAssumption,
+                        args,
+                        tx).FirstOrDefault();
                 }
             }
             finally

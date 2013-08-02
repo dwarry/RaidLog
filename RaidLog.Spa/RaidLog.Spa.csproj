@@ -204,6 +204,20 @@
       <DependentUpon>routeFactory.ts</DependentUpon>
     </Content>
     <Content Include="App\services\routeFactory.ts" />
+    <Content Include="App\viewmodels\assumptionDetails.js">
+      <DependentUpon>assumptionDetails.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\assumptionDetails.min.js">
+      <DependentUpon>assumptionDetails.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\assumptionDetails.ts" />
+    <Content Include="App\viewmodels\assumptionList.js">
+      <DependentUpon>assumptionList.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\assumptionList.min.js">
+      <DependentUpon>assumptionList.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\assumptionList.ts" />
     <Content Include="App\viewmodels\EditableViewModel.js">
       <DependentUpon>EditableViewModel.ts</DependentUpon>
     </Content>

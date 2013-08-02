@@ -6,6 +6,8 @@
 /// <reference path='../../Scripts/typings/knockout.mapping/knockout.mapping.d.ts' />
 /// <reference path='../../Scripts/typings/knockout.validation/knockout.validation.d.ts' />
 /// <reference path='../../Scripts/typings/durandal/durandal.d.ts' />
+import logger = require("services/logger");
+import http = require("plugins/http");
 
 export interface AssumptionStatusDto {
     
@@ -31,7 +33,7 @@ export interface ImpactDto {
 
 export interface LikelihoodDto{
     id: number;
-    description: string;
+    description: string; 
     score: number;
 }
 
@@ -149,6 +151,30 @@ export interface EditRiskDto extends NewRiskDto {
     version: string;
 }
 
+export interface NewAssumptionDto {
+
+    description: string;
+
+    workstream: string;
+
+    owner: string;
+
+    validatedBy: string;
+
+    statusId: number;
+
+    supportingDocumentation: string;
+}
+
+export interface EditAssumptionDto extends NewAssumptionDto{
+    id: number;
+
+    version: string;
+
+    projectId: number;
+
+    assumptionNumber: number;
+};
 
 
 export interface AssumptionDto{
@@ -166,7 +192,7 @@ export interface AssumptionDto{
 
     validatedBy: string;
 
-    statusId: string;
+    statusId: number;
 
     supportingDocumentation: string;
 }
@@ -180,7 +206,7 @@ export function makeNewAssumption(): AssumptionDto{
         workstream: "",
         owner: "",
         validatedBy: "",
-        statusId: "",
+        statusId: <number>null,
         supportingDocumentation: "",
     };
 }
@@ -235,8 +261,6 @@ export function makeNewQueryDto(): QueryDto {
     };
 }
 
-import logger = require("services/logger");
-import http = require("plugins/http");
 
 var referenceData: ReferenceDataDto;
 
@@ -281,7 +305,9 @@ export function getProjectRisks(id : number):JQueryPromise<RiskDto[]> {
 // id - project id
 // active - true for open risks, false for closed, null for both.
 export function getProjectAssumptions(id: number): JQueryPromise<AssumptionDto[]> {
-    return $.getJSON("/api/project/" + id + "/assumptions/");
+    return $.getJSON("/api/project/" + id + "/assumptions/")
+        .done((data) => { logger.logSuccess("Retrieved Project Assumptions", data, MODULE_NAME, true); })
+        .fail((jqxhr, status, ex) => { logger.logError("Error retrieving Project Assumptions", jqxhr, MODULE_NAME, true); });
 };
 
 // id - project id
@@ -349,6 +375,26 @@ export function saveRisk(projectId:number, risk: NewRiskDto): JQueryPromise<Risk
     }).fail(function (jqxhr, status, ex) {
             logger.logError(status + " " + jqxhr.responseText, risk, "backend", false);
             logger.logError("Error saving the Risk", null, "backend", true);
+        });
+}
+
+export function saveAssumption(projectId: number, assumption: NewAssumptionDto): JQueryPromise<AssumptionDto> {
+    var options: JQueryAjaxSettings = { data: assumption };
+
+    if ('id' in assumption) {
+        options.url = '/api/assumptions/' + assumption['id'];
+        options.type = 'PUT';
+    }
+    else {
+        options.url = '/api/project/' + projectId + '/assumptions/';
+        options.type = 'POST';
+    }
+
+    return $.ajax(options).done(function (data, status, jqxhr) {
+        logger.log("Saved Assumption", null, MODULE_NAME, true);
+    }).fail(function (jqxhr, status, ex) {
+            logger.logError(status + " " + jqxhr.responseText, assumption, MODULE_NAME, false);
+            logger.logError("Error saving the Risk", null, MODULE_NAME, true);
         });
 }
 

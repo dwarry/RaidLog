@@ -80,7 +80,6 @@
     <Build Include="dbo\Stored Procedures\usp_CreateRisk.sql" />
     <Build Include="dbo\Stored Procedures\usp_UpdateRisk.sql" />
     <Build Include="dbo\Stored Procedures\usp_AddRiskLink.sql" />
-    <Build Include="dbo\Stored Procedures\usp_CreateActionForRisk.sql" />
     <Build Include="dbo\Stored Procedures\usp_CreateAssumption.sql" />
     <Build Include="dbo\Tables\Assumption.sql" />
     <Build Include="dbo\Tables\Assumption_Action.sql" />
@@ -91,7 +90,6 @@
     <Build Include="dbo\Tables\Dependency.sql" />
     <Build Include="dbo\Views\CurrentRiskEvaluations.sql" />
     <Build Include="dbo\Stored Procedures\usp_DeleteRiskLink.sql" />
-    <Build Include="dbo\Stored Procedures\UpdateAssumption.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="ReferenceData.PostDeployment.sql" />

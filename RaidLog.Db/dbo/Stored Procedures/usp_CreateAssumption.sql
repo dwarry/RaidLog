@@ -5,8 +5,7 @@
     @owner nvarchar(50),
     @validatedBy nvarchar(50),
     @statusId int,
-    @supportingDocumentation nvarchar(512),
-    @assumptionId int out
+    @supportingDocumentation nvarchar(512)
 AS
 BEGIN
 
@@ -75,8 +74,6 @@ BEGIN
            ,@supportingDocumentation
            ,CURRENT_USER
            ,SYSDATETIME())
-
-    SET @assumptionId = SCOPE_IDENTITY();
 
     COMMIT TRANSACTION;
 

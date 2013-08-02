@@ -1,4 +1,7 @@
 ﻿define(["require", "exports", "services/logger", "plugins/http"], function(require, exports, __logger__, __http__) {
+    var logger = __logger__;
+    var http = __http__;
+
     function makeRiskDto() {
         return {
             id: 0,
@@ -19,6 +22,8 @@
     }
     exports.makeRiskDto = makeRiskDto;
 
+    ;
+
     function makeNewAssumption() {
         return {
             id: null,
@@ -28,7 +33,7 @@
             workstream: "",
             owner: "",
             validatedBy: "",
-            statusId: "",
+            statusId: null,
             supportingDocumentation: ""
         };
     }
@@ -60,9 +65,6 @@
         };
     }
     exports.makeNewQueryDto = makeNewQueryDto;
-
-    var logger = __logger__;
-    var http = __http__;
 
     var referenceData;
 
@@ -109,7 +111,11 @@
     ;
 
     function getProjectAssumptions(id) {
-        return $.getJSON("/api/project/" + id + "/assumptions/");
+        return $.getJSON("/api/project/" + id + "/assumptions/").done(function (data) {
+            logger.logSuccess("Retrieved Project Assumptions", data, MODULE_NAME, true);
+        }).fail(function (jqxhr, status, ex) {
+            logger.logError("Error retrieving Project Assumptions", jqxhr, MODULE_NAME, true);
+        });
     }
     exports.getProjectAssumptions = getProjectAssumptions;
     ;
@@ -176,4 +182,24 @@
         });
     }
     exports.saveRisk = saveRisk;
+
+    function saveAssumption(projectId, assumption) {
+        var options = { data: assumption };
+
+        if ('id' in assumption) {
+            options.url = '/api/assumptions/' + assumption['id'];
+            options.type = 'PUT';
+        } else {
+            options.url = '/api/project/' + projectId + '/assumptions/';
+            options.type = 'POST';
+        }
+
+        return $.ajax(options).done(function (data, status, jqxhr) {
+            logger.log("Saved Assumption", null, MODULE_NAME, true);
+        }).fail(function (jqxhr, status, ex) {
+            logger.logError(status + " " + jqxhr.responseText, assumption, MODULE_NAME, false);
+            logger.logError("Error saving the Risk", null, MODULE_NAME, true);
+        });
+    }
+    exports.saveAssumption = saveAssumption;
 });

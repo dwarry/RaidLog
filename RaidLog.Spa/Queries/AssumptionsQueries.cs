@@ -7,7 +7,7 @@ namespace RaidLog.Queries
 {
     internal class AssumptionsQueries
     {
-        public const string GetAssumptionsForProject = @"
+        public const string GetAllAssumptionsForProject = @"
     SELECT Id
          , Version
          , AssumptionNumber
@@ -15,7 +15,7 @@ namespace RaidLog.Queries
          , Workstream
          , Owner
          , ValidatedBy
-         , StatusId
+         , AssumptionStatusId
          , SupportingDocumentation
 FROM 
          [dbo].[Assumption] a
@@ -24,6 +24,32 @@ WHERE
 ORDER BY 
          AssumptionNumber
 ";
+
+        public const string GetOpenOrClosedAssumptionsForProject = @"
+SELECT 
+          a.Id
+         ,a.Version
+         ,a.AssumptionNumber
+         ,a.Description
+         ,a.Workstream
+         ,a.Owner
+         ,a.ValidatedBy
+         ,a.AssumptionStatusId
+         ,a.SupportingDocumentation
+FROM 
+         [dbo].[Assumption] a
+INNER JOIN 
+         [dbo].AssumptionStatus sts
+ON
+         sts.Id = a.AssumptionStatusId
+
+WHERE
+         ProjectId = @projectId
+AND
+         sts.IsFinalState = @isFinalState
+ORDER BY 
+         AssumptionNumber";
+
         public const string InsertAssumption = @"usp_CreateAssumption";
 
         public const string UpdateAssumption = @"usp_UpdateAssumption";
