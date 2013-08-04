@@ -83,7 +83,7 @@
                 editDto.projectId = this.projectId;
             }
 
-            ds.saveAssumption(this.projectId, dto);
+            ds.saveAssumption(this.projectId, dto).done(this.updateFromDto);
         };
         return AssumptionDetails;
     })();

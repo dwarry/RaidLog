@@ -68,12 +68,15 @@ namespace RaidLog.Spa.Controllers
                         supportingDocumentation = newAssumption.SupportingDocumentation
                     };
 
-                    return _connection.Query<AssumptionDto>(AssumptionsQueries.InsertAssumption,
+                    var result =  _connection.Query<AssumptionDto>(AssumptionsQueries.InsertAssumption,
                         args,
-                        tx)
+                        tx,
+                        commandType: CommandType.StoredProcedure)
                         .FirstOrDefault();
 
+                    tx.Commit();
 
+                    return result;
                 }
             }
             finally

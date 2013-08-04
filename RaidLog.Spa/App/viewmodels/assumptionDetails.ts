@@ -89,7 +89,7 @@ class AssumptionDetails{
             workstream:this.workstream(),
             owner: this.owner(),
             validatedBy: this.validatedBy(),
-            statusId: this.statusId(),
+            statusId: this.statusId().id,
             supportingDocumentation: this.supportingDocumentation()
         };
 
@@ -101,7 +101,7 @@ class AssumptionDetails{
             editDto.projectId = this.projectId;
         }
 
-        ds.saveAssumption(this.projectId, dto);
+        ds.saveAssumption(this.projectId, dto).done(this.updateFromDto);
     }
 }
 
