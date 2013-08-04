@@ -7,6 +7,9 @@ import ds = require('services/dataService');
 import pg = require('./pagedGrid');
 import AssumptionDetails = require('./assumptionDetails');
 
+var assumptionStatuses: ds.AssumptionStatusDto[];
+
+ds.getReferenceData().done((data) => { assumptionStatuses = data.assumptionStatuses; });
 
 class AssumptionList{
     projectId: number;
@@ -16,6 +19,8 @@ class AssumptionList{
     projectName= ko.observable("");
 
     listViewModel: pg.ListViewModel<ds.AssumptionDto>;
+
+    assumptionStatuses: ds.AssumptionStatusDto[];
 
     private _mappingOptions: KnockoutMappingOptions;
 
@@ -28,6 +33,8 @@ class AssumptionList{
             create: options => new AssumptionDetails(this.projectId, options.data),
             key: (x) => x.id
         };
+
+        this.assumptionStatuses = assumptionStatuses;
     }
 
     activate(projectIdParam) {

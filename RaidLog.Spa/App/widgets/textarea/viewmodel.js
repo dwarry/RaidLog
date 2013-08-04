@@ -2,10 +2,10 @@
     
     
 
-    var TextFieldWidget = (function () {
-        function TextFieldWidget() {
+    var TextAreaWidget = (function () {
+        function TextAreaWidget() {
         }
-        TextFieldWidget.prototype.activate = function (settings) {
+        TextAreaWidget.prototype.activate = function (settings) {
             this.settings = settings;
 
             if (!('enabled' in settings)) {
@@ -23,18 +23,10 @@
             if (!('labelClass' in settings)) {
                 settings.labelClass = "";
             }
-
-            if (typeof (settings.field) !== 'number' && 'isValid' in settings.field) {
-                settings['isValid'] = settings.field.isValid;
-            } else {
-                settings['isValid'] = function () {
-                    return true;
-                };
-            }
         };
-        return TextFieldWidget;
+        return TextAreaWidget;
     })();
 
     
-    return TextFieldWidget;
+    return TextAreaWidget;
 });

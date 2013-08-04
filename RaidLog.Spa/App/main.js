@@ -22,7 +22,7 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'plugins/widg
     app.configurePlugins({
         router: true,
         dialog: true,
-        widget: {kinds:['textfield']},
+        widget: {kinds:['textarea','textfield','select']},
         http:   true
     });
 

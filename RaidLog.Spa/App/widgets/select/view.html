@@ -1,0 +1,9 @@
+﻿<div class="control-group" data-bind="css: { error: !settings.field.isValid() }">
+    <label class="control-label" data-bind="attr:{'for':settings.fieldName}, text:settings.label,css:settings.labelClass" data-part="label"></label>
+    <div class="controls">
+        <select 
+             data-bind="attr: { id: settings.fieldName, name: settings.fieldName }, css: settings.fieldClass, value:settings.field, options:settings.options, optionsText:settings.optionsText, enabled:settings.enabled, visible:settings.visible"
+             data-part="field"
+             />
+    </div>
+</div>

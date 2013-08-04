@@ -276,7 +276,7 @@ var refDataDfd: JQueryPromise<ReferenceDataDto> = http.get('/api/ReferenceData/'
     });
 
 
-export function getReferenceData() {
+export function getReferenceData() : JQueryPromise<ReferenceDataDto> {
     return refDataDfd;
 }
 

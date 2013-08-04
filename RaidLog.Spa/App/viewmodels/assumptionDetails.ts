@@ -5,9 +5,9 @@
 
 import ds = require('services/dataService');
 
-var assumptionStatuses: KnockoutObservableArray< ds.AssumptionStatusDto> = ko.observableArray();
+var _assumptionStatuses: KnockoutObservableArray< ds.AssumptionStatusDto> = ko.observableArray();
 
-ds.getReferenceData().done( (refData:ds.ReferenceDataDto) => { assumptionStatuses(refData.assumptionStatuses); });
+ds.getReferenceData().done( (refData:ds.ReferenceDataDto) => { _assumptionStatuses(refData.assumptionStatuses); });
 
 class AssumptionDetails{
 
@@ -15,7 +15,7 @@ class AssumptionDetails{
 
     version = "";
 
-    assumptionNumber = 0;
+    assumptionNumber: KnockoutObservable<number> = ko.observable();//.extend({min:0,max:99999});
 
     description: KnockoutObservable<string> = ko.observable("").extend({ required: true, maxLength: 2048 });
 
@@ -34,6 +34,8 @@ class AssumptionDetails{
     canSave: KnockoutComputed<bool>;
 
     status: KnockoutComputed<string>;
+
+    assumptionStatuses = _assumptionStatuses;
 
     constructor(private projectId: number, dto: ds.AssumptionDto) {
         this.validation = ko.validatedObservable([
@@ -54,7 +56,7 @@ class AssumptionDetails{
             var result = "(unknown)";
             var stsId = this.statusId();
 
-            $.each(assumptionStatuses(), (index, value) => {
+            $.each(this.assumptionStatuses(), (index, value) => {
                 if (value.id === stsId) {
                     result = value.description;
                     return false;
@@ -72,7 +74,7 @@ class AssumptionDetails{
         this.id = dto.id;
         this.version = dto.version;
        
-        this.assumptionNumber = dto.assumptionNumber;
+        this.assumptionNumber(dto.assumptionNumber);
         this.description(dto.description);
         this.workstream(dto.workstream);
         this.owner(dto.owner);
@@ -95,7 +97,7 @@ class AssumptionDetails{
             var editDto = <ds.EditAssumptionDto>dto;
             editDto.id = this.id;
             editDto.version = this.version;
-            editDto.assumptionNumber = this.assumptionNumber;
+            editDto.assumptionNumber = this.assumptionNumber();
             editDto.projectId = this.projectId;
         }
 

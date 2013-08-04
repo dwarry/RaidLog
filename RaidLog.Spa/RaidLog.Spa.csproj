@@ -279,6 +279,32 @@
     <Content Include="App\views\projectList.html" />
     <Content Include="App\views\riskList.html" />
     <Content Include="App\views\shell.html" />
+    <Content Include="App\widgets\BootstrapFormFieldSettings.js" />
+    <Content Include="App\widgets\BootstrapFormWidgetSettings.js">
+      <DependentUpon>BootstrapFormWidgetSettings.ts</DependentUpon>
+    </Content>
+    <Content Include="App\widgets\BootstrapFormWidgetSettings.min.js">
+      <DependentUpon>BootstrapFormWidgetSettings.ts</DependentUpon>
+    </Content>
+    <Content Include="App\widgets\BootstrapFormWidgetSettings.ts" />
+    <Content Include="App\widgets\select\view_noErrors.html" />
+    <Content Include="App\widgets\select\view.html" />
+    <Content Include="App\widgets\select\viewmodel.js">
+      <DependentUpon>viewmodel.ts</DependentUpon>
+    </Content>
+    <Content Include="App\widgets\select\viewmodel.min.js">
+      <DependentUpon>viewmodel.ts</DependentUpon>
+    </Content>
+    <Content Include="App\widgets\select\viewmodel.ts" />
+    <Content Include="App\widgets\textarea\view.html" />
+    <Content Include="App\widgets\textarea\viewmodel.js">
+      <DependentUpon>viewmodel.ts</DependentUpon>
+    </Content>
+    <Content Include="App\widgets\textarea\viewmodel.min.js">
+      <DependentUpon>viewmodel.ts</DependentUpon>
+    </Content>
+    <Content Include="App\widgets\textarea\viewmodel.ts" />
+    <Content Include="App\widgets\textfield\view_unvalidated.html" />
     <Content Include="App\widgets\textfield\view.html" />
     <Content Include="App\widgets\textfield\viewmodel.js">
       <DependentUpon>viewmodel.ts</DependentUpon>

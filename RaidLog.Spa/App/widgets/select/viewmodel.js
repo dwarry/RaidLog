@@ -2,10 +2,10 @@
     
     
 
-    var TextFieldWidget = (function () {
-        function TextFieldWidget() {
+    var SelectWidget = (function () {
+        function SelectWidget() {
         }
-        TextFieldWidget.prototype.activate = function (settings) {
+        SelectWidget.prototype.activate = function (settings) {
             this.settings = settings;
 
             if (!('enabled' in settings)) {
@@ -24,17 +24,14 @@
                 settings.labelClass = "";
             }
 
-            if (typeof (settings.field) !== 'number' && 'isValid' in settings.field) {
-                settings['isValid'] = settings.field.isValid;
-            } else {
-                settings['isValid'] = function () {
-                    return true;
-                };
+            if (!('isValid' in settings.field)) {
+                debugger;
+                (settings).view = 'view_noErrors';
             }
         };
-        return TextFieldWidget;
+        return SelectWidget;
     })();
 
     
-    return TextFieldWidget;
+    return SelectWidget;
 });

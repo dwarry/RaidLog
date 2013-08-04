@@ -5,13 +5,13 @@
 import widgetSettings = require("widgets/BootstrapFormWidgetSettings");
 import composition = require("durandal/composition");
 
-class TextFieldWidget{
-    settings: widgetSettings.BootstrapTextWidgetSettings;
+class SelectWidget {
+    settings: widgetSettings.BootstrapSelectWidgetSettings;
 
     constructor() {
     }
 
-    activate(settings: widgetSettings.BootstrapTextWidgetSettings) {
+    activate(settings: widgetSettings.BootstrapSelectWidgetSettings) {
         this.settings = settings;
 
         if (!('enabled' in settings)) {
@@ -30,14 +30,12 @@ class TextFieldWidget{
             settings.labelClass = "";
         }
 
-        if (typeof(settings.field) !== 'number' &&
-            'isValid' in settings.field) {
-            settings['isValid'] = settings.field.isValid;
-        }
-        else {
-            settings['isValid'] = () => true;
+        if (!('isValid' in settings.field)) {
+            debugger;
+            (<any>settings).view = 'view_noErrors';
         }
     }
+
 }
 
-export = TextFieldWidget;
+export = SelectWidget;

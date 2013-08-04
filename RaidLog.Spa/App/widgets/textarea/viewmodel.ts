@@ -5,7 +5,7 @@
 import widgetSettings = require("widgets/BootstrapFormWidgetSettings");
 import composition = require("durandal/composition");
 
-class TextFieldWidget{
+class TextAreaWidget {
     settings: widgetSettings.BootstrapTextWidgetSettings;
 
     constructor() {
@@ -29,15 +29,8 @@ class TextFieldWidget{
         if (!('labelClass' in settings)) {
             settings.labelClass = "";
         }
-
-        if (typeof(settings.field) !== 'number' &&
-            'isValid' in settings.field) {
-            settings['isValid'] = settings.field.isValid;
-        }
-        else {
-            settings['isValid'] = () => true;
-        }
     }
+
 }
 
-export = TextFieldWidget;
+export = TextAreaWidget;

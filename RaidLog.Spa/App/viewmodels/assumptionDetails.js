@@ -1,10 +1,10 @@
 ﻿define(["require", "exports", 'services/dataService'], function(require, exports, __ds__) {
     var ds = __ds__;
 
-    var assumptionStatuses = ko.observableArray();
+    var _assumptionStatuses = ko.observableArray();
 
     ds.getReferenceData().done(function (refData) {
-        assumptionStatuses(refData.assumptionStatuses);
+        _assumptionStatuses(refData.assumptionStatuses);
     });
 
     var AssumptionDetails = (function () {
@@ -13,13 +13,14 @@
             this.projectId = projectId;
             this.id = 0;
             this.version = "";
-            this.assumptionNumber = 0;
+            this.assumptionNumber = ko.observable();
             this.description = ko.observable("").extend({ required: true, maxLength: 2048 });
             this.workstream = ko.observable("").extend({ require: true, maxLength: 50 });
             this.owner = ko.observable("").extend({ maxLength: 50 });
             this.validatedBy = ko.observable("").extend({ maxLength: 50 });
             this.statusId = ko.observable(null).extend({ required: true });
             this.supportingDocumentation = ko.observable("").extend({ maxLength: 512 });
+            this.assumptionStatuses = _assumptionStatuses;
             this.validation = ko.validatedObservable([
                 this.description,
                 this.workstream,
@@ -39,7 +40,7 @@
                 var result = "(unknown)";
                 var stsId = _this.statusId();
 
-                $.each(assumptionStatuses(), function (index, value) {
+                $.each(_this.assumptionStatuses(), function (index, value) {
                     if (value.id === stsId) {
                         result = value.description;
                         return false;
@@ -55,7 +56,7 @@
             this.id = dto.id;
             this.version = dto.version;
 
-            this.assumptionNumber = dto.assumptionNumber;
+            this.assumptionNumber(dto.assumptionNumber);
             this.description(dto.description);
             this.workstream(dto.workstream);
             this.owner(dto.owner);
@@ -78,7 +79,7 @@
                 var editDto = dto;
                 editDto.id = this.id;
                 editDto.version = this.version;
-                editDto.assumptionNumber = this.assumptionNumber;
+                editDto.assumptionNumber = this.assumptionNumber();
                 editDto.projectId = this.projectId;
             }
 
