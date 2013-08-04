@@ -8,9 +8,10 @@
     });
 
     var AssumptionDetails = (function () {
-        function AssumptionDetails(projectId, dto) {
+        function AssumptionDetails(projectId, dto, _newItemCallback) {
             var _this = this;
             this.projectId = projectId;
+            this._newItemCallback = _newItemCallback;
             this.id = 0;
             this.version = "";
             this.assumptionNumber = ko.observable();
@@ -66,6 +67,7 @@
         };
 
         AssumptionDetails.prototype.save = function () {
+            var _this = this;
             var dto = {
                 description: this.description(),
                 workstream: this.workstream(),
@@ -75,7 +77,9 @@
                 supportingDocumentation: this.supportingDocumentation()
             };
 
-            if (this.id) {
+            var newItem = !this.id;
+
+            if (!newItem) {
                 var editDto = dto;
                 editDto.id = this.id;
                 editDto.version = this.version;
@@ -83,7 +87,12 @@
                 editDto.projectId = this.projectId;
             }
 
-            ds.saveAssumption(this.projectId, dto).done(this.updateFromDto);
+            ds.saveAssumption(this.projectId, dto).done(function (data) {
+                _this.updateFromDto(data);
+                if (newItem) {
+                    _this._newItemCallback(data);
+                }
+            });
         };
         return AssumptionDetails;
     })();

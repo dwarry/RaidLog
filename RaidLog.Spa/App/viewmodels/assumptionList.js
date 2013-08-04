@@ -3,6 +3,12 @@
     var pg = __pg__;
     var AssumptionDetails = __AssumptionDetails__;
 
+    var assumptionStatuses;
+
+    ds.getReferenceData().done(function (data) {
+        assumptionStatuses = data.assumptionStatuses;
+    });
+
     var AssumptionList = (function () {
         function AssumptionList() {
             var _this = this;
@@ -14,12 +20,16 @@
 
             this._mappingOptions = {
                 create: function (options) {
-                    return new AssumptionDetails(_this.projectId, options.data);
+                    return new AssumptionDetails(_this.projectId, options.data, function (item) {
+                        _this.listViewModel.allData.push(item);
+                    });
                 },
                 key: function (x) {
                     return x.id;
                 }
             };
+
+            this.assumptionStatuses = assumptionStatuses;
         }
         AssumptionList.prototype.activate = function (projectIdParam) {
             var _this = this;

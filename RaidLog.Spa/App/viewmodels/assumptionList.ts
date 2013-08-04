@@ -30,7 +30,9 @@ class AssumptionList{
         });
 
         this._mappingOptions = {
-            create: options => new AssumptionDetails(this.projectId, options.data),
+            create: options => new AssumptionDetails(this.projectId,
+                options.data,
+                (item) => { this.listViewModel.allData.push(item); }),
             key: (x) => x.id
         };
 
@@ -57,6 +59,8 @@ class AssumptionList{
         this.listViewModel.selected(
             ko.mapping.fromJS(ds.makeNewAssumption(), this._mappingOptions));
     }
+
+    
 }
 
 export =AssumptionList;
