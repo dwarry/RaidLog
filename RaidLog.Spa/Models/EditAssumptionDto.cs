@@ -5,7 +5,7 @@ namespace RaidLog.Models
 {
     public class EditAssumptionDto
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         [Required]
         [StringLength(12,MinimumLength = 12)]

@@ -85,7 +85,7 @@ namespace RaidLog.Spa.Controllers
             } 
         }
 
-        public AssumptionDto PutAssumption(int assumptionId, EditAssumptionDto editAssumption)
+        public AssumptionDto PutAssumption(int id, EditAssumptionDto editAssumption)
         {
             _connection.Open();
             try
@@ -96,7 +96,7 @@ namespace RaidLog.Spa.Controllers
 
                     var args = new
                     {
-                        id = assumptionId,
+                        id = id,
                         version = Convert.FromBase64String(editAssumption.Version),
                         description = editAssumption.Description,
                         workstream = editAssumption.Workstream,
@@ -109,7 +109,8 @@ namespace RaidLog.Spa.Controllers
 
                     return _connection.Query<AssumptionDto>(AssumptionsQueries.UpdateAssumption,
                         args,
-                        tx).FirstOrDefault();
+                        tx,
+                        commandType:CommandType.StoredProcedure).FirstOrDefault();
                 }
             }
             finally
