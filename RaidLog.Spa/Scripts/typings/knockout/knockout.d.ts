@@ -299,7 +299,7 @@ interface KnockoutUtils {
 
     setElementName(element: any, name: string): void;
 
-    ensureSelectElementIsRenderedCorrectly(selectElement);
+    //ensureSelectElementIsRenderedCorrectly(selectElement);
 
     forceRefresh(node: any): void;
 

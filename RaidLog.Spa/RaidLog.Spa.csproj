@@ -165,10 +165,12 @@
     <Compile Include="Models\DeleteProject.cs" />
     <Compile Include="Models\DependencyDto.cs" />
     <Compile Include="Models\EditAssumptionDto.cs" />
+    <Compile Include="Models\EditIssueDto.cs" />
     <Compile Include="Models\EditProject.cs" />
     <Compile Include="Models\EditRiskDto.cs" />
     <Compile Include="Models\IssueDto.cs" />
     <Compile Include="Models\NewAssumptionDto.cs" />
+    <Compile Include="Models\NewIssueDto.cs" />
     <Compile Include="Models\NewProject.cs" />
     <Compile Include="Models\NewRiskDto.cs" />
     <Compile Include="Models\ProjectDetails.cs" />
@@ -181,6 +183,7 @@
     <Compile Include="Models\RiskDto.cs" />
     <Compile Include="Models\UpdateFailure.cs" />
     <Compile Include="Queries\AssumptionsQueries.cs" />
+    <Compile Include="Queries\IssueQueries.cs" />
     <Compile Include="Queries\ProjectQueries.cs" />
     <Compile Include="Queries\ReferenceDataQueries.cs" />
     <Compile Include="Queries\RiskQueries.cs" />
@@ -227,6 +230,20 @@
       <DependentUpon>EditableViewModel.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="App\viewmodels\EditableViewModel.ts" />
+    <Content Include="App\viewmodels\issueDetails.js">
+      <DependentUpon>issueDetails.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\issueDetails.min.js">
+      <DependentUpon>issueDetails.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\issueDetails.ts" />
+    <Content Include="App\viewmodels\issueList.js">
+      <DependentUpon>issueList.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\issueList.min.js">
+      <DependentUpon>issueList.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\issueList.ts" />
     <Content Include="App\viewmodels\maintainProject.js">
       <DependentUpon>maintainProject.ts</DependentUpon>
     </Content>
@@ -502,17 +519,6 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
-  <!--<Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v11.0\TypeScript\Microsoft.TypeScript.targets" Condition="false" />-->
-  <PropertyGroup>
-    <TypeScriptTarget>ES5</TypeScriptTarget>
-    <TypeScriptIncludeComments>true</TypeScriptIncludeComments>
-    <TypeScriptModuleKind>amd</TypeScriptModuleKind>
-    <TypeScriptSourceMap>true</TypeScriptSourceMap>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
-    <TypeScriptSourceMap>false</TypeScriptSourceMap>
-  </PropertyGroup>
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
   </Target>
@@ -543,7 +549,21 @@
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
 	-->
-  <Target Name="BuildTS">
+  <PropertyGroup>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptIncludeComments>true</TypeScriptIncludeComments>
+    <TypeScriptModuleKind>amd</TypeScriptModuleKind>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+  </PropertyGroup>
+  
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v11.0\TypeScript\Microsoft.TypeScript.targets" Condition="false" />
+  
+
+	<Target Name="BuildTS">
     <Message Text="BeforeBuild: Compiling TypeScript files" />
     <Exec Command="&quot;$(ProgramFiles)\Microsoft SDKs\TypeScript\tsc.exe&quot; --module amd --target ES5  @(TypeScriptCompile ->'&quot;%(fullpath)&quot;', ' ')" />
   </Target>

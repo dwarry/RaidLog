@@ -76,7 +76,7 @@ class RiskDetails {
     
     validation: KnockoutValidatedObservable;
 
-    score: KnockoutComputer<number>;
+    score: KnockoutComputed<number>;
 
     rag: KnockoutComputed<string>;
 

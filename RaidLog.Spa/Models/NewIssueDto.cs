@@ -4,12 +4,8 @@ using System.Linq;
 
 namespace RaidLog.Models
 {
-    public class IssueDto
+    public class NewIssueDto
     {
-        public int Id { get; set; }
-
-        public int VersionNumber { get; set; }
-
         public int ProjectId { get; set; }
 
         [Required]
@@ -18,7 +14,7 @@ namespace RaidLog.Models
 
 
         public DateTime RaisedDate { get; set; }
-        
+
         [Required]
         [StringLength(50)]
         public string RaisedBy { get; set; }
@@ -32,13 +28,5 @@ namespace RaidLog.Models
 
         [StringLength(2048)]
         public string Commentary { get; set; }
-
-        public DateTime? ResolvedDate { get; set; }
-
-        [StringLength(50)]
-        public string ResolvedBy { get; set; }
-
-        [StringLength(512)]
-        public string ResolutionDescription { get; set; }
     }
 }

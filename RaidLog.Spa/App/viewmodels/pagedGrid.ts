@@ -81,7 +81,7 @@ export class ListViewModel<T>{
 
     searchField = ko.observable<string>("");
 
-    searchPredicate: (string, t: T) => boolean = null;
+    public searchPredicate: (string, t: T) => boolean = null;
 
     filteredData: KnockoutComputed<T[]>;
 
