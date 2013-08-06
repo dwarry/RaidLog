@@ -14,13 +14,11 @@ import router = require("plugins/router");
 import pg = require("viewmodels/pagedGrid");
 import maintainProject = require("viewmodels/maintainProject");
 
-
 class projectList {
     
     title = "Projects"; 
      
     projects = ko.observableArray<dataService.ProjectSummaryWithCounts>();
-
     
     listViewModel: pg.ListViewModel<dataService.ProjectSummaryWithCounts>;
 
@@ -82,8 +80,9 @@ class projectList {
     
     }
 
+
     viewRisks(p) {
-        router.navigateTo(p.projectRisksLink);
+        router.navigate(p.projectRisksLink);
     }
 }
 

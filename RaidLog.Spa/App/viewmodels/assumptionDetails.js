@@ -20,7 +20,9 @@
             this.owner = ko.observable("").extend({ maxLength: 50 });
             this.validatedBy = ko.observable("").extend({ maxLength: 50 });
             this.statusId = ko.observable(null).extend({ required: true });
-            this.supportingDocumentation = ko.observable("").extend({ maxLength: 512 });
+            this.supportingDocumentation = ko.observable("").extend({
+                maxLength: 512
+            });
             this.assumptionStatuses = _assumptionStatuses;
             this.validation = ko.validatedObservable([
                 this.description,
@@ -52,7 +54,35 @@
 
                 return result;
             }, this);
+
+            this.validatedBy.extend({
+                required: { onlyIf: function () {
+                        return _this._isCurrentStatusFinal();
+                    } }
+            });
+
+            this.supportingDocumentation.extend({
+                required: { onlyIf: function () {
+                        return _this._isCurrentStatusFinal();
+                    } }
+            });
         }
+        AssumptionDetails.prototype._isCurrentStatusFinal = function () {
+            var result = false;
+            var stsId = this.statusId();
+
+            $.each(this.assumptionStatuses(), function (index, value) {
+                if (value.id === stsId) {
+                    result = value.isFinalState;
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+
+            return result;
+        };
+
         AssumptionDetails.prototype.updateFromDto = function (dto) {
             this.id = dto.id;
             this.version = dto.version;

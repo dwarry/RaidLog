@@ -1,5 +1,6 @@
 ﻿define(["require", "exports", "plugins/router", "knockout", "services/routeFactory"], function(require, exports, __router__, __ko__, __routeFactory__) {
     var router = __router__;
+    
     var ko = __ko__;
     var routeFactory = __routeFactory__;
 

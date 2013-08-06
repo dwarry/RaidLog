@@ -3,7 +3,7 @@
 /// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
 /// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
 
-import md = module("MasterDetailViewModel");
+import md = require("MasterDetailViewModel");
 import rvm = require("./riskDetails");
 import dataService = require("services/dataService");
 import logger = require("services/logger");

@@ -2,6 +2,8 @@
 /// <reference path="../../Scripts/typings/knockout/knockout.amd.d.ts" />
 /// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
 
+import system = require("durandal/system");
+
 interface Logger{
      log: (message: string, data?: any, source?: string, showToast?: boolean) => void;
      logError: (message: string, data?: any, source?: string, showToast?: boolean) => void;
@@ -11,7 +13,6 @@ interface Logger{
 
 declare var toastr: Toastr;
 
-import system = require("durandal/system");
  
 function logIt(message: string, data: any, source: string, showToast: boolean, toastType: string): void {
     source = source ? '[' + source + '] ' : '';

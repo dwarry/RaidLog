@@ -3,8 +3,8 @@
 /// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
 // <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
 
-import app = module("durandal/app");
-import logger = module("services/logger");
+import app = require("durandal/app");
+import logger = require("services/logger");
 
 export class EditableViewModel<T> {
 

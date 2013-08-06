@@ -27,11 +27,13 @@ class AssumptionDetails{
 
     statusId: KnockoutObservable<number> = ko.observable(<number>null).extend({ required: true });
 
-    supportingDocumentation: KnockoutObservable<string> = ko.observable("").extend({ maxLength: 512 });
+    supportingDocumentation: KnockoutObservable<string> = ko.observable("").extend({
+        maxLength: 512
+    });
 
     validation: KnockoutValidatedObservable;
 
-    canSave: KnockoutComputed<bool>;
+    canSave: KnockoutComputed<boolean>;
 
     status: KnockoutComputed<string>;
 
@@ -68,6 +70,29 @@ class AssumptionDetails{
             return result;
         }, this);
 
+        this.validatedBy.extend({
+            required: { onlyIf: () => this._isCurrentStatusFinal() }
+        });
+        
+        this.supportingDocumentation.extend({
+            required: {onlyIf: () => this._isCurrentStatusFinal()}
+        });
+    }
+
+    private _isCurrentStatusFinal(): boolean {
+        var result = false;
+        var stsId = this.statusId(); 
+
+        $.each(this.assumptionStatuses(), (index, value) => {
+            if (value.id === stsId) {
+                result = value.isFinalState;
+                return false;
+            } else {
+                return true;
+            }
+        });
+
+        return result;
     }
 
     updateFromDto(dto: ds.AssumptionDto) {
@@ -110,6 +135,8 @@ class AssumptionDetails{
             }
         });
     }
+
+
 }
 
 export = AssumptionDetails;
