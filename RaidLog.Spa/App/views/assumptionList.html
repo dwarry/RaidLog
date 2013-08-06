@@ -34,7 +34,7 @@
           </tr>
         </thead>
         <tbody data-bind='foreach: itemsOnCurrentPage'>
-          <tr data-bind='click: $parent.setSelected, css: { selected: $data === $parent.selected() }'>
+          <tr data-bind='click: $parent.setSelected, css: { selected: $data === $parent.selected(), assumptionValidated: status() === "Validated", assumptionRejected: status() ==="Rejected" }'>
             <td data-bind='text: assumptionNumber'></td>
             <td data-bind='text: description'></td>
             <td data-bind='text: status'></td>
