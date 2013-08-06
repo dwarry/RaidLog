@@ -90,6 +90,8 @@
     <Build Include="dbo\Tables\Dependency.sql" />
     <Build Include="dbo\Views\CurrentRiskEvaluations.sql" />
     <Build Include="dbo\Stored Procedures\usp_DeleteRiskLink.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateAssumption.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CreateActionForRisk.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="ReferenceData.PostDeployment.sql" />
@@ -99,5 +101,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="RaidLog.Db.publish_dev.xml" />
+    <None Include="SyncDbProjectToDevDb.scmp" />
   </ItemGroup>
 </Project>
