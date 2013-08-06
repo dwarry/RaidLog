@@ -1,13 +1,9 @@
-﻿define(["require", "exports", "plugins/router"], function(require, exports, __router__) {
+﻿define(["require", "exports", "plugins/router"], function(require, exports, __r__) {
     
-    var router = __router__;
-
-    var allRoutes = [];
-    var mainRouter;
+    var r = __r__;
 
     function addRoute(route, config) {
-        allRoutes.push(route);
-
+        r.map(route, config);
         return route;
     }
 
@@ -22,10 +18,9 @@
 
     var routeFactory = {
         initializeRouter: function () {
-            router.map(allRoutes);
-            mainRouter = router.buildNavigationModel();
+            r.buildNavigationModel();
 
-            return router.activate();
+            return r.activate();
         },
         makeProjectRiskLink: function (projectId) {
             return "#/" + projectRisks.replace(projectIdRegex, projectId.toString());

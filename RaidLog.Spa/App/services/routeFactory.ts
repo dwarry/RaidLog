@@ -3,18 +3,13 @@
 /// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
 
 import ts = require("durandal/typescript");
-import router = require("plugins/router");
-
-var allRoutes = [];
-var mainRouter: ts.Router;
-
+import r = require("plugins/router");
 interface NavigableRoute extends ts.RouteConfiguration {
     nav: boolean;
 }
 
 function addRoute(route:string, config: NavigableRoute) {
-    allRoutes.push(route);
-
+    r.map(route, config);
     return route;
 }
 
@@ -28,15 +23,13 @@ var projectQueries = addRoute('projects/:projectId/queries', {title: 'Project Qu
 
 var projectIdRegex = /:projectId/;
 
-
-
-var routeFactory = {
+var routeFactory = { 
 
     initializeRouter: function () {
-        router.map(allRoutes);
-        mainRouter = router.buildNavigationModel();
-
-        return router.activate();
+        
+        r.buildNavigationModel();
+            
+        return r.activate();
     },
 
     makeProjectRiskLink: function (projectId: number) {

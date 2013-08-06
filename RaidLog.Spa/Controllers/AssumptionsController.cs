@@ -107,10 +107,14 @@ namespace RaidLog.Spa.Controllers
 
                     };
 
-                    return _connection.Query<AssumptionDto>(AssumptionsQueries.UpdateAssumption,
+                    var result =  _connection.Query<AssumptionDto>(AssumptionsQueries.UpdateAssumption,
                         args,
                         tx,
                         commandType:CommandType.StoredProcedure).FirstOrDefault();
+
+                    tx.Commit();
+
+                    return result;
                 }
             }
             finally
