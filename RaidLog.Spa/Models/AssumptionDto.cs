@@ -8,7 +8,8 @@ namespace RaidLog.Models
         public int Id { get; set; }
 
         [Required]
-        public string Version { get; set; }
+        [Timestamp]
+        public byte[] Version { get; set; }
 
         public int AssumptionNumber { get; set; }
 

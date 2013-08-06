@@ -1,9 +1,45 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+﻿<h1><span data-bind="text: projectCode"></span>: <span data-bind=" text: projectName"></span> Assumptions</h1>
+<div class="row-fluid">
+    <div class="span6">
+        <div class="btn-group">
+            <button class="btn" data-bind="click: newAssumption"><i class="icon-plus-sign icon-white"></i> Add New Assumption</button>
+            <button class="btn" data-bind="click: refresh"><i class="icon-refresh icon-white"></i> Refresh</button>
+        </div>
+        <div id="assumptionListContainer" data-bind="pagedGrid: listViewModel, pagedGridTemplate: 'assumptionListTemplate'">
+        </div>
+        <h2 data-bind="visible: listViewModel.filteredData().length == 0" class="alert alert-info">No Assumptions</h2>
+    
+    </div>
+    <div class='span6 well' data-bind='with: listViewModel.selected,visible:$data != null, validationOptions: {insertMessages:true}'>
+        <!-- ko textfield:{field:assumptionNumber, fieldClass:'input-small', label:'Assumption #', enabled:false,visible:id > 0} --> <!-- /ko -->
+        <!-- ko textarea:{field:description, fieldClass:'input-block-level',label:'Description' } --> <!-- /ko -->
+        <!-- ko textfield:{field:workstream, fieldClass:'input-large',label:'Workstream'} --> <!-- /ko -->
+        <!-- ko textfield:{field:owner, fieldClass:'input-medium',label:'Owner'} --> <!-- /ko -->
+        <!-- ko textfield:{field:validatedBy, fieldClass:'input-medium',label:'Validated By'} --> <!-- /ko -->
+        <!-- ko select:{field:statusId, fieldClass:'input-medium',label:'Status', options:assumptionStatuses, optionsText:'description', optionsValue:'id' } --> <!-- /ko -->
+        
+        <!-- ko textarea:{field:supportingDocumentation, fieldClass:'input-block-level',label:'Supporting Documentation' } --> <!-- /ko -->
+        <div class="row-fluid">
+            <button data-bind="click:save, enable:canSave" class="btn btn-primary" accesskey="s"><i class="icon-save"></i> <em>S</em>ave</button>
+        </div>
+    </div>
+</div>
+ <script id="assumptionListTemplate" type="text/html">
+    <table class='table table-bordered table-condensed table-striped'>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Description</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody data-bind='foreach: itemsOnCurrentPage'>
+          <tr data-bind='click: $parent.setSelected, css: { selected: $data === $parent.selected(), assumptionValidated: status() === "Validated", assumptionRejected: status() ==="Rejected" }'>
+            <td data-bind='text: assumptionNumber'></td>
+            <td data-bind='text: description'></td>
+            <td data-bind='text: status'></td>
+          </tr>
+        </tbody>
+    </table>
+</script>
+   

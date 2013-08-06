@@ -3,7 +3,7 @@
 -- Create date: 2013-05-15
 -- Description:	Deletes a link between two Risks
 -- =============================================
-CREATE PROCEDURE usp_DeleteLink 
+CREATE PROCEDURE [usp_DeleteRiskLink] 
 	-- Add the parameters for the stored procedure here
 	@parentRiskId int = 0, 
 	@childRiskId int = 0

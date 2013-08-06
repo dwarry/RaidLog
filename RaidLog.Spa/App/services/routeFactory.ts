@@ -2,34 +2,34 @@
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
 
-import router = require("plugins/router");
+import ts = require("durandal/typescript");
+import r = require("plugins/router");
+interface NavigableRoute extends ts.RouteConfiguration {
+    nav: boolean;
+}
 
-var allRoutes = [];
-
-function addRoute(route) {
-    allRoutes.push(route);
-
-    return route.route;
+function addRoute(route:string, config: NavigableRoute) {
+    r.map(route, config);
+    return route;
 }
 
 
-var projectList= addRoute({ route: '', title: 'Projects', moduleId: 'viewmodels/projectList', nav: true });
-var projectRisks= addRoute({ route: 'projects/:projectId/risks', title: 'Project Risks', moduleId: 'viewmodels/riskList', nav: false });
-var projectAssumptions= addRoute({ route: 'projects/:projectId/assumptions', title: 'Project Assumptions', moduleId: 'viewmodels/assumptionList', nav: false });
-var projectIssues= addRoute({ route: 'projects/:projectId/issues', title: 'Project Issues', moduleId: 'viewmodels/issueList', nav: false });
-var projectDependencies= addRoute({ route: 'projects/:projectId/dependencies', title: 'Project Dependencies', moduleId: 'viewmodels/dependencyList', nav: false });
-var projectQueries= addRoute({ route: 'projects/:projectId/queries', title: 'Project Queries', moduleId: 'viewmodels/queryList', nav: false });
+var projectList= addRoute('',{ title: 'Projects', moduleId: 'viewmodels/projectList', nav: true });
+var projectRisks = addRoute('projects/:projectId/risks', {title: 'Project Risks', moduleId: 'viewmodels/riskList', nav: false });
+var projectAssumptions = addRoute('projects/:projectId/assumptions', {title: 'Project Assumptions', moduleId: 'viewmodels/assumptionList', nav: false });
+var projectIssues = addRoute('projects/:projectId/issues', {title: 'Project Issues', moduleId: 'viewmodels/issueList', nav: false });
+var projectDependencies = addRoute('projects/:projectId/dependencies', {title: 'Project Dependencies', moduleId: 'viewmodels/dependencyList', nav: false });
+var projectQueries = addRoute('projects/:projectId/queries', {title: 'Project Queries', moduleId: 'viewmodels/queryList', nav: false });
 
 var projectIdRegex = /:projectId/;
 
-
-
-var routeFactory = {
+var routeFactory = { 
 
     initializeRouter: function () {
-        router.map(allRoutes);
-        router.buildNavigationModel();
-        return router.activate('');
+        
+        r.buildNavigationModel();
+            
+        return r.activate();
     },
 
     makeProjectRiskLink: function (projectId: number) {

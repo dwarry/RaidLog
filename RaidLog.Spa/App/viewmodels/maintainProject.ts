@@ -43,7 +43,7 @@ class MaintainProject {
     }
 
     cancel() {
-        dialog.close(this,false);   
+        dialog.close(this,false);    
     }
 
     save() {

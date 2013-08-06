@@ -5,9 +5,9 @@ using System.Web;
 
 namespace RaidLog.Queries
 {
-    public class AssumptionsQueries
+    internal class AssumptionsQueries
     {
-        public const string GetAssumptionsForProject = @"
+        public const string GetAllAssumptionsForProject = @"
     SELECT Id
          , Version
          , AssumptionNumber
@@ -15,18 +15,44 @@ namespace RaidLog.Queries
          , Workstream
          , Owner
          , ValidatedBy
-         , StatusId
+         , AssumptionStatusId as StatusId
          , SupportingDocumentation
 FROM 
          [dbo].[Assumption] a
-INNER JOIN
-         [dbo].[AssumptionStatus] sts
+WHERE
+         ProjectId = @projectId
+ORDER BY 
+         AssumptionNumber
+";
+
+        public const string GetOpenOrClosedAssumptionsForProject = @"
+SELECT 
+          a.Id
+         ,a.Version
+         ,a.AssumptionNumber
+         ,a.Description
+         ,a.Workstream
+         ,a.Owner
+         ,a.ValidatedBy
+         ,a.AssumptionStatusId as StatusId
+         ,a.SupportingDocumentation
+FROM 
+         [dbo].[Assumption] a
+INNER JOIN 
+         [dbo].AssumptionStatus sts
 ON
-         a.StatusId = sts.Id
+         sts.Id = a.AssumptionStatusId
+
 WHERE
          ProjectId = @projectId
 AND
-         (@isActive is null or (sts.IsFinalState <> @isActive))
-";
+         sts.IsFinalState = @isFinalState
+ORDER BY 
+         AssumptionNumber";
+
+        public const string InsertAssumption = @"usp_CreateAssumption";
+
+        public const string UpdateAssumption = @"usp_UpdateAssumption";
+
     }
 }

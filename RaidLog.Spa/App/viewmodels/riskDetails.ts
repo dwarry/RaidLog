@@ -4,8 +4,8 @@
 /// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
 /// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
 
-import dataService = module("services/dataService");
-import logger = module("services/logger");
+import dataService = require("services/dataService");
+import logger = require("services/logger");
 
 var refData: dataService.ReferenceDataDto;
 
@@ -80,9 +80,9 @@ class RiskDetails {
 
     rag: KnockoutComputed<string>;
 
-    canSave: KnockoutComputed<bool>;
+    canSave: KnockoutComputed<boolean>;
 
-    canDelete: KnockoutComputed<bool>;
+    canDelete: KnockoutComputed<boolean>;
 
     
 
@@ -128,7 +128,7 @@ class RiskDetails {
         this.canDelete = ko.computed<boolean>(() => this.id !== 0);
     }
 
-    get isNewItem(): bool {
+    get isNewItem(): boolean {
         return this.id === 0;
     } 
 

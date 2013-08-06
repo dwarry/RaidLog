@@ -33,6 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <IntermediateOutputPath>C:\Users\dave\AppData\Local\Temp\vsDA78.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +42,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <IntermediateOutputPath>C:\Users\dave\AppData\Local\Temp\vsDA78.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
@@ -74,15 +76,17 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http.Extensions">
-      <HintPath>..\packages\Microsoft.Net.Http.2.1.10\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.13.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.13\lib\net45\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0-beta2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Primitives">
-      <HintPath>..\packages\Microsoft.Net.Http.2.1.10\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.13.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.13\lib\net45\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -155,6 +159,7 @@
     <Compile Include="Controllers\IssuesController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\QueriesController.cs" />
+    <Compile Include="Controllers\RaidLogApiController.cs" />
     <Compile Include="Controllers\RisksController.cs" />
     <Compile Include="Models\AssumptionDto.cs" />
     <Compile Include="Models\DeleteProject.cs" />
@@ -186,56 +191,70 @@
     <Content Include="App\services\dataService.min.js">
       <DependentUpon>dataService.ts</DependentUpon>
     </Content>
-    <Content Include="App\services\dataService.ts" />
+    <TypeScriptCompile Include="App\services\dataService.ts" />
     <Content Include="App\services\logger.js">
       <DependentUpon>logger.ts</DependentUpon>
     </Content>
     <Content Include="App\services\logger.min.js">
       <DependentUpon>logger.ts</DependentUpon>
     </Content>
-    <Content Include="App\services\logger.ts" />
+    <TypeScriptCompile Include="App\services\logger.ts" />
     <Content Include="App\services\routeFactory.js">
       <DependentUpon>routeFactory.ts</DependentUpon>
     </Content>
     <Content Include="App\services\routeFactory.min.js">
       <DependentUpon>routeFactory.ts</DependentUpon>
     </Content>
-    <Content Include="App\services\routeFactory.ts" />
+    <TypeScriptCompile Include="App\services\routeFactory.ts" />
+    <Content Include="App\viewmodels\assumptionDetails.js">
+      <DependentUpon>assumptionDetails.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\assumptionDetails.min.js">
+      <DependentUpon>assumptionDetails.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="App\viewmodels\assumptionDetails.ts" />
+    <Content Include="App\viewmodels\assumptionList.js">
+      <DependentUpon>assumptionList.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\assumptionList.min.js">
+      <DependentUpon>assumptionList.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="App\viewmodels\assumptionList.ts" />
     <Content Include="App\viewmodels\EditableViewModel.js">
       <DependentUpon>EditableViewModel.ts</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\EditableViewModel.min.js">
       <DependentUpon>EditableViewModel.ts</DependentUpon>
     </Content>
-    <Content Include="App\viewmodels\EditableViewModel.ts" />
+    <TypeScriptCompile Include="App\viewmodels\EditableViewModel.ts" />
     <Content Include="App\viewmodels\maintainProject.js">
       <DependentUpon>maintainProject.ts</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\maintainProject.min.js">
       <DependentUpon>maintainProject.ts</DependentUpon>
     </Content>
-    <Content Include="App\viewmodels\maintainProject.ts" />
+    <TypeScriptCompile Include="App\viewmodels\maintainProject.ts" />
     <Content Include="App\viewmodels\MasterDetailViewModel.js">
       <DependentUpon>MasterDetailViewModel.ts</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\MasterDetailViewModel.min.js">
       <DependentUpon>MasterDetailViewModel.ts</DependentUpon>
     </Content>
-    <Content Include="App\viewmodels\MasterDetailViewModel.ts" />
+    <TypeScriptCompile Include="App\viewmodels\MasterDetailViewModel.ts" />
     <Content Include="App\viewmodels\pagedGrid.js">
       <DependentUpon>pagedGrid.ts</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\pagedGrid.min.js">
       <DependentUpon>pagedGrid.ts</DependentUpon>
     </Content>
-    <Content Include="App\viewmodels\pagedGrid.ts" />
+    <TypeScriptCompile Include="App\viewmodels\pagedGrid.ts" />
     <Content Include="App\viewmodels\projectList.js">
       <DependentUpon>projectList.ts</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\projectList.min.js">
       <DependentUpon>projectList.ts</DependentUpon>
     </Content>
-    <Content Include="App\viewmodels\projectList.ts" />
+    <TypeScriptCompile Include="App\viewmodels\projectList.ts" />
     <Content Include="App\viewmodels\riskDetails.js">
       <DependentUpon>riskDetails.ts</DependentUpon>
     </Content>
@@ -248,19 +267,54 @@
     <Content Include="App\viewmodels\riskList.min.js">
       <DependentUpon>riskList.ts</DependentUpon>
     </Content>
-    <Content Include="App\viewmodels\riskList.ts" />
-    <Content Include="App\viewmodels\riskDetails.ts" />
+    <TypeScriptCompile Include="App\viewmodels\riskList.ts" />
+    <TypeScriptCompile Include="App\viewmodels\riskDetails.ts" />
     <Content Include="App\viewmodels\shell.js">
       <DependentUpon>shell.ts</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\shell.min.js">
       <DependentUpon>shell.ts</DependentUpon>
     </Content>
-    <Content Include="App\viewmodels\shell.ts" />
+    <TypeScriptCompile Include="App\viewmodels\shell.ts" />
+    <Content Include="App\views\assumptionList.html" />
     <Content Include="App\views\maintainProject.html" />
     <Content Include="App\views\projectList.html" />
     <Content Include="App\views\riskList.html" />
     <Content Include="App\views\shell.html" />
+    <Content Include="App\widgets\BootstrapFormFieldSettings.js" />
+    <Content Include="App\widgets\BootstrapFormWidgetSettings.js">
+      <DependentUpon>BootstrapFormWidgetSettings.ts</DependentUpon>
+    </Content>
+    <Content Include="App\widgets\BootstrapFormWidgetSettings.min.js">
+      <DependentUpon>BootstrapFormWidgetSettings.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="App\widgets\BootstrapFormWidgetSettings.ts" />
+    <Content Include="App\widgets\select\view_noErrors.html" />
+    <Content Include="App\widgets\select\view.html" />
+    <Content Include="App\widgets\select\viewmodel.js">
+      <DependentUpon>viewmodel.ts</DependentUpon>
+    </Content>
+    <Content Include="App\widgets\select\viewmodel.min.js">
+      <DependentUpon>viewmodel.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="App\widgets\select\viewmodel.ts" />
+    <Content Include="App\widgets\textarea\view.html" />
+    <Content Include="App\widgets\textarea\viewmodel.js">
+      <DependentUpon>viewmodel.ts</DependentUpon>
+    </Content>
+    <Content Include="App\widgets\textarea\viewmodel.min.js">
+      <DependentUpon>viewmodel.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="App\widgets\textarea\viewmodel.ts" />
+    <Content Include="App\widgets\textfield\view_unvalidated.html" />
+    <Content Include="App\widgets\textfield\view.html" />
+    <Content Include="App\widgets\textfield\viewmodel.js">
+      <DependentUpon>viewmodel.ts</DependentUpon>
+    </Content>
+    <Content Include="App\widgets\textfield\viewmodel.min.js">
+      <DependentUpon>viewmodel.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="App\widgets\textfield\viewmodel.ts" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\durandal.css" />
@@ -310,6 +364,21 @@
     <Content Include="Scripts\durandal\viewEngine.js" />
     <Content Include="Scripts\durandal\viewLocator.js" />
     <Content Include="Scripts\durandal\viewModelBinder.js" />
+    <Content Include="App\services\routeFactory.js.map">
+      <DependentUpon>routeFactory.ts</DependentUpon>
+    </Content>
+    <Content Include="App\services\logger.js.map">
+      <DependentUpon>logger.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\shell.js.map">
+      <DependentUpon>shell.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\maintainProject.js.map">
+      <DependentUpon>maintainProject.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\projectList.js.map">
+      <DependentUpon>projectList.ts</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
@@ -433,6 +502,17 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!--<Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v11.0\TypeScript\Microsoft.TypeScript.targets" Condition="false" />-->
+  <PropertyGroup>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptIncludeComments>true</TypeScriptIncludeComments>
+    <TypeScriptModuleKind>amd</TypeScriptModuleKind>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+  </PropertyGroup>
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
   </Target>
@@ -459,11 +539,12 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.7\tools\Microsoft.Bcl.Build.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.8\tools\Microsoft.Bcl.Build.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+	-->
+  <Target Name="BuildTS">
+    <Message Text="BeforeBuild: Compiling TypeScript files" />
+    <Exec Command="&quot;$(ProgramFiles)\Microsoft SDKs\TypeScript\tsc.exe&quot; --module amd --target ES5  @(TypeScriptCompile ->'&quot;%(fullpath)&quot;', ' ')" />
   </Target>
-  <Target Name="AfterBuild">
-  </Target> -->
 </Project>

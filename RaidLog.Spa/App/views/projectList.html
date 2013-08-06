@@ -35,7 +35,9 @@
                     </a>
                 </td>
                 <td>
-                    <span data-bind="text: $data.activeAssumptions">0</span> / <span data-bind="text: $data.closedAssumptions">0</span>
+                    <a class="text-center" data-bind="attr: {href:projectAssumptionsLink}">
+                        <span data-bind="text: $data.activeAssumptions">0</span> / <span data-bind="text: $data.closedAssumptions">0</span>
+                    </a>
                 </td>
                 <td>
                     <span data-bind="text: $data.activeIssues">0</span> / <span data-bind="text: $data.closedIssues">0</span>

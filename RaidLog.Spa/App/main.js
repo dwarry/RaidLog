@@ -12,7 +12,7 @@ define('knockout', [], function () { return ko; });
 define('moment', [], function () { return moment; });
 define('toastr', [], function () { return toastr; });
 
-define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  function (system, app, viewLocator) {
+define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'plugins/widget'],  function (system, app, viewLocator, widget) {
     //>>excludeStart("build", true);
     system.debug(true);
     //>>excludeEnd("build");
@@ -22,7 +22,7 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  function (s
     app.configurePlugins({
         router: true,
         dialog: true,
-        widget: true,
+        widget: {kinds:['textarea','textfield','select']},
         http:   true
     });
 
@@ -37,7 +37,9 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  function (s
         "tapToDismiss": true
     };
 
-    ko.validation.init({ decorateElement: false, insertMessages: false, messagesOnModified: false });
+    ko.validation.init({ messagesOnModified: false, errorClass: 'error' });
+    
+   
 
     app.start().then(function() {
         //Replace 'viewmodels' in the moduleId with 'views' to locate the view.

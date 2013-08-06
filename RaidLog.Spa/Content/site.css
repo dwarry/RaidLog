@@ -36,7 +36,7 @@
 
 .navbar-fixed-top .icon-home {
     font-size: 18px
-}
+}C:\Users\dave\Documents\GitHub\RaidLog\RaidLog.Spa\Scripts\knockout-2.3.0.debug.js
 
 .loader {
     margin: 6px 8px 4px 8px;
@@ -87,4 +87,12 @@ tbody > tr.selected > td {
     color: red;
     font-size: larger;
     font-weight: bolder;
+}
+
+.assumptionValidated {
+    color: green;
+}
+
+.assumptionRejected {
+    color: darkred;
 }

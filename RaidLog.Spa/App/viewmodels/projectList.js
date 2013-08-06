@@ -71,7 +71,7 @@
         };
 
         projectList.prototype.viewRisks = function (p) {
-            router.navigateTo(p.projectRisksLink);
+            router.navigate(p.projectRisksLink);
         };
         return projectList;
     })();

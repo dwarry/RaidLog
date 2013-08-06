@@ -5,18 +5,21 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+
 using Dapper;
+
+using RaidLog.Controllers;
 using RaidLog.Models;
 using RaidLog.Queries;
 
-namespace RaidLog.Controllers
+namespace RaidLog.Spa.Controllers
 {
     [Authorize]
-    public class RisksController : ApiController
+    public class RisksController : RaidLogApiController
     {
         private readonly IDbConnection _connection;
 
-        public RisksController(IDbConnection connection)
+        public RisksController(IDbConnection connection):base(connection)
         {
             _connection = connection;
         }
@@ -81,6 +84,8 @@ namespace RaidLog.Controllers
                     int newId = 0;
                     using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                     {
+                        CheckProjectIsActive(tx, projectId);
+                        
                         var args = new DynamicParameters(
                             new
                                 {
@@ -151,6 +156,9 @@ namespace RaidLog.Controllers
 
                     using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                     {
+                        //TODO: add fields to enable this check.
+                        //  CheckProjectIsActive(tx, risk.ProjectId);
+                        
                         var args = new DynamicParameters(new
                             {
                                 riskId = risk.Id,
