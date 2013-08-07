@@ -3,14 +3,14 @@
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE usp_CreateIssue
+CREATE PROCEDURE [dbo].[usp_CreateIssue]
     -- Add the parameters for the stored procedure here
     @projectId int,
     @raisedBy nvarchar(50),
     @raisedDate date,
     @description nvarchar(2048),
     @workstream nvarchar(50),
-    @impactCommentary nvarchar(2048),
+    @commentary nvarchar(2048),
     @owner nvarchar(50)
 AS
 BEGIN
@@ -38,7 +38,7 @@ BEGIN
            ,[RaisedDate]
            ,[RaisedBy]
            ,[Workstream]
-           ,[ImpactCommentary] 
+           ,[Commentary] 
            ,[UpdatedTimestamp]
            ,[UpdatedBy])
      OUTPUT
@@ -50,7 +50,7 @@ BEGIN
            ,@raisedDate
            ,@raisedBy
            ,@workstream
-           ,@impactCommentary
+           ,@commentary
            ,SYSDATETIME()
            ,CURRENT_USER);
     

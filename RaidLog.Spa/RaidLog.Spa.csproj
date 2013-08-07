@@ -180,6 +180,7 @@
       <SubType>
       </SubType>
     </Compile>
+    <Compile Include="Models\ResolveIssueDto.cs" />
     <Compile Include="Models\RiskDto.cs" />
     <Compile Include="Models\UpdateFailure.cs" />
     <Compile Include="Queries\AssumptionsQueries.cs" />
@@ -559,11 +560,8 @@
     <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
   </PropertyGroup>
-  
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v11.0\TypeScript\Microsoft.TypeScript.targets" Condition="false" />
-  
-
-	<Target Name="BuildTS">
+  <Target Name="BuildTS">
     <Message Text="BeforeBuild: Compiling TypeScript files" />
     <Exec Command="&quot;$(ProgramFiles)\Microsoft SDKs\TypeScript\tsc.exe&quot; --module amd --target ES5  @(TypeScriptCompile ->'&quot;%(fullpath)&quot;', ' ')" />
   </Target>

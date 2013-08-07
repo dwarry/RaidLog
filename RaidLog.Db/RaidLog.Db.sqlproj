@@ -92,6 +92,8 @@
     <Build Include="dbo\Stored Procedures\usp_DeleteRiskLink.sql" />
     <Build Include="dbo\Stored Procedures\usp_UpdateAssumption.sql" />
     <Build Include="dbo\Stored Procedures\usp_CreateIssue.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateIssue.sql" />
+    <Build Include="dbo\Stored Procedures\usp_ResolveIssue.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="ReferenceData.PostDeployment.sql" />

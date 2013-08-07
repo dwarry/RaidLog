@@ -8,7 +8,7 @@
     [Owner]                 NVARCHAR (50)   NULL,
     [Workstream]            NVARCHAR (50)   NULL,
     [Description]           NVARCHAR (2048) NULL,
-    [ImpactCommentary]      NVARCHAR (2048) NULL,
+    [Commentary]            NVARCHAR (2048) NULL,
     [ParentRiskId]          INT             NULL,
     [ResolvedDate]          DATE            NULL,
     [ResolvedBy]            NVARCHAR (50)   NULL,
@@ -18,6 +18,8 @@
     CONSTRAINT [PK_Issue] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Issue_Risk] FOREIGN KEY ([ParentRiskId]) REFERENCES [dbo].[Risk] ([Id]) ON DELETE SET NULL
 );
+
+
 
 
 

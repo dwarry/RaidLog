@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Web.Http;
 using Dapper;
 using RaidLog.Models;
@@ -52,9 +53,30 @@ namespace RaidLog.Spa.Controllers
             {
                 using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    IssueDto result;
-                    
+
+                    var args = new
+                    {
+                        projectId = dto.ProjectId,
+                        raisedBy = dto.RaisedBy,
+                        raisedDate = dto.RaisedDate,
+                        description = dto.Description,
+                        workstream = dto.Workstream,
+                        commentary = dto.Commentary,
+                        owner = dto.Owner
+                    };
+
+                    var result = 
+                    _connection.Query<IssueDto>(IssueQueries.CreateIssue,
+                        args,
+                        tx,
+                        commandType: CommandType.StoredProcedure).FirstOrDefault();
+
                     tx.Commit();
+
+                    if (result == null)
+                    {
+                        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                    }
 
                     return result;
 
@@ -74,7 +96,67 @@ namespace RaidLog.Spa.Controllers
             {
                 using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    IssueDto result;
+                    var args = new
+                    {
+                        id = id,
+                        version = dto.Version,
+                        owner = dto.Owner,
+                        workstream = dto.Workstream,
+                        description = dto.Description,
+                        commentary = dto.Commentary
+                    };
+
+                    IssueDto result = _connection.Query<IssueDto>(
+                            IssueQueries.UpdateIssue,
+                            args,
+                            tx,
+                            commandType: CommandType.StoredProcedure )
+                        .FirstOrDefault();
+
+                    if (result == null)
+                    {
+                        throw new HttpResponseException(HttpStatusCode.Conflict);
+                    }
+
+                    tx.Commit();
+
+                    return result;
+                }
+            }
+            finally
+            {
+                _connection.Close();
+            }
+        }
+
+
+        public IssueDto PutResolvedIssue(int id, ResolveIssueDto dto)
+        {
+            _connection.Open();
+            try
+            {
+                using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
+                {
+                    var args = new
+                    {
+                        id = id,
+                        version = dto.Version,
+                        resolvedDate = dto.ResolvedDate,
+                        resolvedBy = dto.ResolvedBy,
+                        resolutionDescription = dto.ResolutionDescription
+                    };
+
+                    IssueDto result = _connection.Query<IssueDto>(
+                            IssueQueries.ResolveIssue,
+                            args,
+                            tx,
+                            commandType: CommandType.StoredProcedure)
+                        .FirstOrDefault();
+
+                    if (result == null)
+                    {
+                        throw new HttpResponseException(HttpStatusCode.Conflict);
+                    }
 
                     tx.Commit();
 

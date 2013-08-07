@@ -26,5 +26,10 @@ SELECT [Id]
  WHERE [ProjectId] = @projectId
 ORDER BY [IssueNumber]
 ";
+        public const string CreateIssue = "usp_CreateIssue";
+
+        public const string UpdateIssue = "usp_UpdateeIssue";
+
+        public const string ResolveIssue = "usp_ResolveIssue";
     }
 }
