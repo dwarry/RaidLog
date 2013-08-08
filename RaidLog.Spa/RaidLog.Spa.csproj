@@ -61,9 +61,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Autofac.WebApi.3.1.0\lib\net40\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
-    <Reference Include="Dapper">
-      <HintPath>..\packages\Dapper.1.13\lib\net45\Dapper.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -187,6 +184,7 @@
     <Compile Include="Queries\ProjectQueries.cs" />
     <Compile Include="Queries\ReferenceDataQueries.cs" />
     <Compile Include="Queries\RiskQueries.cs" />
+    <Compile Include="SqlMapper.cs" />
     <Content Include="App\main.js" />
     <Content Include="App\services\dataService.js">
       <DependentUpon>dataService.ts</DependentUpon>

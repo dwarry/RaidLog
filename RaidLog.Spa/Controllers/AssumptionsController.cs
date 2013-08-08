@@ -55,7 +55,7 @@ namespace RaidLog.Spa.Controllers
                 {
                     CheckProjectIsActive(tx, projectId);
 
-                    var args = new {
+                    var args = new DynamicParameters( new {
                         projectId = projectId,
                         description = newAssumption.Description,
                         workstream = newAssumption.Workstream,
@@ -63,7 +63,8 @@ namespace RaidLog.Spa.Controllers
                         validatedBy = newAssumption.ValidatedBy,
                         statusId = newAssumption.StatusId,
                         supportingDocumentation = newAssumption.SupportingDocumentation
-                    };
+                    });
+
 
                     var result =  _connection.Query<AssumptionDto>(AssumptionsQueries.InsertAssumption,
                         args,

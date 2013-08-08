@@ -14,15 +14,15 @@ define(["require", "exports", 'services/dataService'], function(require, exports
             this.id = ko.observable(0);
             this.version = ko.observable("");
             this.raisedDate = ko.observable(moment().local().format("YYYY-MM-DD")).extend({ required: true, dateISO: true });
-            this.raisedBy = ko.observable("").extend({ required: true, maxLength: 50 });
+            this.raisedBy = ko.observable().extend({ required: true, maxLength: 50 });
             this.issueNumber = ko.observable();
-            this.description = ko.observable("").extend({ required: true, maxLength: 2048 });
-            this.workstream = ko.observable("").extend({ required: true, maxLength: 50 });
-            this.owner = ko.observable("").extend({ maxLength: 50 });
-            this.commentary = ko.observable("").extend({ maxLength: 2048 });
-            this.resolvedDate = ko.observable("").extend({ dateISO: true });
-            this.resolvedBy = ko.observable("");
-            this.resolutionDescription = ko.observable("").extend({ maxLength: 512 });
+            this.description = ko.observable().extend({ required: true, maxLength: 2048 });
+            this.workstream = ko.observable().extend({ required: true, maxLength: 50 });
+            this.owner = ko.observable().extend({ maxLength: 50 });
+            this.commentary = ko.observable().extend({ maxLength: 2048 });
+            this.resolvedDate = ko.observable().extend({ dateISO: true });
+            this.resolvedBy = ko.observable();
+            this.resolutionDescription = ko.observable().extend({ maxLength: 512 });
             this.isResolved = ko.computed(function () {
                 var dt = _this.resolvedDate();
                 return dt != null && dt.length > 0;
@@ -60,7 +60,7 @@ define(["require", "exports", 'services/dataService'], function(require, exports
             this.commentary(dto.commentary);
             this.raisedDate(dto.raisedDate.substring(0, 10));
             this.raisedBy(dto.raisedBy);
-            this.resolvedDate(dto.resolvedDate.substring(0, 10));
+            this.resolvedDate((dto.resolvedDate || "").substring(0, 10));
             this.resolvedBy(dto.resolvedBy);
             this.resolutionDescription(dto.resolutionDescription);
         };

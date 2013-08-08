@@ -54,9 +54,8 @@ namespace RaidLog.Spa.Controllers
                 {
                     CheckProjectIsActive(tx, projectId);
 
-                    var args = new
-                    {
-                        projectId = dto.ProjectId,
+                    var args = new {
+                        projectId = projectId,
                         raisedBy = dto.RaisedBy,
                         raisedDate = dto.RaisedDate,
                         description = dto.Description,

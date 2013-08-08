@@ -62,7 +62,7 @@
     <div class="controls-row">
  
         <!-- Text input-->
-        <div class="control-group span4" data-bind="visible:!isNew,css:{error: !resolvedBy.isValid()}">
+        <div class="control-group span4" data-bind="visible:!isNew(),css:{error: !resolvedBy.isValid()}">
             <label class="control-label" for="resolvedBy">Resolved By</label>
             <div class="controls">
                 <input id="resolvedBy" name="resolvedBy" type="text" placeholder="placeholder" class="input-large" data-bind="value:resolvedBy">
@@ -71,7 +71,7 @@
         </div>
                    
         <!-- Text input-->
-        <div class="control-group span4" data-bind="visible:!isNew,css:{error: !resolvedDate.isValid()}">
+        <div class="control-group span4" data-bind="visible:!isNew(),css:{error: !resolvedDate.isValid()}">
             <label class="control-label" for="resolvedDate">Resolved Date:</label>
             <div class="controls">
                 <input id="resolvedDate" name="resolvedDate" type="text" placeholder="YYYY-MM-DD" class="input-small" data-bind="value:resolvedDate">
@@ -83,7 +83,7 @@
     </div>
 
     <!-- Textarea -->
-    <div class="control-group" data-bind="visible:!isNew, css:{error: !resolutionDescription.isValid() }">
+    <div class="control-group" data-bind="visible:!isNew(), css:{error: !resolutionDescription.isValid() }">
         <label class="control-label" for="resolutionDescription">Resolution</label>
         <div class="controls">                     
             <textarea id="resolutionDescription" class="input-block-level" rows="3" name="resolutionDescription" data-bind="value:resolutionDescription"></textarea>

@@ -6,7 +6,6 @@ namespace RaidLog.Models
 {
     public class NewIssueDto
     {
-        public int ProjectId { get; set; }
 
         [Required]
         [StringLength(2048)]
