@@ -8,9 +8,11 @@ namespace RaidLog.Models
     {
         public int Id { get; set; }
 
-        public int VersionNumber { get; set; }
+        public int Version { get; set; }
 
         public int ProjectId { get; set; }
+
+        public int IssueNumber { get; set; }
 
         [Required]
         [StringLength(2048)]

@@ -13,7 +13,6 @@ namespace RaidLog.Spa.Controllers
     [Authorize]
     public class IssuesController: RaidLogApiController
     {
-        private readonly IDbConnection _connection;
 
         public IssuesController(IDbConnection connection) : base(connection)
         {
@@ -99,11 +98,15 @@ namespace RaidLog.Spa.Controllers
                     var args = new
                     {
                         id = id,
-                        version = dto.Version,
+                        version = Convert.FromBase64String(dto.Version),
                         owner = dto.Owner,
                         workstream = dto.Workstream,
                         description = dto.Description,
-                        commentary = dto.Commentary
+                        commentary = dto.Commentary,
+                        resolvedDate = dto.ResolvedDate,
+                        resolvedBy = dto.ResolvedBy,
+                        resolutionDescription = dto.ResolutionDescription
+
                     };
 
                     IssueDto result = _connection.Query<IssueDto>(
@@ -111,46 +114,6 @@ namespace RaidLog.Spa.Controllers
                             args,
                             tx,
                             commandType: CommandType.StoredProcedure )
-                        .FirstOrDefault();
-
-                    if (result == null)
-                    {
-                        throw new HttpResponseException(HttpStatusCode.Conflict);
-                    }
-
-                    tx.Commit();
-
-                    return result;
-                }
-            }
-            finally
-            {
-                _connection.Close();
-            }
-        }
-
-
-        public IssueDto PutResolvedIssue(int id, ResolveIssueDto dto)
-        {
-            _connection.Open();
-            try
-            {
-                using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
-                {
-                    var args = new
-                    {
-                        id = id,
-                        version = dto.Version,
-                        resolvedDate = dto.ResolvedDate,
-                        resolvedBy = dto.ResolvedBy,
-                        resolutionDescription = dto.ResolutionDescription
-                    };
-
-                    IssueDto result = _connection.Query<IssueDto>(
-                            IssueQueries.ResolveIssue,
-                            args,
-                            tx,
-                            commandType: CommandType.StoredProcedure)
                         .FirstOrDefault();
 
                     if (result == null)

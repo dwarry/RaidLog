@@ -1,6 +1,9 @@
-﻿define(["require", "exports", "plugins/router", "knockout", "services/routeFactory"], function(require, exports, __router__, __ko__, __routeFactory__) {
+﻿/// <reference path="../../Scripts/typings/requirejs/require.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/knockout/knockout.amd.d.ts" />
+/// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
+define(["require", "exports", "plugins/router", "knockout", "services/routeFactory"], function(require, exports, __router__, __ko__, __routeFactory__) {
     var router = __router__;
-    
     var ko = __ko__;
     var routeFactory = __routeFactory__;
 

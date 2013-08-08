@@ -15,6 +15,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AF302B17-E90D-4947-BB73-67DD5D609B89}"
 	ProjectSection(SolutionItems) = preProject
 		ReadMe.md = ReadMe.md
+		WE-settings.xml = WE-settings.xml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaidLog.Spa", "RaidLog.Spa\RaidLog.Spa.csproj", "{1F97D2AC-DE94-4B2E-BA7E-230B3C241FDA}"

@@ -1,4 +1,7 @@
-﻿define(["require", "exports", "durandal/system"], function(require, exports, __system__) {
+﻿/// <reference path="../../Scripts/typings/toastr/toastr.d.ts" />
+/// <reference path="../../Scripts/typings/knockout/knockout.amd.d.ts" />
+/// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
+define(["require", "exports", "durandal/system"], function(require, exports, __system__) {
     var system = __system__;
 
     function logIt(message, data, source, showToast, toastType) {

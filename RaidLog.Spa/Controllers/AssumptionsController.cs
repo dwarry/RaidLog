@@ -15,12 +15,9 @@ namespace RaidLog.Spa.Controllers
     [Authorize]
     public class AssumptionsController : RaidLogApiController
     {
-        private readonly IDbConnection _connection;
 
         public AssumptionsController(IDbConnection connection) : base(connection)
         {
-            if (connection == null) throw new ArgumentNullException("connection");
-            _connection = connection;
         }
 
         public AssumptionDto[] GetAssumptionsForProject(int projectId)

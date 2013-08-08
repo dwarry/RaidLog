@@ -1,4 +1,7 @@
-﻿define(["require", "exports", "plugins/router"], function(require, exports, __r__) {
+﻿/// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
+define(["require", "exports", "plugins/router"], function(require, exports, __r__) {
     
     var r = __r__;
 

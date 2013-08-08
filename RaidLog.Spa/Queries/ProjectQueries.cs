@@ -42,6 +42,13 @@ with re as
       where  a.[ProjectId] in (select [Id] from [dbo].[Project] p where p.[IsActive] = 1);
 ";
 
+        public const string GetAllProjectsAndIssues = @"
+     select  i.[ProjectId]
+          ,  i.[Id] as IssueId
+          ,  cast(case when (i.[ResolvedDate] is null) then 1 else 0 end as bit) as [IsActive]  
+       from  [dbo].[Issue] i
+      where  i.[ProjectId] in (select [Id] from [dbo].[Project] p where p.[IsActive] = 1);
+";
         public const string GetProjectDetails = @"
     Select [Id]
          , [Version]

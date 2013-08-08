@@ -4,7 +4,6 @@
 /// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
 
 import router = require("plugins/router");
-import ts = require("durandal/typescript");
 import ko = require("knockout");
 import routeFactory = require("services/routeFactory");
 

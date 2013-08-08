@@ -62,6 +62,8 @@ function getColumnsForScaffolding(data): PagedGridColumns[] {
     return columns;
 }
 
+
+
 export class ListViewModel<T>{
     
     
@@ -81,7 +83,7 @@ export class ListViewModel<T>{
 
     searchField = ko.observable<string>("");
 
-    public searchPredicate: (string, t: T) => boolean = null;
+    public searchPredicate: (string, T) => boolean = null;
 
     filteredData: KnockoutComputed<T[]>;
 
@@ -95,11 +97,11 @@ export class ListViewModel<T>{
             var sf = this.searchField().trim();
 
             if (!this.searchPredicate || sf.length === 0) {
-                return ko.utils.unwrapObservable(this.allData);
+                return ko.unwrap(this.allData);
             }
 
             var result = ko.utils.arrayFilter(
-                ko.utils.unwrapObservable(this.allData),
+                ko.unwrap(this.allData),
                 x => this.searchPredicate(sf, x));
 
             return result;
@@ -114,7 +116,7 @@ export class ListViewModel<T>{
             return Math.ceil(this.filteredData().length / this.pageSize) - 1;
         }, this);
 
-        this.columns = config.columns || getColumnsForScaffolding(ko.utils.unwrapObservable(this.allData));
+        this.columns = config.columns || getColumnsForScaffolding(ko.unwrap(this.allData));
 
         this.setSelected = (item: T) => {
             if (this.selected() === item) {

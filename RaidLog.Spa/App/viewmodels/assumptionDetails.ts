@@ -39,7 +39,9 @@ class AssumptionDetails{
 
     assumptionStatuses = _assumptionStatuses;
 
-    constructor(private projectId: number, dto: ds.AssumptionDto, private _newItemCallback:(item:ds.AssumptionDto)=>void) {
+    constructor(private projectId: number,
+        dto: ds.AssumptionDto,
+        private _newItemCallback: (item: AssumptionDetails) => void) {
         this.validation = ko.validatedObservable([
             this.description,
             this.workstream,
@@ -131,7 +133,7 @@ class AssumptionDetails{
         ds.saveAssumption(this.projectId, dto).done((data) => {
             this.updateFromDto(data);
             if (newItem) {
-                this._newItemCallback(data);
+                this._newItemCallback(this);
             }
         });
     }

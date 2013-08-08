@@ -80,8 +80,8 @@ interface RequireConfig {
 
 	// If set to true, an error will be thrown if a script loads
 	// that does not call define() or have shim exports string
-    // value that can be checked.
-    enforceDefine?: boolean;
+	// value that can be checked.
+	enforceDefine?: boolean;
 
 	// If set to true, document.createElementNS() will be used
 	// to create script elements.

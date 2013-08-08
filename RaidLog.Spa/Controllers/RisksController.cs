@@ -17,11 +17,9 @@ namespace RaidLog.Spa.Controllers
     [Authorize]
     public class RisksController : RaidLogApiController
     {
-        private readonly IDbConnection _connection;
 
         public RisksController(IDbConnection connection):base(connection)
         {
-            _connection = connection;
         }
 
         private RiskDto RetrieveRisk(int id, IDbTransaction tx= null)

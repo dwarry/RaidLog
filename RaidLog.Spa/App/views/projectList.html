@@ -40,7 +40,9 @@
                     </a>
                 </td>
                 <td>
-                    <span data-bind="text: $data.activeIssues">0</span> / <span data-bind="text: $data.closedIssues">0</span>
+                    <a data-bind="attr: {href:projectIssuesLink}">
+                        <span data-bind="text: $data.activeIssues">0</span> / <span data-bind="text: $data.closedIssues">0</span>
+                    </a>
                 </td>
                 <td>
                     <span data-bind="text: $data.activeDependencies">0</span> / <span data-bind="text: $data.closedDependencies">0</span>

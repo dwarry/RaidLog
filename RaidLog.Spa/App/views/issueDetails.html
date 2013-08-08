@@ -1,0 +1,103 @@
+﻿<section data-bind="validationOptions: {messagesOnModified:true, insertMessages:true, errorMessageClass:'alert alert-error'}">
+    <div class="controls-row">
+        <!-- Workstream -->
+        <div class="control-group span4" data-bind="css:{error: !workstream.isValid()}">
+            <label class="control-label" for="workstream">Workstream</label>
+            <div class="controls">
+                <input id="workstream" name="workstream" type="text" placeholder="" class="input-large" required=""
+                       data-bind="value:workstream">
+    
+            </div>
+        </div>
+        
+        <!-- Raised By -->
+        <div class="control-group span4" data-bind="css:{error: !raisedBy.isValid()}">
+            <label class="control-label" for="raisedBy">Raised By</label>
+            <div class="controls">
+                <input id="raisedBy" name="raisedBy" type="text" placeholder="A User" class="input-large" required=""
+                    data-bind="value:raisedBy,enable:isNew">
+    
+            </div>
+        </div>
+        
+        <!-- Raised Date-->
+        <div class="control-group span4" data-bind="css:{error: !raisedDate.isValid()}">
+            <label class="control-label" for="raisedDate">Raised Date</label>
+            <div class="controls">
+                <input id="raisedDate" name="raisedDate" type="text" placeholder="YYYY-MM-DD" class="input-small" required=""
+                    data-bind="value:raisedDate,enable:isNew">
+    
+            </div>
+        </div>
+        
+    </div>
+    
+
+    <!-- Textarea -->
+    <div class="control-group" data-bind="css:{error: !description.isValid()}">
+        <label class="control-label" for="description">Description</label>
+        <div class="controls">                     
+            <textarea id="description" class="input-block-level" rows="4" name="description" data-bind="value:description"></textarea>
+        </div>
+    </div>
+
+    
+    <!-- Textarea -->
+    <div class="control-group" data-bind="css:{error: !commentary.isValid()}">
+        <label class="control-label" for="commentary">Commentary</label>
+        <div class="controls">                     
+            <textarea id="commentary" class="input-block-level" rows="4" name="commentary" data-bind="value:commentary"></textarea>
+        </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="control-group" data-bind="css:{error: !owner.isValid()}">
+        <label class="control-label" for="owner">Owner</label>
+        <div class="controls">
+            <input id="owner" name="owner" type="text" placeholder="A User" class="input-large" data-bind="value:owner">
+    
+        </div>
+    </div>
+    
+    <div class="controls-row">
+ 
+        <!-- Text input-->
+        <div class="control-group span4" data-bind="visible:!isNew,css:{error: !resolvedBy.isValid()}">
+            <label class="control-label" for="resolvedBy">Resolved By</label>
+            <div class="controls">
+                <input id="resolvedBy" name="resolvedBy" type="text" placeholder="placeholder" class="input-large" data-bind="value:resolvedBy">
+    
+            </div>
+        </div>
+                   
+        <!-- Text input-->
+        <div class="control-group span4" data-bind="visible:!isNew,css:{error: !resolvedDate.isValid()}">
+            <label class="control-label" for="resolvedDate">Resolved Date:</label>
+            <div class="controls">
+                <input id="resolvedDate" name="resolvedDate" type="text" placeholder="YYYY-MM-DD" class="input-small" data-bind="value:resolvedDate">
+    
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Textarea -->
+    <div class="control-group" data-bind="visible:!isNew, css:{error: !resolutionDescription.isValid() }">
+        <label class="control-label" for="resolutionDescription">Resolution</label>
+        <div class="controls">                     
+            <textarea id="resolutionDescription" class="input-block-level" rows="3" name="resolutionDescription" data-bind="value:resolutionDescription"></textarea>
+        </div>
+    </div>
+
+    <!-- Button -->
+    <div class="control-group">
+        <label class="control-label" for="saveButton"></label>
+        <div class="controls">
+            <button id="saveButton" name="saveButton" 
+                    data-bind="enable:validation.isValid, click:save"    
+                    class="btn btn-primary">Save</button>
+        </div>
+    </div>
+
+</section>*

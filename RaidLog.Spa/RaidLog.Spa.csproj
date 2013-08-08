@@ -180,7 +180,6 @@
       <SubType>
       </SubType>
     </Compile>
-    <Compile Include="Models\ResolveIssueDto.cs" />
     <Compile Include="Models\RiskDto.cs" />
     <Compile Include="Models\UpdateFailure.cs" />
     <Compile Include="Queries\AssumptionsQueries.cs" />
@@ -237,14 +236,14 @@
     <Content Include="App\viewmodels\issueDetails.min.js">
       <DependentUpon>issueDetails.ts</DependentUpon>
     </Content>
-    <Content Include="App\viewmodels\issueDetails.ts" />
+    <TypeScriptCompile Include="App\viewmodels\issueDetails.ts" />
     <Content Include="App\viewmodels\issueList.js">
       <DependentUpon>issueList.ts</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\issueList.min.js">
       <DependentUpon>issueList.ts</DependentUpon>
     </Content>
-    <Content Include="App\viewmodels\issueList.ts" />
+    <TypeScriptCompile Include="App\viewmodels\issueList.ts" />
     <Content Include="App\viewmodels\maintainProject.js">
       <DependentUpon>maintainProject.ts</DependentUpon>
     </Content>
@@ -295,6 +294,8 @@
     </Content>
     <TypeScriptCompile Include="App\viewmodels\shell.ts" />
     <Content Include="App\views\assumptionList.html" />
+    <Content Include="App\views\issueDetails.html" />
+    <Content Include="App\views\issueList.html" />
     <Content Include="App\views\maintainProject.html" />
     <Content Include="App\views\projectList.html" />
     <Content Include="App\views\riskList.html" />
