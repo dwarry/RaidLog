@@ -267,10 +267,10 @@
         var options = { data: issue };
 
         if ('id' in issue) {
-            options.url = '/api/issue/' + issue['id'];
+            options.url = '/api/issues/' + issue['id'];
             options.type = 'PUT';
         } else {
-            options.url = '/api/project/' + projectId + '/issue/';
+            options.url = '/api/project/' + projectId + '/issues/';
             options.type = 'POST';
         }
 

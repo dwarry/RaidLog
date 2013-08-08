@@ -71,15 +71,16 @@ class IssueDetails{
         this.workstream(dto.workstream);
         this.owner(dto.owner);
         this.commentary(dto.commentary);
-        this.raisedDate(dto.raisedDate);
+        this.raisedDate(dto.raisedDate.substring(0,10));
         this.raisedBy(dto.raisedBy);
-        this.resolvedDate(dto.resolvedDate);
+        this.resolvedDate(dto.resolvedDate.substring(0,10));
         this.resolvedBy(dto.resolvedBy);
         this.resolutionDescription(dto.resolutionDescription);
+        
     }
 
     save() {
-        var isNewItem = this.id() === 0;
+        var isNewItem = !this.id();
 
         var dto:any = {
             description: this.description(),

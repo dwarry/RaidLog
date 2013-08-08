@@ -156,7 +156,7 @@
     <Compile Include="App_Start\DurandalBundleConfig.cs" />
     <Compile Include="Controllers\AssumptionsController.cs" />
     <Compile Include="Controllers\DependenciesController.cs" />
-    <Compile Include="Controllers\IssuesController.cs" />
+    <Compile Include="Controllers\IssueController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\QueriesController.cs" />
     <Compile Include="Controllers\RaidLogApiController.cs" />

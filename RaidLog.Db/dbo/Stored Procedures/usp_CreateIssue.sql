@@ -1,10 +1,4 @@
-﻿-- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
-CREATE PROCEDURE [dbo].[usp_CreateIssue]
-    -- Add the parameters for the stored procedure here
+﻿CREATE PROCEDURE [dbo].[usp_CreateIssue]
     @projectId int,
     @raisedBy nvarchar(50),
     @raisedDate date,
@@ -38,7 +32,7 @@ BEGIN
            ,[RaisedDate]
            ,[RaisedBy]
            ,[Workstream]
-           ,[Commentary] 
+           ,[Commentary]
            ,[UpdatedTimestamp]
            ,[UpdatedBy])
      OUTPUT

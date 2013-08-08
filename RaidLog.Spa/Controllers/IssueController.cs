@@ -52,6 +52,7 @@ namespace RaidLog.Spa.Controllers
             {
                 using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
+                    CheckProjectIsActive(tx, projectId);
 
                     var args = new
                     {

@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Issue] (
     [Id]                    INT             IDENTITY (1, 1) NOT NULL,
-    [Version]               INT             NOT NULL,
+    [Version]               ROWVERSION      NOT NULL,
     [ProjectId]             INT             NOT NULL,
     [IssueNumber]           INT             NOT NULL,
     [RaisedDate]            DATE            NOT NULL,
@@ -18,6 +18,8 @@
     CONSTRAINT [PK_Issue] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Issue_Risk] FOREIGN KEY ([ParentRiskId]) REFERENCES [dbo].[Risk] ([Id]) ON DELETE SET NULL
 );
+
+
 
 
 
