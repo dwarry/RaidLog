@@ -10,7 +10,9 @@ define(["require", "exports", 'services/dataService', './pagedGrid', './issueDet
     var IssueList = (function () {
         function IssueList() {
             var _this = this;
-            this.listViewModel = new pg.ListViewModel({ data: ko.observableArray([]) });
+            this.listViewModel = new pg.ListViewModel({
+                data: ko.observableArray([])
+            });
             this.projectCode = ko.observable("");
             this.projectName = ko.observable("");
             var newItemCallback = function (item) {
@@ -24,6 +26,11 @@ define(["require", "exports", 'services/dataService', './pagedGrid', './issueDet
                 key: function (x) {
                     return x.id;
                 }
+            };
+
+            this.listViewModel.searchPredicate = function (s, item) {
+                var desc = item.description();
+                return desc && desc.indexOf(s) !== -1;
             };
         }
         IssueList.prototype.activate = function (projectIdParam) {

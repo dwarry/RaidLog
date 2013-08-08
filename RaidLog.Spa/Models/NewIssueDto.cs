@@ -27,5 +27,13 @@ namespace RaidLog.Models
 
         [StringLength(2048)]
         public string Commentary { get; set; }
+
+        [Required]
+        [RegularExpression(@"^(Red|Amber|Green)$")]
+        public string RagStatus { get; set; }
+
+        public DateTime? ExpectedClosureDate { get; set; }
     }
+
+    
 }

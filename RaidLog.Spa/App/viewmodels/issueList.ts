@@ -11,7 +11,9 @@ class IssueList{
     private _projectId: number;
 
     listViewModel = new pg.ListViewModel<IssueDetails>(
-        { data: ko.observableArray<IssueDetails>([]) });
+        {
+            data: ko.observableArray<IssueDetails>([]),
+        });
 
     projectCode = ko.observable("");
 
@@ -28,6 +30,11 @@ class IssueList{
                 <ds.IssueDto>options.data,
                 newItemCallback),
             key: (x) => x.id
+        };
+
+        this.listViewModel.searchPredicate = (s, item) => {
+            var desc = item.description();
+            return desc && desc.indexOf(s) !== -1;
         };
     }
 

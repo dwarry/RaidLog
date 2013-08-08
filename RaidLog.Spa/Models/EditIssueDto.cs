@@ -32,5 +32,11 @@ namespace RaidLog.Models
         [StringLength(512)]
         public string ResolutionDescription { get; set; }
 
+        
+        [Required]
+        [RegularExpression(@"^(Red|Amber|Green)$")]
+        public string RagStatus { get; set; }
+
+        public DateTime? ExpectedClosureDate { get; set; }
     }
 }

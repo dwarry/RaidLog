@@ -8,7 +8,9 @@
     @commentary nvarchar(2048),
     @resolvedDate date,
     @resolvedBy nvarchar(50),
-    @resolutionDescription nvarchar(512)
+    @resolutionDescription nvarchar(512),
+    @ragStatus nvarchar(5),
+    @expectedClosureDate date
     
     
 AS
@@ -27,6 +29,10 @@ BEGIN
            ,[ResolutionDescription] = @resolutionDescription
            ,[UpdatedTimestamp]      = SYSDATETIME()
            ,[UpdatedBy]             = CURRENT_USER
+           ,[RagStatus]             = @ragStatus
+           ,[ProjectId]             = [RagStatus]
+           ,[DateLastReviewed]      = [UpdatedTimestamp]
+           ,[ExpectedClosureDate]   = @expectedClosureDate
      OUTPUT
             INSERTED.*
      WHERE  [Id] = @id 

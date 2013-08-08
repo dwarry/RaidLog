@@ -238,6 +238,13 @@ export interface IssueDto{
 
     resolutionDescription: string;
 
+    ragStatus: string;
+
+    previousRagStatus: string;
+
+    dateLastReviewed: string;
+
+    expectedClosureDate: string;
 }
 
 export function makeIssueDto(projectId:number): IssueDto{
@@ -254,7 +261,11 @@ export function makeIssueDto(projectId:number): IssueDto{
         commentary: "",
         resolvedDate: "",
         resolvedBy: "",
-        resolutionDescription: ""
+        resolutionDescription: "",
+        ragStatus: "Amber",
+        previousRagStatus: "Amber",
+        dateLastReviewed: "",
+        expectedClosureDate:""
     };
 }
 
@@ -267,6 +278,9 @@ export interface MaintainIssueDto {
 
     commentary: string;
 
+    ragStatus: string;
+
+    expectedClosureDate: string;
 }
 
 export interface NewIssueDto extends MaintainIssueDto {
@@ -295,7 +309,9 @@ export function makeNewIssueDto(): NewIssueDto {
         raisedBy: "",
         owner: "",
         workstream: "",
-        commentary: ""
+        commentary: "",
+        ragStatus: "Amber",
+        expectedClosureDate: ""
     };
 }
 
@@ -309,7 +325,9 @@ export function makeEditIssueDto(): EditIssueDto {
         commentary: "",
         resolvedDate: "",
         resolvedBy: "",
-        resolutionDescription: ""
+        resolutionDescription: "",
+        ragStatus: "Amber",
+        expectedClosureDate: ""
     };
 }
 

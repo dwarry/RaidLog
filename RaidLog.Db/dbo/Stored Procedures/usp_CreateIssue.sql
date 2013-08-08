@@ -5,7 +5,9 @@
     @description nvarchar(2048),
     @workstream nvarchar(50),
     @commentary nvarchar(2048),
-    @owner nvarchar(50)
+    @owner nvarchar(50),
+    @ragStatus nvarchar(5),
+    @expectedClosureDate date
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -20,7 +22,7 @@ BEGIN
     where Id = @projectId;
     
     if @@ROWCOUNT = 0
-        RETURN 1;
+        THROW 50001, 'No Project with that id', 1;
     
     select @issueNumber = issueNo
     from @issueNumbers;	
@@ -34,7 +36,11 @@ BEGIN
            ,[Workstream]
            ,[Commentary]
            ,[UpdatedTimestamp]
-           ,[UpdatedBy])
+           ,[UpdatedBy]
+           ,[RagStatus]
+           ,[PreviousRagStatus]
+           ,[DateLastReviewed]
+           ,[ExpectedClosureDate])
      OUTPUT
             INSERTED.*
      VALUES
@@ -46,7 +52,10 @@ BEGIN
            ,@workstream
            ,@commentary
            ,SYSDATETIME()
-           ,CURRENT_USER);
+           ,CURRENT_USER
+           ,@ragStatus
+           ,@ragStatus
+           ,SYSDATETIME()
+           ,@expectedClosureDate);
     
-    RETURN 0;
 END

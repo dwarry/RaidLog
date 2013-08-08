@@ -42,5 +42,13 @@ namespace RaidLog.Models
 
         [StringLength(512)]
         public string ResolutionDescription { get; set; }
+
+        public string RagStatus { get; set; }
+        
+        public string PreviousRagStatus { get; set; }
+
+        public DateTime DateLastReviewed { get; set; }
+
+        public DateTime ExpectedClosureDate { get; set; }
     }
 }
