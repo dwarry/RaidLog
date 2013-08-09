@@ -6,6 +6,8 @@ define(["require", "exports", 'services/dataService'], function(require, exports
     var ds = __ds__;
     
 
+    var ragStatuses = ["Green", "Amber", "Red"];
+
     var IssueDetails = (function () {
         function IssueDetails(_projectId, dto, _newItemCallback) {
             var _this = this;
@@ -23,6 +25,11 @@ define(["require", "exports", 'services/dataService'], function(require, exports
             this.resolvedDate = ko.observable().extend({ dateISO: true });
             this.resolvedBy = ko.observable();
             this.resolutionDescription = ko.observable().extend({ maxLength: 512 });
+            this.ragStatus = ko.observable();
+            this.previousRagStatus = ko.observable();
+            this.expectedClosureDate = ko.observable().extend({ dateISO: true });
+            this.isEscalatedToProgramme = ko.observable();
+            this.ragStatuses = ragStatuses;
             this.isResolved = ko.computed(function () {
                 var dt = _this.resolvedDate();
                 return dt != null && dt.length > 0;
@@ -48,6 +55,10 @@ define(["require", "exports", 'services/dataService'], function(require, exports
                 this.resolutionDescription
             ]);
 
+            this.ragClass = ko.computed(function () {
+                return "rag" + _this.ragStatus();
+            }, this);
+
             this.updateFromDto(dto);
         }
         IssueDetails.prototype.updateFromDto = function (dto) {
@@ -63,6 +74,10 @@ define(["require", "exports", 'services/dataService'], function(require, exports
             this.resolvedDate((dto.resolvedDate || "").substring(0, 10));
             this.resolvedBy(dto.resolvedBy);
             this.resolutionDescription(dto.resolutionDescription);
+            this.ragStatus(dto.ragStatus);
+            this.previousRagStatus(dto.previousRagStatus);
+            this.expectedClosureDate((dto.expectedClosureDate || "").substring(0, 10));
+            this.isEscalatedToProgramme(dto.isEscalatedToProgramme);
         };
 
         IssueDetails.prototype.save = function () {
@@ -73,7 +88,9 @@ define(["require", "exports", 'services/dataService'], function(require, exports
                 description: this.description(),
                 workstream: this.workstream(),
                 owner: this.owner(),
-                commentary: this.commentary()
+                commentary: this.commentary(),
+                ragStatus: this.ragStatus(),
+                expectedClosureDate: this.expectedClosureDate()
             };
 
             if (isNewItem) {
@@ -85,6 +102,7 @@ define(["require", "exports", 'services/dataService'], function(require, exports
                 dto.resolvedDate = this.resolvedDate();
                 dto.resolvedBy = this.resolvedBy();
                 dto.resolutionDescription = this.resolutionDescription();
+                dto.isEscalatedToProgramme = this.isEscalatedToProgramme();
             }
 
             ds.saveIssue(this._projectId, dto).done(function (data) {

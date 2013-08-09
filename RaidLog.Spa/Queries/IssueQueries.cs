@@ -26,6 +26,7 @@ SELECT [Id]
       ,[PreviousRagStatus]
       ,[DateLastReviewed]
       ,[ExpectedClosureDate]
+      ,[IsEscalatedToProgramme]
   FROM [dbo].[Issue]
  WHERE [ProjectId] = @projectId
 ORDER BY [IssueNumber]

@@ -245,6 +245,8 @@ export interface IssueDto{
     dateLastReviewed: string;
 
     expectedClosureDate: string;
+
+    isEscalatedToProgramme: boolean;
 }
 
 export function makeIssueDto(projectId:number): IssueDto{
@@ -262,10 +264,11 @@ export function makeIssueDto(projectId:number): IssueDto{
         resolvedDate: "",
         resolvedBy: "",
         resolutionDescription: "",
-        ragStatus: "Amber",
-        previousRagStatus: "Amber",
+        ragStatus: "Green",
+        previousRagStatus: "Green",
         dateLastReviewed: "",
-        expectedClosureDate:""
+        expectedClosureDate: "",
+        isEscalatedToProgramme: false
     };
 }
 
@@ -299,6 +302,7 @@ export interface EditIssueDto extends MaintainIssueDto {
     resolvedDate: string;
     resolvedBy: string;
     resolutionDescription: string;
+    isEscalatedToProgramme: boolean;
 }
 
 export function makeNewIssueDto(): NewIssueDto {
@@ -310,7 +314,7 @@ export function makeNewIssueDto(): NewIssueDto {
         owner: "",
         workstream: "",
         commentary: "",
-        ragStatus: "Amber",
+        ragStatus: "Green",
         expectedClosureDate: ""
     };
 }
@@ -326,8 +330,9 @@ export function makeEditIssueDto(): EditIssueDto {
         resolvedDate: "",
         resolvedBy: "",
         resolutionDescription: "",
-        ragStatus: "Amber",
-        expectedClosureDate: ""
+        ragStatus: "Green",
+        expectedClosureDate: "",
+        isEscalatedToProgramme: false
     };
 }
 

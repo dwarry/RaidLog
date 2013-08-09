@@ -61,7 +61,12 @@
             commentary: "",
             resolvedDate: "",
             resolvedBy: "",
-            resolutionDescription: ""
+            resolutionDescription: "",
+            ragStatus: "Green",
+            previousRagStatus: "Green",
+            dateLastReviewed: "",
+            expectedClosureDate: "",
+            isEscalatedToProgramme: false
         };
     }
     exports.makeIssueDto = makeIssueDto;
@@ -74,7 +79,9 @@
             raisedBy: "",
             owner: "",
             workstream: "",
-            commentary: ""
+            commentary: "",
+            ragStatus: "Green",
+            expectedClosureDate: ""
         };
     }
     exports.makeNewIssueDto = makeNewIssueDto;
@@ -89,7 +96,10 @@
             commentary: "",
             resolvedDate: "",
             resolvedBy: "",
-            resolutionDescription: ""
+            resolutionDescription: "",
+            ragStatus: "Green",
+            expectedClosureDate: "",
+            isEscalatedToProgramme: false
         };
     }
     exports.makeEditIssueDto = makeEditIssueDto;

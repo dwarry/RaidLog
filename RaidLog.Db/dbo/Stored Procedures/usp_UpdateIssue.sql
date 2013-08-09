@@ -10,8 +10,8 @@
     @resolvedBy nvarchar(50),
     @resolutionDescription nvarchar(512),
     @ragStatus nvarchar(5),
-    @expectedClosureDate date
-    
+    @expectedClosureDate date,
+    @isEscalatedToProgramme bit
     
 AS
 BEGIN
@@ -30,9 +30,10 @@ BEGIN
            ,[UpdatedTimestamp]      = SYSDATETIME()
            ,[UpdatedBy]             = CURRENT_USER
            ,[RagStatus]             = @ragStatus
-           ,[ProjectId]             = [RagStatus]
+           ,[PreviousRagStatus]     = [RagStatus]
            ,[DateLastReviewed]      = [UpdatedTimestamp]
            ,[ExpectedClosureDate]   = @expectedClosureDate
+           ,[IsEscalatedToProgramme]= @isEscalatedToProgramme
      OUTPUT
             INSERTED.*
      WHERE  [Id] = @id 

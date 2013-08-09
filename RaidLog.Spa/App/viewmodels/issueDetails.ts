@@ -6,6 +6,8 @@
 import ds = require('services/dataService');
 import pg = require('./pagedGrid');
 
+var ragStatuses = ["Green", "Amber", "Red"];
+
 class IssueDetails{
    
 
@@ -39,7 +41,17 @@ class IssueDetails{
 
     validation: KnockoutValidatedObservable;
 
- 
+    ragStatus: KnockoutObservable<string> = ko.observable();
+
+    previousRagStatus: KnockoutObservable<string> = ko.observable();
+
+    expectedClosureDate: KnockoutObservable<string> = ko.observable().extend({ dateISO: true });
+
+    isEscalatedToProgramme: KnockoutObservable<boolean> = ko.observable();
+
+    ragClass: KnockoutComputed<string>;
+
+    ragStatuses: string[] = ragStatuses;
 
     constructor(private _projectId: number,
         dto: ds.IssueDto,
@@ -60,6 +72,8 @@ class IssueDetails{
             this.raisedBy, this.description, this.workstream,
             this.owner, this.commentary, this.resolvedDate, this.resolvedBy, this.resolutionDescription])
 
+        this.ragClass = ko.computed(() => "rag" + this.ragStatus(), this);
+
         this.updateFromDto(dto);
     }
 
@@ -76,7 +90,10 @@ class IssueDetails{
         this.resolvedDate((dto.resolvedDate || "").substring(0,10));
         this.resolvedBy(dto.resolvedBy);
         this.resolutionDescription(dto.resolutionDescription);
-        
+        this.ragStatus(dto.ragStatus);
+        this.previousRagStatus(dto.previousRagStatus);
+        this.expectedClosureDate((dto.expectedClosureDate || "").substring(0,10));
+        this.isEscalatedToProgramme(dto.isEscalatedToProgramme);
     }
 
     save() {
@@ -86,7 +103,9 @@ class IssueDetails{
             description: this.description(),
             workstream: this.workstream(),
             owner: this.owner(),
-            commentary: this.commentary()
+            commentary: this.commentary(),
+            ragStatus: this.ragStatus(),
+            expectedClosureDate: this.expectedClosureDate()
         };
 
         if (isNewItem) {
@@ -98,6 +117,7 @@ class IssueDetails{
             dto.resolvedDate = this.resolvedDate();
             dto.resolvedBy = this.resolvedBy();
             dto.resolutionDescription = this.resolutionDescription();
+            dto.isEscalatedToProgramme = this.isEscalatedToProgramme();
         }
 
         ds.saveIssue(this._projectId, dto).done(data => {

@@ -49,6 +49,8 @@ namespace RaidLog.Models
 
         public DateTime DateLastReviewed { get; set; }
 
-        public DateTime ExpectedClosureDate { get; set; }
+        public DateTime? ExpectedClosureDate { get; set; }
+
+        public Boolean IsEscalatedToProgramme { get; set; }
     }
 }

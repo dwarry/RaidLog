@@ -102,3 +102,7 @@ tbody > tr.selected > td {
     display: inline-block;
     vertical-align: top;
 }
+
+th.dateCol {
+    width: 10em;
+}

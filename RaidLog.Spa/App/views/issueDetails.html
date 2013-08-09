@@ -33,7 +33,7 @@
     </div>
     
 
-    <!-- Textarea -->
+    <!-- Description -->
     <div class="control-group" data-bind="css:{error: !description.isValid()}">
         <label class="control-label" for="description">Description</label>
         <div class="controls">                     
@@ -42,7 +42,7 @@
     </div>
 
     
-    <!-- Textarea -->
+    <!-- Commentary -->
     <div class="control-group" data-bind="css:{error: !commentary.isValid()}">
         <label class="control-label" for="commentary">Commentary</label>
         <div class="controls">                     
@@ -50,18 +50,56 @@
         </div>
     </div>
 
-    <!-- Text input-->
-    <div class="control-group" data-bind="css:{error: !owner.isValid()}">
-        <label class="control-label" for="owner">Owner</label>
-        <div class="controls">
-            <input id="owner" name="owner" type="text" placeholder="A User" class="input-large" data-bind="value:owner">
+    <div class="controls-row">
+        <!-- Owner -->
+        <div class="control-group span4" data-bind="css:{error: !owner.isValid()}">
+            <label class="control-label" for="owner">Owner</label>
+            <div class="controls">
+                <input id="owner" name="owner" type="text" placeholder="A User" class="input-large" data-bind="value:owner">
     
+            </div>
+        </div>
+        
+        <!-- RAG Status -->
+        <div class="control-group span2" data-bind="css: { error: !owner.isValid() }">
+            <label class="control-label" for="ragStatus">RAG Status</label>
+            <div class="controls">
+                <select name="ragStatus" id="ragStatus" data-bind="options:ragStatuses,value:ragStatus" class="input-small"></select>
+            </div>
+        </div>
+        
+        <!-- Previous RAG Status -->
+        <div class="control-group span2" data-bind="css: { error: !owner.isValid() }">
+            <label class="control-label" for="previousRagStatus">Prev. RAG</label>
+            <div class="controls">
+                <input id="previousRagStatus" name="previousRagStatus" type="text" placeholder="Green" class="input-small" data-bind="value: previousRagStatus">
+    
+            </div>
+        </div>
+ 
+            <!-- Is Escalated To Programme -->
+        <div class="control-group span2" >
+            <label class="control-label" for="isEscalatedToProgramme">Escalated?</label>
+            <div class="controls">
+                <input id="isEscalatedToProgramme" name="isEscalatedToProgram" type="checkbox" class="input-small" data-bind="checked: isEscalatedToProgramme">
+    
+            </div>
         </div>
     </div>
-    
+
     <div class="controls-row">
  
-        <!-- Text input-->
+        <!-- Resolved Date -->
+        <div class="control-group span2" data-bind="css: { error: !expectedClosureDate.isValid() }">
+            <label class="control-label" for="expectedClosureDate">Exp. Close:</label>
+            <div class="controls">
+                <input id="expectedClosureDate" name="expectedClosureDate" type="text" placeholder="YYYY-MM-DD" class="input-small" data-bind="value: expectedClosureDate">
+    
+            </div>
+        </div>
+
+
+        <!-- Resolved By -->
         <div class="control-group span4" data-bind="visible:!isNew(),css:{error: !resolvedBy.isValid()}">
             <label class="control-label" for="resolvedBy">Resolved By</label>
             <div class="controls">
@@ -70,8 +108,8 @@
             </div>
         </div>
                    
-        <!-- Text input-->
-        <div class="control-group span4" data-bind="visible:!isNew(),css:{error: !resolvedDate.isValid()}">
+        <!-- Resolved Date -->
+        <div class="control-group span2" data-bind="visible:!isNew(),css:{error: !resolvedDate.isValid()}">
             <label class="control-label" for="resolvedDate">Resolved Date:</label>
             <div class="controls">
                 <input id="resolvedDate" name="resolvedDate" type="text" placeholder="YYYY-MM-DD" class="input-small" data-bind="value:resolvedDate">
@@ -82,7 +120,7 @@
 
     </div>
 
-    <!-- Textarea -->
+    <!-- Resolution Description -->
     <div class="control-group" data-bind="visible:!isNew(), css:{error: !resolutionDescription.isValid() }">
         <label class="control-label" for="resolutionDescription">Resolution</label>
         <div class="controls">                     
@@ -90,7 +128,7 @@
         </div>
     </div>
 
-    <!-- Button -->
+    <!-- Buttons -->
     <div class="control-group">
         <label class="control-label" for="saveButton"></label>
         <div class="controls">

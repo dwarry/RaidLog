@@ -105,8 +105,10 @@ namespace RaidLog.Spa.Controllers
                         commentary = dto.Commentary,
                         resolvedDate = dto.ResolvedDate,
                         resolvedBy = dto.ResolvedBy,
-                        resolutionDescription = dto.ResolutionDescription
-
+                        resolutionDescription = dto.ResolutionDescription,
+                        ragStatus = dto.RagStatus,
+                        expectedClosureDate = dto.ExpectedClosureDate,
+                        isEscalatedToProgramme = dto.IsEscalatedToProgramme
                     };
 
                     IssueDto result = _connection.Query<IssueDto>(

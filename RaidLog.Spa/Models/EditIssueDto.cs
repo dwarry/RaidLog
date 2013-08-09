@@ -38,5 +38,7 @@ namespace RaidLog.Models
         public string RagStatus { get; set; }
 
         public DateTime? ExpectedClosureDate { get; set; }
+
+        public Boolean IsEscalatedToProgramme { get; set; }
     }
 }
