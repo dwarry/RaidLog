@@ -3,7 +3,7 @@
     <div class="row-fluid">
         <div class="span6">
             <div class="btn-group">
-                <button class="btn" data-bind="click: newAction,visible:canAdd"><i class="icon-plus-sign icon-white"></i> Add New Action</button>
+                <button class="btn" data-bind="click: addAction,visible:canAddAction"><i class="icon-plus-sign icon-white"></i> Add New Action</button>
                 <button class="btn" data-bind="click: refresh"><i class="icon-refresh icon-white"></i> Refresh</button>
             </div>
             <div id="actionListContainer" data-bind="pagedGrid: listViewModel, pagedGridTemplate: 'actionListTemplate'">

@@ -2,7 +2,9 @@
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />y
 /// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
 /// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
-define(["require", "exports", 'services/dataService'], function(require, exports, __ds__) {
+define(["require", "exports", 'plugins/dialog', 'services/dataService'], function(require, exports, __dlg__, __ds__) {
+    var dlg = __dlg__;
+
     var ds = __ds__;
 
     var _actionStatuses = ko.observableArray();
@@ -27,8 +29,8 @@ define(["require", "exports", 'services/dataService'], function(require, exports
             this.description = ko.observable().extend({ required: true, maxLength: 256 });
             this.actor = ko.observable().extend({ required: true, maxLength: 50 });
             this.actionStatusId = ko.observable().extend({ required: true });
-            this.dueDate = ko.observable().extend({ required: true, dateISO: true });
-            this.resolvedDate = ko.observable().extend({ required: true, dateISO: true });
+            this.dueDate = ko.observable().extend({ dateISO: true });
+            this.resolvedDate = ko.observable().extend({ dateISO: true });
             this.resolution = ko.observable().extend({ maxLength: 256 });
             this.actionStatuses = _actionStatuses;
             this.validation = ko.validatedObservable([
@@ -45,7 +47,7 @@ define(["require", "exports", 'services/dataService'], function(require, exports
             });
 
             this.parent = ko.computed(function () {
-                return _this.parentItemType().substring(0, 1) + "_" + _this.parentItemNumber();
+                return _this.parentItemType() + " " + _this.parentItemNumber();
             }, this);
 
             this.updateFromDto(dto);
@@ -74,8 +76,12 @@ define(["require", "exports", 'services/dataService'], function(require, exports
             this.id(dto.id);
             this.version = dto.version;
             this.actionNumber(dto.actionNumber);
-            this.parentItemType(dto.parentItemType);
-            this.parentItemId(dto.parentItemId);
+            if (dto.parentItemType) {
+                //will be null in the dto returned by an edit, so ignore
+                this.parentItemType(dto.parentItemType);
+                this.parentItemId(dto.parentItemId);
+                this.parentItemNumber(dto.parentItemNumber);
+            }
             this.description(dto.description);
             this.actor(dto.actor);
             this.actionStatusId(dto.actionStatusId);
@@ -118,6 +124,10 @@ define(["require", "exports", 'services/dataService'], function(require, exports
                 _this.updateFromDto(data);
                 if (_this.isNewItem() && _this._newItemCallback) {
                     _this._newItemCallback(_this);
+                }
+
+                if (dlg.getDialog(_this)) {
+                    dlg.close(_this);
                 }
             });
         };

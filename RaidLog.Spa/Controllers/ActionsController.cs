@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
@@ -28,8 +29,7 @@ namespace RaidLog.Spa.Controllers
                                                                             {
                                                                                 projectId
                                                                             },
-                                                                            tx,
-                                                                            commandType: CommandType.StoredProcedure);
+                                                                            tx);
 
                     return id == 0
                                ? q
@@ -51,7 +51,7 @@ namespace RaidLog.Spa.Controllers
             {
                 using (IDbTransaction tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    string sql = ActionQueries.GetActionsByType[itemType];
+                    string sql = ActionQueries.GetActionsByType[itemType.ToLowerInvariant()];
 
                     return _connection.Query<ActionDto>(sql,
                                                         new
@@ -107,21 +107,25 @@ namespace RaidLog.Spa.Controllers
             {
                 using (IDbTransaction tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    return _connection.Query<ActionDto>(ActionQueries.UpdateAction,
-                                                        new
-                                                        {
-                                                            id = dto.Id,
-                                                            version = dto.Version,
-                                                            description = dto.Description,
-                                                            actor = dto.Actor,
-                                                            actionStatusId = dto.ActionStatusId,
-                                                            dueDate = dto.DueDate,
-                                                            resolvedDate = dto.ResolvedDate,
-                                                            resolution = dto.Resolution
-                                                        },
-                                                        tx,
-                                                        commandType: CommandType.StoredProcedure)
-                                      .FirstOrDefault();
+                    var result = _connection.Query<ActionDto>(ActionQueries.UpdateAction,
+                                                           new
+                                                           {
+                                                               id = dto.Id,
+                                                               version = Convert.FromBase64String(dto.Version),
+                                                               description = dto.Description,
+                                                               actor = dto.Actor,
+                                                               actionStatusId = dto.ActionStatusId,
+                                                               dueDate = dto.DueDate,
+                                                               resolvedDate = dto.ResolvedDate,
+                                                               resolution = dto.Resolution
+                                                           },
+                                                           tx,
+                                                           commandType: CommandType.StoredProcedure)
+                                         .FirstOrDefault();
+
+                    tx.Commit();
+
+                    return result;
                 }
             }
             finally

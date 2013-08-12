@@ -54,7 +54,7 @@ with re as
 
         public const string GetAllProjectsAndActions = @"
     select ProjectId, ActionId, IsActive 
-      from [dbo].[usp_GetActionsForProjects]
+      from [dbo].[vw_ActionsForProjects]
 ";
 
         public const string GetProjectDetails = @"

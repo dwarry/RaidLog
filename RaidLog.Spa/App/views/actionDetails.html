@@ -24,7 +24,7 @@
             <label class="control-label" for="actionStatusId">Status</label>
             <div class="controls">
                 <select name="actionStatusId" id="actionStatusId" 
-                        data-bind="options:actionStatuses, optionsText:description, optionsValue:id"></select>
+                        data-bind="value:actionStatusId, options:actionStatuses, optionsText:'description', optionsValue:'id'"></select>
 
             </div>
         </div>
@@ -42,7 +42,7 @@
     <div class="controls-row">
         
         <!-- Resolved Date -->
-        <div class="control-group span2" data-bind="visible: !isNew(), css: { error: !resolvedDate.isValid() }">
+        <div class="control-group span2" data-bind="visible: !isNewItem(), css: { error: !resolvedDate.isValid() }">
             <label class="control-label" for="resolvedDate">Resolved Date:</label>
             <div class="controls">
                 <input id="resolvedDate" name="resolvedDate" type="text" placeholder="YYYY-MM-DD" class="input-small" data-bind="value: resolvedDate">
@@ -52,11 +52,21 @@
 
 
         <!-- Resolution -->
-        <div class="control-group span8" data-bind="visible: !isNew(), css: { error: !resolution.isValid() }">
+        <div class="control-group span8" data-bind="visible: !isNewItem(), css: { error: !resolution.isValid() }">
             <label class="control-label" for="resolution">Resolution</label>
             <div class="controls">                     
                 <textarea id="resolution" class="input-block-level" rows="3" name="resolution" data-bind="value: resolution"></textarea>
             </div>
+        </div>
+    </div>
+    
+        <!-- Buttons -->
+    <div class="control-group">
+        <label class="control-label" for="saveButton"></label>
+        <div class="controls">
+            <button id="saveButton" name="saveButton" 
+                    data-bind="enable: validation.isValid, click: save"    
+                    class="btn btn-primary">Save</button>
         </div>
     </div>
 

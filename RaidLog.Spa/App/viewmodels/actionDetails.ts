@@ -3,6 +3,8 @@
 /// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
 /// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
 
+import dlg = require('plugins/dialog');
+
 import ds = require('services/dataService');
 
 var _actionStatuses: KnockoutObservableArray<ds.ActionStatusDto> = ko.observableArray();
@@ -35,9 +37,9 @@ class ActionDetails {
 
     actionStatusId: KnockoutObservable<number> = ko.observable().extend({ required: true });
 
-    dueDate: KnockoutObservable<string> = ko.observable().extend({ required: true, dateISO: true });
+    dueDate: KnockoutObservable<string> = ko.observable().extend({ dateISO: true });
 
-    resolvedDate: KnockoutObservable<string> = ko.observable().extend({ required: true, dateISO: true });
+    resolvedDate: KnockoutObservable<string> = ko.observable().extend({ dateISO: true });
 
     resolution: KnockoutObservable<string> = ko.observable().extend({ maxLength: 256 });
 
@@ -65,8 +67,8 @@ class ActionDetails {
 
         this.isNewItem = ko.computed(() => dto.id === 0);
 
-                    this.parent = ko.computed(() => 
-                        this.parentItemType().substring(0, 1) + "_" + this.parentItemNumber()
+        this.parent = ko.computed(() => 
+                        this.parentItemType() + " " + this.parentItemNumber()
             , this);
 
         this.updateFromDto(dto);
@@ -92,11 +94,16 @@ class ActionDetails {
     }
 
     updateFromDto(dto: ds.ActionDto) {
+        
         this.id(dto.id);
         this.version = dto.version;
         this.actionNumber(dto.actionNumber);
-        this.parentItemType(dto.parentItemType);
-        this.parentItemId(dto.parentItemId);
+        if (dto.parentItemType) {
+            //will be null in the dto returned by an edit, so ignore
+            this.parentItemType(dto.parentItemType);
+            this.parentItemId(dto.parentItemId);
+            this.parentItemNumber(dto.parentItemNumber);
+        }
         this.description(dto.description);
         this.actor(dto.actor);
         this.actionStatusId(dto.actionStatusId);
@@ -139,6 +146,10 @@ class ActionDetails {
             this.updateFromDto(data);
             if (this.isNewItem() && this._newItemCallback) {
                 this._newItemCallback(this);
+            }
+
+            if (dlg.getDialog(this)) {
+                dlg.close(this);
             }
         });
     }

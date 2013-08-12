@@ -17,6 +17,13 @@ namespace RaidLog.Spa
                                            }
                 );
 
+            config.Routes.MapHttpRoute("ProjectItemActions",
+                                       "api/Project/{projectId}/{itemType}/{itemId}/actions",
+                                       new
+                                       {
+                                           controller = "Actions"
+                                       });
+
             config.Routes.MapHttpRoute(
                            name: "Actions",
                            routeTemplate: "api/{itemType}/{itemId}/actions",
@@ -33,10 +40,6 @@ namespace RaidLog.Spa
 
 
 
-            config.Routes.MapHttpRoute("ProjectItemActions",
-                "api/Project/{projectId}/{itemType}/{itemId}/actions",
-                new{ controller="Actions"})
-            ;
         }
     }
 }

@@ -2,14 +2,15 @@
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />y
 /// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
 /// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
-define(["require", "exports"], function(require, exports) {
-    
-    
-    
+define(["require", "exports", 'services/dataService', "./pagedGrid", "./actionDetails"], function(require, exports, __ds__, __pg__, __ActionDetails__) {
+    var ds = __ds__;
+    var pg = __pg__;
+    var ActionDetails = __ActionDetails__;
 
     var ActionList = (function () {
         function ActionList() {
-            this.title = ko.observable("");
+            var _this = this;
+            this.title = ko.observable("Actions");
             this.listViewModel = new pg.ListViewModel({ data: ko.observableArray([]) });
 
             var newItemCallback = function (item) {
@@ -22,16 +23,23 @@ define(["require", "exports"], function(require, exports) {
                 },
                 key: function (x) {
                     return x.id;
-                }
+                },
+                'dueDate': { update: function (options) {
+                        return (options.data || "").substring(0, 10);
+                    } },
+                'resolvedDate': { update: function (options) {
+                        return (options.data || "").substring(0, 10);
+                    } }
             };
 
-            this.canAdd = ko.computed(function () {
+            this.canAddAction = ko.computed(function () {
                 return _this.itemType !== 'Project';
             }, this);
         }
         ActionList.prototype.activate = function (itemTypeParam, itemIdParam) {
-            this.itemType = singularize(itemTypeParam);
+            this.itemType = this.singularize(itemTypeParam);
             this.itemId = itemIdParam;
+            return this.refresh();
         };
 
         ActionList.prototype.singularize = function (plural) {
@@ -53,6 +61,7 @@ define(["require", "exports"], function(require, exports) {
         };
 
         ActionList.prototype.refresh = function () {
+            var _this = this;
             if (this.itemType == "Project") {
                 if (this.title() === "") {
                     ds.getProject(this.itemId).done(function (proj) {
@@ -70,6 +79,9 @@ define(["require", "exports"], function(require, exports) {
                     ko.mapping.fromJS(data, _this._mappingOptions, _this.listViewModel.allData);
                 });
             }
+        };
+
+        ActionList.prototype.addAction = function () {
         };
         return ActionList;
     })();

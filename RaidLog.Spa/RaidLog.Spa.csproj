@@ -215,11 +215,11 @@
     <Content Include="App\viewmodels\actionDetails.min.js">
       <DependentUpon>actionDetails.ts</DependentUpon>
     </Content>
-    <Content Include="App\viewmodels\actionDetails.ts" />
+    <TypeScriptCompile Include="App\viewmodels\actionDetails.ts" />
     <Content Include="App\viewmodels\actionList.min.js">
       <DependentUpon>actionList.ts</DependentUpon>
     </Content>
-    <Content Include="App\viewmodels\actionList.ts" />
+    <TypeScriptCompile Include="App\viewmodels\actionList.ts" />
     <Content Include="App\viewmodels\assumptionDetails.js">
       <DependentUpon>assumptionDetails.ts</DependentUpon>
     </Content>

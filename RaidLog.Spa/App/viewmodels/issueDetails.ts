@@ -2,9 +2,13 @@
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
 /// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
+import dlg = require('plugins/dialog');
 
 import ds = require('services/dataService');
 import pg = require('./pagedGrid');
+import rf = require('services/routeFactory');
+import router = require('plugins/router');
+import ActionDetails = require('./actionDetails');
 
 var ragStatuses = ["Green", "Amber", "Red"];
 
@@ -126,6 +130,20 @@ class IssueDetails{
                 this._newItemCallback(this);
             }
         });
+    }
+
+    addAction() {
+        var action = ds.makeActionDto();
+
+        var ad = new ActionDetails(action, null);
+
+        dlg.show(ad); 
+    }
+
+    showActions() {
+        var route = rf.makeItemActionLink('issue', this.id());
+
+        router.navigate(route);
     }
 }
 

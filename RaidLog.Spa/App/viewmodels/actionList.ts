@@ -11,15 +11,16 @@ class ActionList{
     itemType: string;
     itemId: number;
 
-    title = ko.observable("");
+    title = ko.observable("Actions");
 
     listViewModel: pg.ListViewModel<ActionDetails>;
 
-    canAdd: KnockoutComputed<boolean>;
+    canAddAction: KnockoutComputed<boolean>;
 
     private _mappingOptions: KnockoutMappingOptions;
 
     constructor() {
+
         this.listViewModel = new pg.ListViewModel<ActionDetails>({ data: ko.observableArray([]) });
 
         var newItemCallback = (item: ActionDetails) => { this.listViewModel.allData.push(item); };
@@ -28,16 +29,19 @@ class ActionList{
         this._mappingOptions = {
             create: options => new ActionDetails(<ds.ActionDto>options.data,
                 newItemCallback),
-            key: (x) => x.id
+            key: (x) => x.id,
+            'dueDate': { update: options => (options.data || "").substring(0, 10) },
+            'resolvedDate': { update: options => (options.data || "").substring(0, 10) }
         };
         
 
-        this.canAdd = ko.computed(() => this.itemType !== 'Project', this);
+        this.canAddAction = ko.computed(() => this.itemType !== 'Project', this);
     }
 
     activate(itemTypeParam: string, itemIdParam: number) {
-        this.itemType = singularize(itemTypeParam);
+        this.itemType = this.singularize(itemTypeParam);
         this.itemId = itemIdParam;
+        return this.refresh();
     }
 
     private singularize(plural: string) {
@@ -78,6 +82,9 @@ class ActionList{
                 ko.mapping.fromJS(data, this._mappingOptions, this.listViewModel.allData);
             });
         }
+    }
+
+    addAction() {
     }
 }
 

@@ -1,10 +1,15 @@
-﻿/// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
-/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
-/// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
-/// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
-define(["require", "exports", 'services/dataService'], function(require, exports, __ds__) {
+﻿define(["require", "exports", 'plugins/dialog', 'services/dataService', 'services/routeFactory', 'plugins/router', './actionDetails'], function(require, exports, __dlg__, __ds__, __rf__, __router__, __ActionDetails__) {
+    /// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
+    /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
+    /// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
+    /// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
+    var dlg = __dlg__;
+
     var ds = __ds__;
     
+    var rf = __rf__;
+    var router = __router__;
+    var ActionDetails = __ActionDetails__;
 
     var ragStatuses = ["Green", "Amber", "Red"];
 
@@ -111,6 +116,20 @@ define(["require", "exports", 'services/dataService'], function(require, exports
                     _this._newItemCallback(_this);
                 }
             });
+        };
+
+        IssueDetails.prototype.addAction = function () {
+            var action = ds.makeActionDto();
+
+            var ad = new ActionDetails(action, null);
+
+            dlg.show(ad);
+        };
+
+        IssueDetails.prototype.showActions = function () {
+            var route = rf.makeItemActionLink('issue', this.id());
+
+            router.navigate(route);
         };
         return IssueDetails;
     })();
