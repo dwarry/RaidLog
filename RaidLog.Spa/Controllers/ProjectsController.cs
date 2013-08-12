@@ -329,7 +329,7 @@ namespace RaidLog.Controllers
 
     internal class ProjectAndActionStatus
     {
-        public ProjectAndQueryStatus(int projectId, int actionId, bool isActive)
+        public ProjectAndActionStatus(int projectId, int actionId, bool isActive)
         {
             ProjectId = projectId;
             ActionId = actionId;

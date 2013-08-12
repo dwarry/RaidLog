@@ -2,8 +2,8 @@
 /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />y
 /// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
 /// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
-define(["require", "exports", 'services/dataService'], function(require, exports, __ds__) {
-    var ds = __ds__;
+define(["require", "exports"], function(require, exports) {
+    
     
     
 
@@ -30,12 +30,29 @@ define(["require", "exports", 'services/dataService'], function(require, exports
             }, this);
         }
         ActionList.prototype.activate = function (itemTypeParam, itemIdParam) {
-            this.itemType = itemTypeParam;
+            this.itemType = singularize(itemTypeParam);
             this.itemId = itemIdParam;
         };
 
+        ActionList.prototype.singularize = function (plural) {
+            var len = plural.length;
+
+            if (len === 0) {
+                return "";
+            }
+
+            plural = plural.charAt(0).toUpperCase() + plural.substring(1);
+
+            if (len >= 6 && plural.substring(len - 3) === "ies") {
+                return plural.substring(0, len - 3) + "y";
+            } else if (plural.charAt(plural.length - 1) === "s") {
+                return plural.substring(0, len - 1);
+            }
+
+            return plural;
+        };
+
         ActionList.prototype.refresh = function () {
-            var _this = this;
             if (this.itemType == "Project") {
                 if (this.title() === "") {
                     ds.getProject(this.itemId).done(function (proj) {

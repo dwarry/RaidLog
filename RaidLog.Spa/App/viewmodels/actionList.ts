@@ -36,8 +36,26 @@ class ActionList{
     }
 
     activate(itemTypeParam: string, itemIdParam: number) {
-        this.itemType = itemTypeParam;
+        this.itemType = singularize(itemTypeParam);
         this.itemId = itemIdParam;
+    }
+
+    private singularize(plural: string) {
+        var len = plural.length;
+
+        if (len === 0) {
+            return "";
+        }
+
+        plural = plural.charAt(0).toUpperCase() + plural.substring(1);
+
+        if (len >= 6 && plural.substring(len - 3) === "ies") {
+            return plural.substring(0, len - 3) + "y";
+        } else if (plural.charAt(plural.length - 1) === "s") {
+            return plural.substring(0, len - 1);
+        }
+
+        return plural;
     }
 
     refresh() {
