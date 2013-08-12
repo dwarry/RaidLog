@@ -8,7 +8,7 @@ import ds = require('services/dataService');
 import pg = require('./pagedGrid');
 import rf = require('services/routeFactory');
 import router = require('plugins/router');
-import ActionDetails = require('./actionDetails');
+import ActionDetailsDialog = require('./actionDetailsDialog');
 
 var ragStatuses = ["Green", "Amber", "Red"];
 
@@ -134,8 +134,10 @@ class IssueDetails{
 
     addAction() {
         var action = ds.makeActionDto();
+        action.parentItemType = "Issue";
+        action.parentItemId = this.id();
 
-        var ad = new ActionDetails(action, null);
+        var ad = new ActionDetailsDialog(action);
 
         dlg.show(ad); 
     }

@@ -1,4 +1,4 @@
-﻿define(["require", "exports", 'plugins/dialog', 'services/dataService', 'services/routeFactory', 'plugins/router', './actionDetails'], function(require, exports, __dlg__, __ds__, __rf__, __router__, __ActionDetails__) {
+﻿define(["require", "exports", 'plugins/dialog', 'services/dataService', 'services/routeFactory', 'plugins/router', './actionDetailsDialog'], function(require, exports, __dlg__, __ds__, __rf__, __router__, __ActionDetailsDialog__) {
     /// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
     /// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
     /// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
@@ -9,7 +9,7 @@
     
     var rf = __rf__;
     var router = __router__;
-    var ActionDetails = __ActionDetails__;
+    var ActionDetailsDialog = __ActionDetailsDialog__;
 
     var ragStatuses = ["Green", "Amber", "Red"];
 
@@ -120,8 +120,10 @@
 
         IssueDetails.prototype.addAction = function () {
             var action = ds.makeActionDto();
+            action.parentItemType = "Issue";
+            action.parentItemId = this.id();
 
-            var ad = new ActionDetails(action, null);
+            var ad = new ActionDetailsDialog(action);
 
             dlg.show(ad);
         };

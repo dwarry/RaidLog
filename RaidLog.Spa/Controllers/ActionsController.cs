@@ -77,7 +77,7 @@ namespace RaidLog.Spa.Controllers
             {
                 using (IDbTransaction tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    return _connection.Query<ActionDto>(ActionQueries.CreateAction,
+                    var result =  _connection.Query<ActionDto>(ActionQueries.CreateAction,
                                                         new
                                                         {
                                                             parentItemId = dto.ParentItemId,
@@ -90,6 +90,10 @@ namespace RaidLog.Spa.Controllers
                                                         tx,
                                                         commandType: CommandType.StoredProcedure)
                                       .FirstOrDefault();
+
+                    tx.Commit();
+
+                    return result;
                 }
             }
             finally

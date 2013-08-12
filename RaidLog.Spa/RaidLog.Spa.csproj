@@ -216,6 +216,10 @@
       <DependentUpon>actionDetails.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="App\viewmodels\actionDetails.ts" />
+    <TypeScriptCompile Include="App\viewmodels\actionDetailsDialog.ts" />
+    <Content Include="App\viewmodels\actionDetailsDialog.min.js">
+      <DependentUpon>actionDetailsDialog.ts</DependentUpon>
+    </Content>
     <Content Include="App\viewmodels\actionList.min.js">
       <DependentUpon>actionList.ts</DependentUpon>
     </Content>
@@ -305,6 +309,7 @@
     </Content>
     <TypeScriptCompile Include="App\viewmodels\shell.ts" />
     <Content Include="App\views\actionDetails.html" />
+    <Content Include="App\views\actionDetailsDialog.html" />
     <Content Include="App\views\actionList.html" />
     <Content Include="App\views\assumptionList.html" />
     <Content Include="App\views\issueDetails.html" />
