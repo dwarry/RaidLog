@@ -91,6 +91,9 @@
     <Build Include="dbo\Stored Procedures\usp_UpdateAssumption.sql" />
     <Build Include="dbo\Stored Procedures\usp_CreateIssue.sql" />
     <Build Include="dbo\Stored Procedures\usp_UpdateIssue.sql" />
+    <Build Include="dbo\Tables\ActionStatus.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetActionsForProject.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CreateAction.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="ReferenceData.PostDeployment.sql" />

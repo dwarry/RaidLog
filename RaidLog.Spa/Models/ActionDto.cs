@@ -16,7 +16,11 @@ namespace RaidLog.Spa.Models
 
         public int ActionNumber { get; set; }
 
-        public string ParentItem { get; set; }
+        public string ParentItemType { get; set; }
+
+        public int ParentItemId { get; set; }
+
+        public int ParentItemNumber { get; set; }
 
         [Required]
         [StringLength(256)]

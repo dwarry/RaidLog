@@ -10,12 +10,13 @@ define(["require", "exports", "plugins/router"], function(require, exports, __r_
         return route;
     }
 
-    var projectList = addRoute('', { title: 'Projects', moduleId: 'viewmodels/projectList', nav: true });
+    var projectList = addRoute('projects/', { title: 'Projects', moduleId: 'viewmodels/projectList', nav: true });
     var projectRisks = addRoute('projects/:projectId/risks', { title: 'Project Risks', moduleId: 'viewmodels/riskList', nav: false });
     var projectAssumptions = addRoute('projects/:projectId/assumptions', { title: 'Project Assumptions', moduleId: 'viewmodels/assumptionList', nav: false });
     var projectIssues = addRoute('projects/:projectId/issues', { title: 'Project Issues', moduleId: 'viewmodels/issueList', nav: false });
     var projectDependencies = addRoute('projects/:projectId/dependencies', { title: 'Project Dependencies', moduleId: 'viewmodels/dependencyList', nav: false });
     var projectQueries = addRoute('projects/:projectId/queries', { title: 'Project Queries', moduleId: 'viewmodels/queryList', nav: false });
+    var projectActions = addRoute('projects/:projectId/actions', { title: 'Project Actions', moduleId: 'viewmodels/actionsList', nav: false });
 
     var projectIdRegex = /:projectId/;
 
@@ -39,6 +40,9 @@ define(["require", "exports", "plugins/router"], function(require, exports, __r_
         },
         makeProjectQueryLink: function (projectId) {
             return "#/" + projectQueries.replace(projectIdRegex, projectId.toString());
+        },
+        makeProjectActionLink: function (projectId) {
+            return "#/" + projectActions.replace(projectIdRegex, projectId.toString());
         }
     };
 

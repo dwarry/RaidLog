@@ -6,6 +6,7 @@ define(["require", "exports", "plugins/router", "knockout", "services/routeFacto
     var router = __router__;
     var ko = __ko__;
     var routeFactory = __routeFactory__;
+    
 
     var shell = {
         router: router,

@@ -22,6 +22,7 @@
                 <th style="width: 12ex;">Issues</th>
                 <th style="width: 12ex;">Dependencies</th>
                 <th style="width: 12ex;">Queries</th>
+                <th style="width: 12ex;">Actions</th>
 
             </tr>
         </thead>
@@ -50,6 +51,12 @@
                 <td>
                     <span data-bind="text: $data.activeQueries">0</span> / <span data-bind="text: $data.closedQueries">0</span>
                 </td>
+                <td>
+                    <a data-bind="attr: { href: projectActionsLink }">
+                        <span data-bind="text: $data.activeActions">0</span> / <span data-bind="    text: $data.closedActions">0</span>
+                    </a>
+                </td>
+
             </tr>
         </tbody>
     </table>

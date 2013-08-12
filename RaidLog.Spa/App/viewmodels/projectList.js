@@ -48,6 +48,7 @@ define(["require", "exports", "services/dataService", "services/routeFactory", "
                     x['projectIssuesLink'] = routeFactory.makeProjectIssueLink(x.id);
                     x['projectDependenciesLink'] = routeFactory.makeProjectDependencyLink(x.id);
                     x['projectQueriesLink'] = routeFactory.makeProjectQueryLink(x.id);
+                    x['projectActionsLink'] = routeFactory.makeProjectActionLink(x.id);
                 });
                 _this.projects(data);
                 _this.listViewModel.setSelected(null);

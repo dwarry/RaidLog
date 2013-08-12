@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Http;
+using System.Web.Mvc;
 
 namespace RaidLog.Spa
 {
@@ -17,9 +18,25 @@ namespace RaidLog.Spa
                 );
 
             config.Routes.MapHttpRoute(
+                           name: "Actions",
+                           routeTemplate: "api/{itemType}/{itemId}/actions",
+                           defaults: new
+                           {
+                               controller = "Actions",
+                           }
+                );
+
+            config.Routes.MapHttpRoute(
                 "ProjectItems",
                 "api/Project/{projectId}/{controller}/{id}",
                 new { id = RouteParameter.Optional });
+
+
+
+            config.Routes.MapHttpRoute("ProjectItemActions",
+                "api/Project/{projectId}/{itemType}/{itemId}/actions",
+                new{ controller="Actions"})
+            ;
         }
     }
 }

@@ -10,11 +10,17 @@ import logger = require("services/logger");
 import http = require("plugins/http");
 
 export interface AssumptionStatusDto {
-    
     id: number;
     description: string;
     isFinalState: boolean;
 }
+
+export interface ActionStatusDto {
+    id: number;
+    description: string;
+    isFinalState: boolean;
+}
+
 
 export interface ApproachDto {
     id: number;
@@ -48,6 +54,7 @@ export interface ReferenceDataDto{
     likelihoods: LikelihoodDto[];
     rifCategories: RifCategoryDto[];
     assumptionStatuses: AssumptionStatusDto[];
+    actionStatuses: ActionStatusDto[];
 }
 
 
@@ -64,11 +71,13 @@ export interface ProjectSummaryWithCounts extends ProjectDto {
     activeIssues: number;
     activeDependencies: number;
     activeQueries: number;
+    activeActions: number;
     closedRisks: number;
     closedAssumptions: number;
     closedIssues: number;
     closedDependencies: number;
     closedQueries: number;
+    closedActions: number;
 }
 
 export interface RiskDto{
@@ -336,7 +345,81 @@ export function makeEditIssueDto(): EditIssueDto {
     };
 }
 
+export interface ActionDto {
+    id: number;
+    version: string;
+    actionNumber: number;
+    parentItemType: string;
+    parentItemId: number;
+    parentItemNumber: number;
+    description: string;
+    actor: string;
+    actionStatusId: number;
+    dueDate: string;
+    resolvedDate: string;
+    resolution: string;
+}
 
+export function makeActionDto(): ActionDto {
+    return {
+        id: 0,
+        version: "",
+        actionNumber: 0,
+        parentItemType: "",
+        parentItemId: 0,
+        parentItemNumber:0,
+        description: "",
+        actor: "",
+        actionStatusId: 0,
+        dueDate: "",
+        resolvedDate: "",
+        resolution: ""
+    };
+};
+
+export interface MaintainActionDto {
+    description: string;
+    actor: string;
+    actionStatusId: number;
+    dueDate: string;
+}
+
+export interface NewActionDto extends MaintainActionDto {
+    parentItemType: string;
+    parentItemId: number;
+}
+
+export function makeNewActionDto(): NewActionDto{
+    return {
+        parentItemType: "",
+        parentItemId: 0,
+        description: "",
+        actor: "",
+        actionStatusId: 0,
+        dueDate: ""
+    };
+}
+
+
+export interface EditActionDto extends MaintainActionDto{
+    id: number;
+    version: string;
+    resolvedDate: string;
+    resolution: string;
+}
+
+export function makeEditActionDto() {
+    return {
+        id: 0,
+        version: "",
+        description: "",
+        actor: "",
+        actionStatusId: 0,
+        dueDate: "",
+        resolvedDate: "",
+        resolution: ""
+    };
+}
 
 export interface DependencyDto{
     id: number;
@@ -441,6 +524,16 @@ export function getProjectQueries(id:number): JQueryPromise <QueryDto[] > {
     return $.getJSON("/api/project/" + id + "/queries/");
 };
 
+export function getProjectActions(id: number): JQueryPromise<ActionDto[]>{
+    return $.getJSON("/api/project/" + id + "/actions/").done(data => { logger.logSuccess("Retrieved Project Actions", data, MODULE_NAME, true); })
+        .fail((jqxhr, status, ex) => { logger.logError("Error retrieving Project Actions", jqxhr, MODULE_NAME, true); });
+}
+
+export function getActionsFor(itemType: string, itemId: number) {
+    return $.getJSON("/api/" + itemType + "s/" + itemId + "/actions/")
+        .done(data => { logger.logSuccess("Retrieved " + itemType + " Actions", data, MODULE_NAME, true); })
+        .fail((jqxhr, status, ex) => { logger.logError("Error retrieving " + itemType + " Actions", jqxhr, MODULE_NAME, true); });
+}
 
 
 export function saveProject(proj): JQueryPromise {
@@ -532,11 +625,25 @@ export function saveIssue(projectId: number, issue: MaintainIssueDto) {
 
 }
 
-/*
-define(['services/logger','durandal/http'], function (logger: Logger,http) {
-    var referenceData: ReferenceDataDto;
-    var refDataDfd = http.get('/api/ReferenceData/', {})
-        .done(function (data) { referenceData = data; })
-        .fail(function (jqxhr, status, err) { });
-});
-*/
+export function saveAction( dto: MaintainActionDto) {
+
+    var options: JQueryAjaxSettings = { data: dto };
+
+    if ('id' in dto) {
+        options.url = "/api/actions/" + dto['id'];
+        options.type = "PUT";
+    } else {
+        var newActionDto = <NewActionDto>dto;
+
+        options.url = "/api/actions/";
+        options.type = "POST";
+    }
+
+    
+    return $.ajax(options).done(function (data, status, jqxhr) {
+        logger.log("Saved Action", null, MODULE_NAME, true);
+    }).fail(function (jqxhr, status, ex) {
+            logger.logError(status + " " + jqxhr.responseText, dto, MODULE_NAME, false);
+            logger.logError("Error saving the Action", null, MODULE_NAME, true);
+        });
+}

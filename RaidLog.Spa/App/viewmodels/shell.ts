@@ -6,6 +6,7 @@
 import router = require("plugins/router");
 import ko = require("knockout");
 import routeFactory = require("services/routeFactory");
+import ts = require("durandal/typescript");
 
 var shell = {
     router: router,

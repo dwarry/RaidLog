@@ -6,7 +6,7 @@ namespace RaidLog.Spa.Models
 {
     public class EditAction
     {
-        public int ActionId { get; set; }
+        public int Id { get; set; }
 
         public string Version { get; set; }
 

@@ -35,7 +35,8 @@ namespace RaidLog.Controllers
                                                    multi.Read<ImpactDto>().ToArray(),
                                                    multi.Read<LikelihoodDto>().ToArray(),
                                                    multi.Read<RifCategoryDto>().ToArray(),
-                                                   multi.Read<AssumptionStatusDto>().ToArray());
+                                                   multi.Read<AssumptionStatusDto>().ToArray(),
+                                                   multi.Read<ActionStatusDto>().ToArray());
 
                     return result;
                 }

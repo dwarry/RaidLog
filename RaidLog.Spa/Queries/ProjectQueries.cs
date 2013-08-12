@@ -49,6 +49,14 @@ with re as
        from  [dbo].[Issue] i
       where  i.[ProjectId] in (select [Id] from [dbo].[Project] p where p.[IsActive] = 1);
 ";
+
+
+
+        public const string GetAllProjectsAndActions = @"
+    select ProjectId, ActionId, IsActive 
+      from [dbo].[usp_GetActionsForProjects]
+";
+
         public const string GetProjectDetails = @"
     Select [Id]
          , [Version]

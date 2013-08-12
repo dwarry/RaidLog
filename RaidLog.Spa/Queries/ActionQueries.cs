@@ -9,9 +9,20 @@ namespace RaidLog.Spa.Queries
     {
         public const string GetActionsForProject = "usp_GetActionsForProject";
 
+        public readonly static IDictionary<string,string> GetActionsByType = new Dictionary<string, string>
+        {
+            {"Risk", GetActionsForRisk},
+            {"Assumption", GetActionsForAssumption},
+            {"Issue", GetActionsForIssue},
+            {"Dependency", GetActionsForDependency},
+            //{"Query", GetActionsForQuery}
+        }; 
+
         public const string GetActionsForRisk = @"
 SELECT      a.Id, 
             a.ActionNumber, 
+            'Risk',
+            ra.RiskId,
             a.Description, 
             a.Actor, 
             a.ActionStatusId, 
@@ -29,6 +40,8 @@ WHERE       ra.RiskId = @riskId";
         public const string GetActionsForAssumption = @"
 SELECT      a.Id, 
             a.ActionNumber, 
+            'Assumption',
+            aa.AssumptionId,
             a.Description, 
             a.Actor, 
             a.ActionStatusId, 
@@ -46,6 +59,8 @@ WHERE       aa.AssumptionId = @assumptionId";
         public const string GetActionsForIssue = @"
 SELECT      a.Id, 
             a.ActionNumber, 
+            'Issue',
+            ia.IssueId,
             a.Description, 
             a.Actor, 
             a.ActionStatusId, 
@@ -62,7 +77,9 @@ WHERE       ia.Issued = @issueId";
 
         public const string GetActionsForDependency = @"
 SELECT      a.Id, 
-            a.ActionNumber, 
+            a.ActionNumber,
+            'Dependency',
+            da.DependencyId, 
             a.Description, 
             a.Actor, 
             a.ActionStatusId, 

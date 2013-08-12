@@ -104,6 +104,51 @@
     }
     exports.makeEditIssueDto = makeEditIssueDto;
 
+    function makeActionDto() {
+        return {
+            id: 0,
+            version: "",
+            actionNumber: 0,
+            parentItemType: "",
+            parentItemId: 0,
+            parentItemNumber: 0,
+            description: "",
+            actor: "",
+            actionStatusId: 0,
+            dueDate: "",
+            resolvedDate: "",
+            resolution: ""
+        };
+    }
+    exports.makeActionDto = makeActionDto;
+    ;
+
+    function makeNewActionDto() {
+        return {
+            parentItemType: "",
+            parentItemId: 0,
+            description: "",
+            actor: "",
+            actionStatusId: 0,
+            dueDate: ""
+        };
+    }
+    exports.makeNewActionDto = makeNewActionDto;
+
+    function makeEditActionDto() {
+        return {
+            id: 0,
+            version: "",
+            description: "",
+            actor: "",
+            actionStatusId: 0,
+            dueDate: "",
+            resolvedDate: "",
+            resolution: ""
+        };
+    }
+    exports.makeEditActionDto = makeEditActionDto;
+
     function makeNewDependencyDto() {
         return {
             id: null,
@@ -208,6 +253,24 @@
     exports.getProjectQueries = getProjectQueries;
     ;
 
+    function getProjectActions(id) {
+        return $.getJSON("/api/project/" + id + "/actions/").done(function (data) {
+            logger.logSuccess("Retrieved Project Actions", data, MODULE_NAME, true);
+        }).fail(function (jqxhr, status, ex) {
+            logger.logError("Error retrieving Project Actions", jqxhr, MODULE_NAME, true);
+        });
+    }
+    exports.getProjectActions = getProjectActions;
+
+    function getActionsFor(itemType, itemId) {
+        return $.getJSON("/api/" + itemType + "s/" + itemId + "/actions/").done(function (data) {
+            logger.logSuccess("Retrieved " + itemType + " Actions", data, MODULE_NAME, true);
+        }).fail(function (jqxhr, status, ex) {
+            logger.logError("Error retrieving " + itemType + " Actions", jqxhr, MODULE_NAME, true);
+        });
+    }
+    exports.getActionsFor = getActionsFor;
+
     function saveProject(proj) {
         var options = {
             url: "/api/projects/",
@@ -292,4 +355,26 @@
         });
     }
     exports.saveIssue = saveIssue;
+
+    function saveAction(dto) {
+        var options = { data: dto };
+
+        if ('id' in dto) {
+            options.url = "/api/actions/" + dto['id'];
+            options.type = "PUT";
+        } else {
+            var newActionDto = dto;
+
+            options.url = "/api/actions/";
+            options.type = "POST";
+        }
+
+        return $.ajax(options).done(function (data, status, jqxhr) {
+            logger.log("Saved Action", null, MODULE_NAME, true);
+        }).fail(function (jqxhr, status, ex) {
+            logger.logError(status + " " + jqxhr.responseText, dto, MODULE_NAME, false);
+            logger.logError("Error saving the Action", null, MODULE_NAME, true);
+        });
+    }
+    exports.saveAction = saveAction;
 });

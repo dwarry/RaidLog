@@ -1,11 +1,12 @@
-﻿<section><h1><span data-bind="text: projectCode"></span>: <span data-bind="text: projectName"></span> Issues</h1>
+﻿<section>
+    <h1 data-bind="text:title"></h1>
     <div class="row-fluid">
         <div class="span6">
             <div class="btn-group">
-                <button class="btn" data-bind="click: newIssue"><i class="icon-plus-sign icon-white"></i> Add New Issue</button>
+                <button class="btn" data-bind="click: newAction,visible:canAdd"><i class="icon-plus-sign icon-white"></i> Add New Action</button>
                 <button class="btn" data-bind="click: refresh"><i class="icon-refresh icon-white"></i> Refresh</button>
             </div>
-            <div id="issueListContainer" data-bind="pagedGrid: listViewModel, pagedGridTemplate: 'issueListTemplate'">
+            <div id="actionListContainer" data-bind="pagedGrid: listViewModel, pagedGridTemplate: 'actionListTemplate'">
             </div>
             <h2 data-bind="visible: listViewModel.filteredData().length == 0" class="alert alert-info">No Issues</h2>
     
@@ -13,21 +14,21 @@
         <div class='span6 well' data-bind='compose: listViewModel.selected'>
         </div>
     </div>
-    <script id="issueListTemplate" type="text/html">
+    <script id="actionListTemplate" type="text/html">
         <table class='table table-bordered table-condensed table-striped'>
             <thead>
                 <tr>
                     <th>#</th>
                     <th>Description</th>
-                    <th>RAG</th>
+                    <th>Parent</th>
                     <th class="dateCol">Resolved Date</th>
                 </tr>
             </thead>
             <tbody data-bind='foreach: itemsOnCurrentPage'>
                 <tr data-bind='click: $parent.setSelected, css: { selected: $data === $parent.selected() }'>
-                    <td data-bind='text: issueNumber'></td>
+                    <td data-bind='text: actionNumber'></td>
                     <td data-bind='text: description'></td>
-                    <td data-bind="text: ragStatus,css:ragClass"></td>
+                    <td data-bind="text: parent"></td>
                     <td data-bind='text: resolvedDate'></td>
                 </tr>
             </tbody>
