@@ -345,6 +345,89 @@ export function makeEditIssueDto(): EditIssueDto {
     };
 }
 
+export interface DependencyDto{
+    id: number;
+    versionNumber: string;
+    projectId: number;
+    dependencyNumber: number;
+    status: string;
+    workstream: string;
+    description: string;
+    plannedDate: string;
+    requiredByDate: string;
+    comments: string;
+    ragStatus: string;
+    dependencyLevel: string;
+}
+
+export function MakeDependencyDto(): DependencyDto {
+    return {
+        id: 0,
+        versionNumber: "",
+        projectId: 0,
+        dependencyNumber: 0,
+        status: "",
+        workstream: "",
+        description: "",
+        plannedDate: "",
+        requiredByDate: "",
+        comments: "",
+        ragStatus: "",
+        dependencyLevel: "",
+    };
+}
+
+export interface MaintainDependencyDto{
+    status: string;
+    workstream: string;
+    description: string;
+    plannedDate: string;
+    requiredByDate: string;
+    comments: string;
+    ragStatus: string;
+    dependencyLevel: string;
+}
+
+export interface NewDependencyDto extends MaintainDependencyDto{
+    projectId: number;
+}
+
+export function MakeNewDependencyDto(): NewDependencyDto {
+    return {
+        projectId: 0,
+        dependencyNumber: 0,
+        status: "",
+        workstream: "",
+        description: "",
+        plannedDate: "",
+        requiredByDate: "",
+        comments: "",
+        ragStatus: "",
+        dependencyLevel: ""
+    };
+}
+
+export interface EditDependencyDto extends MaintainDependencyDto{
+    id: number;
+    versionNumber: string;
+}
+
+export function MakeEditDependencyDto(): EditDependencyDto {
+    return {
+        id: 0,
+        versionNumber: ""
+        dependencyNumber: 0,
+        status: "",
+        workstream: "",
+        description: "",
+        plannedDate: "",
+        requiredByDate: "",
+        comments: "",
+        ragStatus: "",
+        dependencyLevel: ""
+    };
+}
+
 export interface ActionDto {
     id: number;
     version: string;
