@@ -3,15 +3,11 @@
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE [dbo].[usp_GetActionsForProject]
-	@projectId int
+CREATE FUNCTION [dbo].[ufn_GetActionsForProject]
+	(@projectId int)
+returns table
 AS
-BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
-	SET NOCOUNT ON;
-    SET XACT_ABORT ON;
-
+    RETURN
     SELECT  a.Id, 
             a.ActionNumber, 
             a.Description, 
@@ -107,6 +103,3 @@ INNER JOIN
 INNER JOIN
             Project p4 ON d.ProjectId = p4.Id
 WHERE        (p4.Id = @projectId)
-
-
-END
