@@ -1,4 +1,8 @@
-﻿define(["require", "exports", "./riskDetails", "services/dataService", "./pagedGrid"], function(require, exports, __rvm__, __dataService__, __pg__) {
+﻿/// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
+/// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
+define(["require", "exports", "./riskDetails", "services/dataService", "./pagedGrid"], function(require, exports, __rvm__, __dataService__, __pg__) {
     
     var rvm = __rvm__;
     var dataService = __dataService__;
@@ -35,10 +39,10 @@
                 var sf = _this.listViewModel.searchField().trim();
 
                 if (!_this.listViewModel.searchPredicate || sf.length === 0) {
-                    return ko.utils.unwrapObservable(_this.listViewModel.allData);
+                    return ko.unwrap(_this.listViewModel.allData);
                 }
 
-                var result = ko.utils.arrayFilter(ko.utils.unwrapObservable(_this.listViewModel.allData), function (x) {
+                var result = ko.utils.arrayFilter(ko.unwrap(_this.listViewModel.allData), function (x) {
                     return (_this.hideClosedItems() && !x.isActive()) ? false : _this.listViewModel.searchPredicate(sf, x);
                 });
 

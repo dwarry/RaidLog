@@ -1,4 +1,8 @@
-﻿define(["require", "exports", 'services/dataService', './pagedGrid', './assumptionDetails'], function(require, exports, __ds__, __pg__, __AssumptionDetails__) {
+﻿/// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
+/// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
+define(["require", "exports", 'services/dataService', './pagedGrid', './assumptionDetails'], function(require, exports, __ds__, __pg__, __AssumptionDetails__) {
     var ds = __ds__;
     var pg = __pg__;
     var AssumptionDetails = __AssumptionDetails__;
@@ -18,11 +22,13 @@
                 data: ko.observableArray([])
             });
 
+            var newItemCallback = function (item) {
+                _this.listViewModel.allData.push(item);
+            };
+
             this._mappingOptions = {
                 create: function (options) {
-                    return new AssumptionDetails(_this.projectId, options.data, function (item) {
-                        _this.listViewModel.allData.push(item);
-                    });
+                    return new AssumptionDetails(_this.projectId, options.data, newItemCallback);
                 },
                 key: function (x) {
                     return x.id;

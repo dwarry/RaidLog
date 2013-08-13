@@ -15,12 +15,9 @@ namespace RaidLog.Spa.Controllers
     [Authorize]
     public class AssumptionsController : RaidLogApiController
     {
-        private readonly IDbConnection _connection;
 
         public AssumptionsController(IDbConnection connection) : base(connection)
         {
-            if (connection == null) throw new ArgumentNullException("connection");
-            _connection = connection;
         }
 
         public AssumptionDto[] GetAssumptionsForProject(int projectId)
@@ -58,7 +55,7 @@ namespace RaidLog.Spa.Controllers
                 {
                     CheckProjectIsActive(tx, projectId);
 
-                    var args = new {
+                    var args = new DynamicParameters( new {
                         projectId = projectId,
                         description = newAssumption.Description,
                         workstream = newAssumption.Workstream,
@@ -66,7 +63,8 @@ namespace RaidLog.Spa.Controllers
                         validatedBy = newAssumption.ValidatedBy,
                         statusId = newAssumption.StatusId,
                         supportingDocumentation = newAssumption.SupportingDocumentation
-                    };
+                    });
+
 
                     var result =  _connection.Query<AssumptionDto>(AssumptionsQueries.InsertAssumption,
                         args,

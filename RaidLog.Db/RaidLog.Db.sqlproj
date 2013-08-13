@@ -79,7 +79,6 @@
     <Build Include="dbo\Stored Procedures\usp_CreateProject.sql" />
     <Build Include="dbo\Stored Procedures\usp_CreateRisk.sql" />
     <Build Include="dbo\Stored Procedures\usp_UpdateRisk.sql" />
-    <Build Include="dbo\Stored Procedures\usp_AddRiskLink.sql" />
     <Build Include="dbo\Stored Procedures\usp_CreateAssumption.sql" />
     <Build Include="dbo\Tables\Assumption.sql" />
     <Build Include="dbo\Tables\Assumption_Action.sql" />
@@ -89,8 +88,12 @@
     <Build Include="dbo\Tables\Issue.sql" />
     <Build Include="dbo\Tables\Dependency.sql" />
     <Build Include="dbo\Views\CurrentRiskEvaluations.sql" />
-    <Build Include="dbo\Stored Procedures\usp_DeleteRiskLink.sql" />
     <Build Include="dbo\Stored Procedures\usp_UpdateAssumption.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CreateIssue.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateIssue.sql" />
+    <Build Include="dbo\Tables\ActionStatus.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetActionsForProject.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CreateAction.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="ReferenceData.PostDeployment.sql" />

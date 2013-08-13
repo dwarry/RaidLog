@@ -45,7 +45,7 @@ BEGIN
     
 
     IF @@ROWCOUNT = 0
-        RETURN 1;
+        throw 50001, 'Could not get Assumption Number',4;
     
     SELECT @assumptionNumber = assumptionNo
     FROM @assumptionNumbers;	
@@ -77,6 +77,4 @@ BEGIN
 
     COMMIT TRANSACTION;
 
-    RETURN 0
-
-END
+end;

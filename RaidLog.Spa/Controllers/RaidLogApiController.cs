@@ -13,7 +13,7 @@ namespace RaidLog.Spa.Controllers
 {
     public abstract class RaidLogApiController : ApiController
     {
-        private readonly IDbConnection _connection;
+        protected readonly IDbConnection _connection;
 
 
         protected RaidLogApiController(IDbConnection connection)

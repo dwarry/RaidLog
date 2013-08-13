@@ -1,4 +1,9 @@
-﻿define(["require", "exports", "services/dataService"], function(require, exports, __dataService__) {
+﻿/// <reference path="../../Scripts/typings/moment/moment.d.ts" />
+/// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
+/// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
+define(["require", "exports", "services/dataService"], function(require, exports, __dataService__) {
     var dataService = __dataService__;
     
 

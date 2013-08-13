@@ -5,17 +5,21 @@
         init: function () {
             return { 'controlsDescendantBindings': true };
         },
+        // This method is called to initialize the node, and will also be called again if you change what the grid is bound to
         update: function (element, viewModelAccessor, allBindingsAccessor) {
             var viewModel = viewModelAccessor(), allBindings = allBindingsAccessor();
 
+            // Allow the default templates to be overridden
             var gridTemplate = allBindings.pagedGridTemplate || "ko_simpleGrid_grid", pageLinksTemplate = allBindings.pagedGridPagerTemplate || "ko_simpleGrid_pageLinks";
 
             while (element.firstChild)
                 ko.removeNode(element.firstChild);
 
+            // Render the main grid
             var gridContainer = element.appendChild(document.createElement("DIV"));
             ko.renderTemplate(gridTemplate, viewModel, { templateEngine: templateEngine }, gridContainer, "replaceNode");
 
+            // Render the page links
             var pageLinksContainer = element.appendChild(document.createElement("DIV"));
             ko.renderTemplate(pageLinksTemplate, viewModel, { templateEngine: templateEngine }, pageLinksContainer, "replaceNode");
         }
@@ -47,10 +51,10 @@
                 var sf = _this.searchField().trim();
 
                 if (!_this.searchPredicate || sf.length === 0) {
-                    return ko.utils.unwrapObservable(_this.allData);
+                    return ko.unwrap(_this.allData);
                 }
 
-                var result = ko.utils.arrayFilter(ko.utils.unwrapObservable(_this.allData), function (x) {
+                var result = ko.utils.arrayFilter(ko.unwrap(_this.allData), function (x) {
                     return _this.searchPredicate(sf, x);
                 });
 
@@ -66,7 +70,7 @@
                 return Math.ceil(_this.filteredData().length / _this.pageSize) - 1;
             }, this);
 
-            this.columns = config.columns || getColumnsForScaffolding(ko.utils.unwrapObservable(this.allData));
+            this.columns = config.columns || getColumnsForScaffolding(ko.unwrap(this.allData));
 
             this.setSelected = function (item) {
                 if (_this.selected() === item) {

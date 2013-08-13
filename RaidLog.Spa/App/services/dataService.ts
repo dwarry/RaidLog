@@ -10,11 +10,17 @@ import logger = require("services/logger");
 import http = require("plugins/http");
 
 export interface AssumptionStatusDto {
-    
     id: number;
     description: string;
     isFinalState: boolean;
 }
+
+export interface ActionStatusDto {
+    id: number;
+    description: string;
+    isFinalState: boolean;
+}
+
 
 export interface ApproachDto {
     id: number;
@@ -48,6 +54,7 @@ export interface ReferenceDataDto{
     likelihoods: LikelihoodDto[];
     rifCategories: RifCategoryDto[];
     assumptionStatuses: AssumptionStatusDto[];
+    actionStatuses: ActionStatusDto[];
 }
 
 
@@ -64,11 +71,13 @@ export interface ProjectSummaryWithCounts extends ProjectDto {
     activeIssues: number;
     activeDependencies: number;
     activeQueries: number;
+    activeActions: number;
     closedRisks: number;
     closedAssumptions: number;
     closedIssues: number;
     closedDependencies: number;
     closedQueries: number;
+    closedActions: number;
 }
 
 export interface RiskDto{
@@ -107,7 +116,7 @@ export function makeRiskDto(): RiskDto {
         version: "",
         riskNumber: 0,
         description: "",
-        raisedDate: moment().format("YYYY-MM-DD"),
+        raisedDate: moment().local().format("YYYY-MM-DD"),
         raisedBy: "",
         rifCategoryId: null,
         isProjectRisk: true,
@@ -216,14 +225,199 @@ export interface IssueDto{
 
     version: string;
 
+    projectId: number;
+
     issueNumber: number;
+
+    description: string;
+
+    raisedDate: string;
+
+    raisedBy: string;
+
+    owner: string;
+
+    workstream: string;
+
+    commentary: string;
+
+    resolvedDate: string;
+
+    resolvedBy: string;
+
+    resolutionDescription: string;
+
+    ragStatus: string;
+
+    previousRagStatus: string;
+
+    dateLastReviewed: string;
+
+    expectedClosureDate: string;
+
+    isEscalatedToProgramme: boolean;
 }
 
-export function makeNewIssueDto(): IssueDto{
+export function makeIssueDto(projectId:number): IssueDto{
     return {
         id: null,
         version: null,
-        issueNumber: null
+        projectId: projectId,
+        issueNumber: null,
+        description: "",
+        raisedDate: moment().local().format("YYYY-MM-DD"),
+        raisedBy: "",
+        owner: "",
+        workstream: "",
+        commentary: "",
+        resolvedDate: "",
+        resolvedBy: "",
+        resolutionDescription: "",
+        ragStatus: "Green",
+        previousRagStatus: "Green",
+        dateLastReviewed: "",
+        expectedClosureDate: "",
+        isEscalatedToProgramme: false
+    };
+}
+
+export interface MaintainIssueDto {
+    description: string;
+
+    owner: string;
+
+    workstream: string;
+
+    commentary: string;
+
+    ragStatus: string;
+
+    expectedClosureDate: string;
+}
+
+export interface NewIssueDto extends MaintainIssueDto {
+    projectId: number;
+
+    raisedDate: string;
+
+    raisedBy: string;
+
+}
+
+export interface EditIssueDto extends MaintainIssueDto {
+    id: number;
+    version: string;
+
+    resolvedDate: string;
+    resolvedBy: string;
+    resolutionDescription: string;
+    isEscalatedToProgramme: boolean;
+}
+
+export function makeNewIssueDto(): NewIssueDto {
+    return {
+        projectId: 0,
+        description: "",
+        raisedDate: moment().local().format("YYYY-MM-DD"),
+        raisedBy: "",
+        owner: "",
+        workstream: "",
+        commentary: "",
+        ragStatus: "Green",
+        expectedClosureDate: ""
+    };
+}
+
+export function makeEditIssueDto(): EditIssueDto {
+    return {
+        id: 0,
+        version: "",
+        description: "",
+        owner: "",
+        workstream: "",
+        commentary: "",
+        resolvedDate: "",
+        resolvedBy: "",
+        resolutionDescription: "",
+        ragStatus: "Green",
+        expectedClosureDate: "",
+        isEscalatedToProgramme: false
+    };
+}
+
+export interface ActionDto {
+    id: number;
+    version: string;
+    actionNumber: number;
+    parentItemType: string;
+    parentItemId: number;
+    parentItemNumber: number;
+    description: string;
+    actor: string;
+    actionStatusId: number;
+    dueDate: string;
+    resolvedDate: string;
+    resolution: string;
+}
+
+export function makeActionDto(): ActionDto {
+    return {
+        id: 0,
+        version: "",
+        actionNumber: 0,
+        parentItemType: "",
+        parentItemId: 0,
+        parentItemNumber:0,
+        description: "",
+        actor: "",
+        actionStatusId: 0,
+        dueDate: "",
+        resolvedDate: "",
+        resolution: ""
+    };
+};
+
+export interface MaintainActionDto {
+    description: string;
+    actor: string;
+    actionStatusId: number;
+    dueDate: string;
+}
+
+export interface NewActionDto extends MaintainActionDto {
+    parentItemType: string;
+    parentItemId: number;
+}
+
+export function makeNewActionDto(): NewActionDto{
+    return {
+        parentItemType: "",
+        parentItemId: 0,
+        description: "",
+        actor: "",
+        actionStatusId: 0,
+        dueDate: ""
+    };
+}
+
+
+export interface EditActionDto extends MaintainActionDto{
+    id: number;
+    version: string;
+    resolvedDate: string;
+    resolution: string;
+}
+
+export function makeEditActionDto() {
+    return {
+        id: 0,
+        version: "",
+        description: "",
+        actor: "",
+        actionStatusId: 0,
+        dueDate: "",
+        resolvedDate: "",
+        resolution: ""
     };
 }
 
@@ -313,7 +507,9 @@ export function getProjectAssumptions(id: number): JQueryPromise<AssumptionDto[]
 // id - project id
 // active - true for open risks, false for closed, null for both.
 export function getProjectIssues(id:number): JQueryPromise<IssueDto[]> {
-    return $.getJSON("/api/project/" + id + "/issues/");
+    return $.getJSON("/api/project/" + id + "/issues/")
+        .done(data => { logger.logSuccess("Retrieve Project Issues", data, MODULE_NAME, true); })
+        .fail((jqxhr, status, ex) => { logger.logError("Error retrieving Project Issues", jqxhr, MODULE_NAME, true);});
 };
 
 // id - project id
@@ -328,6 +524,16 @@ export function getProjectQueries(id:number): JQueryPromise <QueryDto[] > {
     return $.getJSON("/api/project/" + id + "/queries/");
 };
 
+export function getProjectActions(id: number): JQueryPromise<ActionDto[]>{
+    return $.getJSON("/api/project/" + id + "/actions/").done(data => { logger.logSuccess("Retrieved Project Actions", data, MODULE_NAME, true); })
+        .fail((jqxhr, status, ex) => { logger.logError("Error retrieving Project Actions", jqxhr, MODULE_NAME, true); });
+}
+
+export function getActionsFor(itemType: string, itemId: number) {
+    return $.getJSON("/api/" + itemType + "s/" + itemId + "/actions/")
+        .done(data => { logger.logSuccess("Retrieved " + itemType + " Actions", data, MODULE_NAME, true); })
+        .fail((jqxhr, status, ex) => { logger.logError("Error retrieving " + itemType + " Actions", jqxhr, MODULE_NAME, true); });
+}
 
 
 export function saveProject(proj): JQueryPromise {
@@ -394,15 +600,50 @@ export function saveAssumption(projectId: number, assumption: NewAssumptionDto):
         logger.log("Saved Assumption", null, MODULE_NAME, true);
     }).fail(function (jqxhr, status, ex) {
             logger.logError(status + " " + jqxhr.responseText, assumption, MODULE_NAME, false);
-            logger.logError("Error saving the Risk", null, MODULE_NAME, true);
+            logger.logError("Error saving the Assumption", null, MODULE_NAME, true);
         });
 }
 
-/*
-define(['services/logger','durandal/http'], function (logger: Logger,http) {
-    var referenceData: ReferenceDataDto;
-    var refDataDfd = http.get('/api/ReferenceData/', {})
-        .done(function (data) { referenceData = data; })
-        .fail(function (jqxhr, status, err) { });
-});
-*/
+export function saveIssue(projectId: number, issue: MaintainIssueDto) {
+    var options: JQueryAjaxSettings = { data: issue };
+
+    if ('id' in issue) {
+        options.url = '/api/issues/' + issue['id'];
+        options.type = 'PUT';
+    }
+    else {
+        options.url = '/api/project/' + projectId + '/issues/';
+        options.type = 'POST';
+    }
+
+    return $.ajax(options).done(function (data, status, jqxhr) {
+        logger.log("Saved Issue", null, MODULE_NAME, true);
+    }).fail(function (jqxhr, status, ex) {
+            logger.logError(status + " " + jqxhr.responseText, issue, MODULE_NAME, false);
+            logger.logError("Error saving the Issue", null, MODULE_NAME, true);
+        });
+
+}
+
+export function saveAction( dto: MaintainActionDto) {
+
+    var options: JQueryAjaxSettings = { data: dto };
+
+    if ('id' in dto) {
+        options.url = "/api/actions/" + dto['id'];
+        options.type = "PUT";
+    } else {
+        var newActionDto = <NewActionDto>dto;
+
+        options.url = "/api/actions/";
+        options.type = "POST";
+    }
+
+    
+    return $.ajax(options).done(function (data, status, jqxhr) {
+        logger.log("Saved Action", null, MODULE_NAME, true);
+    }).fail(function (jqxhr, status, ex) {
+            logger.logError(status + " " + jqxhr.responseText, dto, MODULE_NAME, false);
+            logger.logError("Error saving the Action", null, MODULE_NAME, true);
+        });
+}

@@ -13,19 +13,16 @@ using RaidLog.Models;
 using Dapper;
 
 using RaidLog.Queries;
+using RaidLog.Spa.Controllers;
 
 namespace RaidLog.Controllers
 {
     [Authorize]
-    public class ProjectsController : ApiController
+    public class ProjectsController : RaidLogApiController
     {
-        private IDbConnection _connection;
 
-        public ProjectsController(IDbConnection connection)
+        public ProjectsController(IDbConnection connection):base(connection)
         {
-            if (connection == null) throw new ArgumentNullException("connection");
-            _connection = connection;
-            
         }
 
         public IEnumerable<ProjectSummaryWithCounts> GetAllOpenProjects()
@@ -37,7 +34,11 @@ namespace RaidLog.Controllers
                 {
                     string sql = ProjectQueries.GetAllActiveProjects + 
                                  ProjectQueries.GetAllProjectsAndRisks + 
-                                 ProjectQueries.GetAllProjectsAndAssumptions;
+                                 ProjectQueries.GetAllProjectsAndAssumptions + 
+                                 ProjectQueries.GetAllProjectsAndIssues +
+                                 //ProjectQueries.GetAllProjectsAndDependencies + 
+                                 //ProjectQueries.GetAllProjectsAndQueries +
+                                 ProjectQueries.GetAllProjectsAndActions;
 
                     var result = _connection.QueryMultiple(sql,
                                                            transaction:tx);
@@ -45,9 +46,17 @@ namespace RaidLog.Controllers
                     var projects = result.Read<ProjectSummaryWithCounts>().ToArray();
                     var projectRiskStatuses = result.Read<ProjectAndRiskStatus>().ToArray();
                     var projectAssumptionStatuses = result.Read<ProjectAndAssumptionStatus>().ToArray();
+                    var projectIssuesStatuses = result.Read<ProjectAndIssueStatus>().ToArray();
+                    var projectActionsStatuses = result.Read<ProjectAndActionStatus>()
+                                                       .ToArray();
+
                     var projTypes = projects.ToDictionary(x => x.Id);
 
-                    SetRiskCounts(projTypes, projectRiskStatuses, projectAssumptionStatuses);                   
+                    SetRiskCounts(projTypes,
+                                  projectRiskStatuses,
+                                  projectAssumptionStatuses,
+                                  projectIssuesStatuses,
+                                  projectActionsStatuses);                   
 
                     tx.Commit();
 
@@ -60,9 +69,7 @@ namespace RaidLog.Controllers
             }
         }
 
-        private void SetRiskCounts(IDictionary<int, ProjectSummaryWithCounts> projectSummaries,
-                                   IEnumerable<ProjectAndRiskStatus> projectRiskStatuses,
-                                   IEnumerable<ProjectAndAssumptionStatus> projectAssumptionStatuses )
+        private void SetRiskCounts(IDictionary<int, ProjectSummaryWithCounts> projectSummaries, IEnumerable<ProjectAndRiskStatus> projectRiskStatuses, IEnumerable<ProjectAndAssumptionStatus> projectAssumptionStatuses, ProjectAndIssueStatus[] projectIssuesStatuses, ProjectAndActionStatus[] projectActionsStatuses)
         {
             foreach (var riskStatus in projectRiskStatuses)
             {
@@ -89,6 +96,33 @@ namespace RaidLog.Controllers
                     psc.ClosedAssumptions++;
                 }
             }
+
+            foreach (var issueStatus in projectIssuesStatuses)
+            {
+                var psc = projectSummaries[issueStatus.ProjectId];
+                if (issueStatus.IsActive)
+                {
+                    psc.ActiveIssues++;
+                }
+                else
+                {
+                    psc.ClosedIssues++;
+                }
+            }
+
+            foreach (var actionStatus in projectActionsStatuses)
+            {
+                var psc = projectSummaries[actionStatus.ProjectId];
+                if (actionStatus.IsActive)
+                {
+                    psc.ActiveActions++;
+                }
+                else
+                {
+                    psc.ClosedActions++;
+                }
+            }
+
         }   
 
         public ProjectSummary GetProjectDetails(int id)
@@ -171,8 +205,8 @@ namespace RaidLog.Controllers
 
                         if (result == 0)
                         {
-                            return Request.CreateErrorResponse(HttpStatusCode.NotFound,
-                                                               "No such Project");
+                            return Request.CreateErrorResponse(HttpStatusCode.Conflict,
+                                                               "Project has been edited or deleted by someone else.");
                         }
 
                         return Request.CreateResponse(HttpStatusCode.OK);
@@ -292,6 +326,19 @@ namespace RaidLog.Controllers
         public int QueryId { get; private set; }
         public bool IsActive { get; private set; }
     }
-   
-  
+
+    internal class ProjectAndActionStatus
+    {
+        public ProjectAndActionStatus(int projectId, int actionId, bool isActive)
+        {
+            ProjectId = projectId;
+            ActionId = actionId;
+            IsActive = isActive;
+        }
+
+
+        public int ProjectId { get; private set; }
+        public int ActionId { get; private set; }
+        public bool IsActive { get; private set; }
+    }
 }

@@ -20,6 +20,7 @@ var projectAssumptions = addRoute('projects/:projectId/assumptions', {title: 'Pr
 var projectIssues = addRoute('projects/:projectId/issues', {title: 'Project Issues', moduleId: 'viewmodels/issueList', nav: false });
 var projectDependencies = addRoute('projects/:projectId/dependencies', {title: 'Project Dependencies', moduleId: 'viewmodels/dependencyList', nav: false });
 var projectQueries = addRoute('projects/:projectId/queries', {title: 'Project Queries', moduleId: 'viewmodels/queryList', nav: false });
+var itemActions = addRoute(':itemType/:itemId/actions', { title: 'Actions', moduleId: 'viewmodels/actionList', nav: false });
 
 var projectIdRegex = /:projectId/;
 
@@ -51,6 +52,10 @@ var routeFactory = {
     makeProjectQueryLink: function (projectId: number) {
         return "#/" +projectQueries.replace(projectIdRegex, projectId.toString());
     },
+
+    makeItemActionLink: function(itemType: string, itemId:number) {
+        return "#/" + itemActions.replace(/:itemType/, itemType).replace(/:itemId/, itemId.toString());
+    }
 };
 
 export = routeFactory;

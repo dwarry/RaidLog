@@ -18,21 +18,23 @@ class AssumptionList{
 
     projectName= ko.observable("");
 
-    listViewModel: pg.ListViewModel<ds.AssumptionDto>;
+    listViewModel: pg.ListViewModel<AssumptionDetails>;
 
     assumptionStatuses: ds.AssumptionStatusDto[];
 
     private _mappingOptions: KnockoutMappingOptions;
 
     constructor() {
-        this.listViewModel = new pg.ListViewModel<ds.AssumptionDto>({
+        this.listViewModel = new pg.ListViewModel<AssumptionDetails>({
             data: ko.observableArray([])
         });
 
+        var newItemCallback = (item: AssumptionDetails) => { this.listViewModel.allData.push(item); };
+
         this._mappingOptions = {
             create: options => new AssumptionDetails(this.projectId,
-                options.data,
-                (item) => { this.listViewModel.allData.push(item); }),
+                <ds.AssumptionDto>options.data,
+                newItemCallback),
             key: (x) => x.id
         };
 

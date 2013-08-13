@@ -19,7 +19,7 @@ class riskList {
 
     hideClosedItems = ko.observable(true);
 
-    risks = ko.observableArray<rvm.RiskViewModel>([]);
+    risks = ko.observableArray<rvm>([]);
 
     approaches = ko.observableArray<dataService.ApproachDto>();
 
@@ -29,7 +29,7 @@ class riskList {
 
     rifCategories = ko.observableArray<dataService.RifCategoryDto>();
 
-    listViewModel: pg.ListViewModel<rvm.RiskViewModel>;
+    listViewModel: pg.ListViewModel<rvm>;
 
     private _mappingOptions: KnockoutMappingOptions;
 
@@ -51,11 +51,11 @@ class riskList {
             var sf = this.listViewModel.searchField().trim();
             
             if (!this.listViewModel.searchPredicate || sf.length === 0) {
-                return ko.utils.unwrapObservable(this.listViewModel.allData);
+                return ko.unwrap(this.listViewModel.allData);
             }
 
             var result = ko.utils.arrayFilter(
-                ko.utils.unwrapObservable(this.listViewModel.allData),
+                ko.unwrap(this.listViewModel.allData),
                 x => (this.hideClosedItems() && !x.isActive())
                      ? false
                      : this.listViewModel.searchPredicate(sf, x));

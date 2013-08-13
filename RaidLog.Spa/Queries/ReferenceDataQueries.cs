@@ -33,6 +33,11 @@ SELECT [Id]
       ,[Description]
       ,[IsFinalState]
   FROM [dbo].[AssumptionStatus];
+
+SELECT [Id]
+      ,[Description]
+      ,[IsFinalState]
+  FROM [dbo].[ActionStatus];
 ";
 
     }

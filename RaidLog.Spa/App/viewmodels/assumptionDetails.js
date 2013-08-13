@@ -1,4 +1,8 @@
-﻿define(["require", "exports", 'services/dataService'], function(require, exports, __ds__) {
+﻿/// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />y
+/// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
+/// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
+define(["require", "exports", 'services/dataService'], function(require, exports, __ds__) {
     var ds = __ds__;
 
     var _assumptionStatuses = ko.observableArray();
@@ -120,7 +124,7 @@
             ds.saveAssumption(this.projectId, dto).done(function (data) {
                 _this.updateFromDto(data);
                 if (newItem) {
-                    _this._newItemCallback(data);
+                    _this._newItemCallback(_this);
                 }
             });
         };

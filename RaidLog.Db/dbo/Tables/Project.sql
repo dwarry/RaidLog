@@ -7,12 +7,15 @@
     [NextIssueNumber]      INT           CONSTRAINT [DF_Project_NextIssueNumber] DEFAULT ((1)) NOT NULL,
     [NextDependencyNumber] INT           CONSTRAINT [DF_Project_NextDependencyNumber] DEFAULT ((1)) NOT NULL,
     [NextQueryNumber]      INT           CONSTRAINT [DF_Project_NextQueryNumber] DEFAULT ((1)) NOT NULL,
+    [NextActionNumber]     INT           CONSTRAINT [DF_Project_NextActionNumber] DEFAULT ((1)) NOT NULL,
     [Version]              ROWVERSION    NOT NULL,
     [UpdatedTimestamp]     DATETIME2 (7) NOT NULL,
     [UpdatedBy]            NVARCHAR (50) NOT NULL,
     [IsActive]             BIT           CONSTRAINT [DF__Project__IsActiv__239E4DCF] DEFAULT ((1)) NOT NULL,
     CONSTRAINT [PK_Project] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
 
 
 

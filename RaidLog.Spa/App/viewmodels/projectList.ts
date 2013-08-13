@@ -50,6 +50,7 @@ class projectList {
                 x['projectIssuesLink'] = routeFactory.makeProjectIssueLink(x.id);
                 x['projectDependenciesLink'] = routeFactory.makeProjectDependencyLink(x.id);
                 x['projectQueriesLink'] = routeFactory.makeProjectQueryLink(x.id);
+                x['projectActionsLink'] = routeFactory.makeItemActionLink('projects', x.id);
             });
             this.projects(data);
             this.listViewModel.setSelected(null);

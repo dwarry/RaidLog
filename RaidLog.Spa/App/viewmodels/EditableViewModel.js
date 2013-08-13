@@ -1,8 +1,15 @@
-﻿define(["require", "exports", "services/logger"], function(require, exports, __logger__) {
+﻿/// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
+// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
+define(["require", "exports", "services/logger"], function(require, exports, __logger__) {
     
     var logger = __logger__;
 
     var EditableViewModel = (function () {
+        /**
+        * @param item The item ()
+        */
         function EditableViewModel(item, itemName, isNewItem, savedNewItemCallback) {
             var _this = this;
             this.itemName = itemName;

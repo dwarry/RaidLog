@@ -1,8 +1,17 @@
-﻿define(["require", "exports", "services/dataService", "services/routeFactory", "plugins/router", "viewmodels/pagedGrid", "viewmodels/maintainProject"], function(require, exports, __dataService__, __routeFactory__, __router__, __pg__, __maintainProject__) {
+﻿/// <reference path="pagedGrid.ts" />
+/// <reference path="../services/dataService.ts" />
+/// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
+/// <reference path='../../Scripts/typings/jquery/jquery.d.ts' />
+/// <reference path='../../Scripts/typings/requirejs/require.d.ts' />
+/// <reference path='../../Scripts/typings/knockout.mapping/knockout.mapping.d.ts' />
+/// <reference path='../../Scripts/typings/knockout.validation/knockout.validation.d.ts' />
+/// <reference path='../../Scripts/typings/durandal/durandal.d.ts' />
+define(["require", "exports", "services/dataService", "services/routeFactory", "plugins/router", "viewmodels/pagedGrid", "viewmodels/maintainProject"], function(require, exports, __dataService__, __routeFactory__, __router__, __pg__, __maintainProject__) {
     var dataService = __dataService__;
     var routeFactory = __routeFactory__;
     var router = __router__;
 
+    //import ko = require("knockout")
     var pg = __pg__;
     var maintainProject = __maintainProject__;
 
@@ -39,6 +48,7 @@
                     x['projectIssuesLink'] = routeFactory.makeProjectIssueLink(x.id);
                     x['projectDependenciesLink'] = routeFactory.makeProjectDependencyLink(x.id);
                     x['projectQueriesLink'] = routeFactory.makeProjectQueryLink(x.id);
+                    x['projectActionsLink'] = routeFactory.makeItemActionLink('projects', x.id);
                 });
                 _this.projects(data);
                 _this.listViewModel.setSelected(null);
