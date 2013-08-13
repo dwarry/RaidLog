@@ -104,6 +104,57 @@
     }
     exports.makeEditIssueDto = makeEditIssueDto;
 
+    function MakeDependencyDto() {
+        return {
+            id: 0,
+            versionNumber: "",
+            projectId: 0,
+            dependencyNumber: 0,
+            status: "",
+            workstream: "",
+            description: "",
+            plannedDate: "",
+            requiredByDate: "",
+            comments: "",
+            ragStatus: "",
+            dependencyLevel: ""
+        };
+    }
+    exports.MakeDependencyDto = MakeDependencyDto;
+
+    function MakeNewDependencyDto() {
+        return {
+            projectId: 0,
+            dependencyNumber: 0,
+            status: "",
+            workstream: "",
+            description: "",
+            plannedDate: "",
+            requiredByDate: "",
+            comments: "",
+            ragStatus: "",
+            dependencyLevel: ""
+        };
+    }
+    exports.MakeNewDependencyDto = MakeNewDependencyDto;
+
+    function MakeEditDependencyDto() {
+        return {
+            id: 0,
+            versionNumber: "",
+            dependencyNumber: 0,
+            status: "",
+            workstream: "",
+            description: "",
+            plannedDate: "",
+            requiredByDate: "",
+            comments: "",
+            ragStatus: "",
+            dependencyLevel: ""
+        };
+    }
+    exports.MakeEditDependencyDto = MakeEditDependencyDto;
+
     function makeActionDto() {
         return {
             id: 0,
@@ -148,15 +199,6 @@
         };
     }
     exports.makeEditActionDto = makeEditActionDto;
-
-    function makeNewDependencyDto() {
-        return {
-            id: null,
-            version: null,
-            dependencyNumber: null
-        };
-    }
-    exports.makeNewDependencyDto = makeNewDependencyDto;
 
     function makeNewQueryDto() {
         return {
@@ -328,7 +370,7 @@
         }
 
         return $.ajax(options).done(function (data, status, jqxhr) {
-            logger.log("Saved Assumption", null, MODULE_NAME, true);
+            logger.logSuccess("Saved Assumption", null, MODULE_NAME, true);
         }).fail(function (jqxhr, status, ex) {
             logger.logError(status + " " + jqxhr.responseText, assumption, MODULE_NAME, false);
             logger.logError("Error saving the Assumption", null, MODULE_NAME, true);
@@ -348,13 +390,32 @@
         }
 
         return $.ajax(options).done(function (data, status, jqxhr) {
-            logger.log("Saved Issue", null, MODULE_NAME, true);
+            logger.logSuccess("Saved Issue", null, MODULE_NAME, true);
         }).fail(function (jqxhr, status, ex) {
             logger.logError(status + " " + jqxhr.responseText, issue, MODULE_NAME, false);
             logger.logError("Error saving the Issue", null, MODULE_NAME, true);
         });
     }
     exports.saveIssue = saveIssue;
+
+    function saveDependency(dto) {
+        var options = { data: dto };
+        if ('id' in dto) {
+            options.url = "/api/dependencies/" + dto["id"];
+            options.type = "PUT";
+        } else {
+            options.url = "/api/project/" + dto["projectId"] + "/dependencies";
+            options.type = "POST";
+        }
+
+        return $.ajax(options).done(function (data) {
+            logger.logSuccess("Saved Dependency", data, MODULE_NAME, true);
+        }).fail(function (jqxhr, status, ex) {
+            logger.logError(status + " " + jqxhr.responseText, dto, MODULE_NAME, false);
+            logger.logError("Error saving the Dependency", jqxhr, MODULE_NAME, true);
+        });
+    }
+    exports.saveDependency = saveDependency;
 
     function saveAction(dto) {
         var options = { data: dto };
