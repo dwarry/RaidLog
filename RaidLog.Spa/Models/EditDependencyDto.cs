@@ -4,16 +4,12 @@ using System.Linq;
 
 namespace RaidLog.Models
 {
-    public class DependencyDto
+    public class EditDependencyDto
     {
         public int Id { get; set; }
 
-        public byte[] VersionNumber { get; set; }
+        public string VersionNumber { get; set; }
         
-        public int ProjectId { get; set; }
-
-        public int DependencyNumber { get; set; }
-
         [Required]
         [StringLength(10)]
         public string Status { get; set; }
@@ -40,5 +36,6 @@ namespace RaidLog.Models
         [Required]
         [StringLength(50)]
         public string DependencyLevel { get; set; }
+        
     }
 }
