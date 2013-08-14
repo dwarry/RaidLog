@@ -1,5 +1,6 @@
 ﻿import ds = require("services/dataService");
 
+var _ragStatuses = ["Green", "Amber", "Red"];
 
 class DependencyDetail{
 
@@ -15,13 +16,17 @@ class DependencyDetail{
 
     description: KnockoutObservable<string> = ko.observable().extend({ required: true, maxLength: 2048 });
 
-    plannedDate: KnockoutObservable<string> = ko.observable().extend({ required: true, dateISO: true);
+    plannedDate: KnockoutObservable<string> = ko.observable().extend({ required: true, dateISO: true });
 
-    requiredByDate: KnockoutObservable<string> = ko.observable().extend({ required: true, dateISO: true);
+    requiredByDate: KnockoutObservable<string> = ko.observable().extend({ required: true, dateISO: true });
 
     comments: KnockoutObservable<string> = ko.observable().extend({ maxLength: 2048 });
 
     ragStatus: KnockoutObservable<string> = ko.observable().extend({ required: true });
+
+    ragStatuses = _ragStatuses;
+
+    ragClass: KnockoutComputed<string> = ko.computed(() => "rag" + this.ragStatus(), this);
 
     dependencyLevel: KnockoutObservable<string> = ko.observable().extend({ required: true, maxLength: 50 });
 
@@ -33,7 +38,7 @@ class DependencyDetail{
 
     constructor(private projectId: number,
         dto: ds.DependencyDto,
-        private newItemCallback: (dep: ds.DependencyDto) => void) {
+        private _newItemCallback: (dep: DependencyDetail) => void) {
 
             this.updateFromDto(dto);
     }
@@ -88,7 +93,20 @@ class DependencyDetail{
             editItem.versionNumber = this.versionNumber;
         }
 
-        ds.saveDependency(dto);
+        ds.saveDependency(dto).done((data) => {
+            this.updateFromDto(data);
+            if (newItem) {
+                this._newItemCallback(this);
+            }
+        });;
+    }
+
+    addAction() {
+
+    }
+
+    showActions() {
+
     }
 }
 

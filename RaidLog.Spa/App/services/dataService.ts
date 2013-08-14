@@ -580,7 +580,9 @@ export function getProjectIssues(id:number): JQueryPromise<IssueDto[]> {
 // id - project id
 // active - true for open risks, false for closed, null for both.
 export function getProjectDependencies(id:number): JQueryPromise<DependencyDto[]> {
-    return $.getJSON("/api/project/" + id + "/dependencies/");
+    return $.getJSON("/api/project/" + id + "/dependencies/")
+        .done(data => { logger.logSuccess("Retrieve Project Dependencies", data, MODULE_NAME, true); })
+        .fail((jqxhr, status, ex) => { logger.logError("Error retrieving Project Dependencies", jqxhr, MODULE_NAME, true); });
 };
 
 // id - project id

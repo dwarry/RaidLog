@@ -282,7 +282,11 @@
     // id - project id
     // active - true for open risks, false for closed, null for both.
     function getProjectDependencies(id) {
-        return $.getJSON("/api/project/" + id + "/dependencies/");
+        return $.getJSON("/api/project/" + id + "/dependencies/").done(function (data) {
+            logger.logSuccess("Retrieve Project Dependencies", data, MODULE_NAME, true);
+        }).fail(function (jqxhr, status, ex) {
+            logger.logError("Error retrieving Project Dependencies", jqxhr, MODULE_NAME, true);
+        });
     }
     exports.getProjectDependencies = getProjectDependencies;
     ;
