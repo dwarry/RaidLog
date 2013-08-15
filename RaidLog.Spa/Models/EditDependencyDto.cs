@@ -8,7 +8,7 @@ namespace RaidLog.Models
     {
         public int Id { get; set; }
 
-        public string VersionNumber { get; set; }
+        public string Version{ get; set; }
         
         [Required]
         [StringLength(10)]

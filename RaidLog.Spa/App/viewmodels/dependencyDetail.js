@@ -11,15 +11,18 @@ define(["require", "exports", 'plugins/dialog', 'plugins/router', "services/data
 
     var _ragStatuses = ["Green", "Amber", "Red"];
 
+    var _dependencyStatuses = ["Outstanding", "In Progress", "Fulfilled"];
+
     var DependencyDetail = (function () {
         function DependencyDetail(projectId, dto, _newItemCallback) {
             var _this = this;
             this.projectId = projectId;
             this._newItemCallback = _newItemCallback;
             this.id = ko.observable();
-            this.versionNumber = null;
+            this.version = null;
             this.dependencyNumber = ko.observable();
             this.status = ko.observable().extend({ required: true, maxLength: 16 });
+            this.statuses = _dependencyStatuses;
             this.workstream = ko.observable().extend({ required: true, maxLength: 50 });
             this.description = ko.observable().extend({ required: true, maxLength: 2048 });
             this.plannedDate = ko.observable().extend({ required: true, dateISO: true });
@@ -34,8 +37,8 @@ define(["require", "exports", 'plugins/dialog', 'plugins/router', "services/data
             this.canSave = ko.computed(function () {
                 return _this.validation.isValid();
             }, this);
-            this.isNewItem = ko.computed(function () {
-                return _this.id() === 0;
+            this.isNew = ko.computed(function () {
+                return !_this.id();
             }, this);
             this.validation = ko.validatedObservable([
                 this.status,
@@ -52,7 +55,7 @@ define(["require", "exports", 'plugins/dialog', 'plugins/router', "services/data
         }
         DependencyDetail.prototype.updateFromDto = function (dto) {
             this.id(dto.id);
-            this.versionNumber = dto.versionNumber;
+            this.version = dto.version;
             this.projectId = dto.projectId;
             this.dependencyNumber(dto.dependencyNumber);
             this.status(dto.status);
@@ -79,13 +82,13 @@ define(["require", "exports", 'plugins/dialog', 'plugins/router', "services/data
                 dependencyLevel: this.dependencyLevel()
             };
 
-            if (this.isNewItem()) {
+            if (this.isNew()) {
                 var newItem = dto;
                 newItem.projectId = this.projectId;
             } else {
                 var editItem = dto;
                 editItem.id = this.id();
-                editItem.versionNumber = this.versionNumber;
+                editItem.version = this.version;
             }
 
             ds.saveDependency(dto).done(function (data) {

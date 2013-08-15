@@ -108,7 +108,7 @@
         if (typeof projectId === "undefined") { projectId = 0; }
         return {
             id: 0,
-            versionNumber: "",
+            version: "",
             projectId: projectId,
             dependencyNumber: 0,
             status: "",
@@ -142,7 +142,7 @@
     function MakeEditDependencyDto() {
         return {
             id: 0,
-            versionNumber: "",
+            version: "",
             dependencyNumber: 0,
             status: "",
             workstream: "",
@@ -310,6 +310,9 @@
     exports.getProjectActions = getProjectActions;
 
     function getActionsFor(itemType, itemId) {
+        if (itemType === 'Dependency') {
+            itemType = 'Dependencie';
+        }
         return $.getJSON("/api/" + itemType + "s/" + itemId + "/actions/").done(function (data) {
             logger.logSuccess("Retrieved " + itemType + " Actions", data, MODULE_NAME, true);
         }).fail(function (jqxhr, status, ex) {

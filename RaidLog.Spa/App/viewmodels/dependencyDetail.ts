@@ -12,15 +12,19 @@ import ActionDetailsDialog = require('./actionDetailsDialog');
 
 var _ragStatuses = ["Green", "Amber", "Red"];
 
+var _dependencyStatuses = ["Outstanding", "In Progress", "Fulfilled"];
+
 class DependencyDetail{
 
     id: KnockoutObservable<number> = ko.observable();
 
-    versionNumber: string = null;
+    version: string = null;
 
     dependencyNumber: KnockoutObservable<number> = ko.observable();
 
     status: KnockoutObservable<string> = ko.observable().extend({ required: true, maxLength: 16 });
+
+    statuses = _dependencyStatuses; 
 
     workstream: KnockoutObservable<string> = ko.observable().extend({ required: true, maxLength: 50 });
 
@@ -44,7 +48,7 @@ class DependencyDetail{
 
     canSave : KnockoutComputed<boolean> = ko.computed(() => this.validation.isValid(), this);
 
-    isNewItem : KnockoutComputed<boolean> = ko.computed(() => this.id() === 0, this);
+    isNew: KnockoutComputed<boolean> = ko.computed(() => !this.id(), this);
 
     constructor(private projectId: number,
         dto: ds.DependencyDto,
@@ -67,7 +71,7 @@ class DependencyDetail{
 
     updateFromDto(dto: ds.DependencyDto) {
         this.id(dto.id);
-        this.versionNumber = dto.versionNumber;
+        this.version = dto.version;
         this.projectId = dto.projectId;
         this.dependencyNumber(dto.dependencyNumber);
         this.status(dto.status);
@@ -93,13 +97,13 @@ class DependencyDetail{
             dependencyLevel: this.dependencyLevel()
         };
 
-        if (this.isNewItem()) {
+        if (this.isNew()) {
             var newItem = <ds.NewDependencyDto>dto;
             newItem.projectId = this.projectId;
         } else {
             var editItem = <ds.EditDependencyDto>dto;
             editItem.id = this.id();
-            editItem.versionNumber = this.versionNumber;
+            editItem.version = this.version;
         }
 
         ds.saveDependency(dto).done((data) => {

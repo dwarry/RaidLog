@@ -96,7 +96,7 @@ namespace RaidLog.Controllers
                         new
                         {
                             id = dto.Id,
-                            version = Convert.FromBase64String(dto.VersionNumber),
+                            version = Convert.FromBase64String(dto.Version),
                             status = dto.Status,
                             workstream = dto.Workstream,
                             description = dto.Description,

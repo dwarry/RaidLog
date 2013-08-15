@@ -47,9 +47,7 @@
         <div class="control-group span4" data-bind="css: { error: !status.isValid() }">
             <label class="control-label" for="status">Status</label>
             <div class="controls">
-                <input id="status" name="status" type="text" placeholder="" class="input-large" required=""
-                       data-bind="value: status">
-    
+                <select name="status" id="status" data-bind="options:statuses, value:status"></select>
             </div>
         </div>
         

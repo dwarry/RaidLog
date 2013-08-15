@@ -347,7 +347,7 @@ export function makeEditIssueDto(): EditIssueDto {
 
 export interface DependencyDto{
     id: number;
-    versionNumber: string; 
+    version: string; 
     projectId: number;
     dependencyNumber: number;
     status: string;
@@ -363,7 +363,7 @@ export interface DependencyDto{
 export function makeDependencyDto(projectId:number = 0): DependencyDto {
     return {
         id: 0,
-        versionNumber: "",
+        version: "",
         projectId: projectId,
         dependencyNumber: 0,
         status: "",
@@ -409,13 +409,13 @@ export function MakeNewDependencyDto(): NewDependencyDto {
 
 export interface EditDependencyDto extends MaintainDependencyDto{
     id: number;
-    versionNumber: string;
+    version: string;
 }
 
 export function MakeEditDependencyDto(): EditDependencyDto {
     return {
         id: 0,
-        versionNumber: "",
+        version: "",
         dependencyNumber: 0,
         status: "",
         workstream: "",
@@ -597,6 +597,9 @@ export function getProjectActions(id: number): JQueryPromise<ActionDto[]>{
 }
 
 export function getActionsFor(itemType: string, itemId: number) {
+    if (itemType === 'Dependency') {
+        itemType = 'Dependencie';
+    }
     return $.getJSON("/api/" + itemType + "s/" + itemId + "/actions/")
         .done(data => { logger.logSuccess("Retrieved " + itemType + " Actions", data, MODULE_NAME, true); })
         .fail((jqxhr, status, ex) => { logger.logError("Error retrieving " + itemType + " Actions", jqxhr, MODULE_NAME, true); });

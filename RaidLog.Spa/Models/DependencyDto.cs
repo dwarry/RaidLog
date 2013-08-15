@@ -8,7 +8,7 @@ namespace RaidLog.Models
     {
         public int Id { get; set; }
 
-        public byte[] VersionNumber { get; set; }
+        public byte[] Version { get; set; }
         
         public int ProjectId { get; set; }
 
