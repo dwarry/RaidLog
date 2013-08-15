@@ -19,7 +19,7 @@ define(["require", "exports", 'plugins/dialog', 'plugins/router', "services/data
             this.id = ko.observable();
             this.versionNumber = null;
             this.dependencyNumber = ko.observable();
-            this.status = ko.observable().extend({ required: true, maxLength: 10 });
+            this.status = ko.observable().extend({ required: true, maxLength: 16 });
             this.workstream = ko.observable().extend({ required: true, maxLength: 50 });
             this.description = ko.observable().extend({ required: true, maxLength: 2048 });
             this.plannedDate = ko.observable().extend({ required: true, dateISO: true });
@@ -37,6 +37,17 @@ define(["require", "exports", 'plugins/dialog', 'plugins/router', "services/data
             this.isNewItem = ko.computed(function () {
                 return _this.id() === 0;
             }, this);
+            this.validation = ko.validatedObservable([
+                this.status,
+                this.workstream,
+                this.description,
+                this.plannedDate,
+                this.requiredByDate,
+                this.comments,
+                this.ragStatus,
+                this.dependencyLevel
+            ]);
+
             this.updateFromDto(dto);
         }
         DependencyDetail.prototype.updateFromDto = function (dto) {
@@ -52,17 +63,6 @@ define(["require", "exports", 'plugins/dialog', 'plugins/router', "services/data
             this.comments(dto.comments);
             this.ragStatus(dto.ragStatus);
             this.dependencyLevel(dto.dependencyLevel);
-
-            this.validation = ko.validatedObservable([
-                this.status,
-                this.workstream,
-                this.description,
-                this.plannedDate,
-                this.requiredByDate,
-                this.comments,
-                this.ragStatus,
-                this.dependencyLevel
-            ]);
         };
 
         DependencyDetail.prototype.save = function () {

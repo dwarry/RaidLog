@@ -17,7 +17,7 @@ SELECT [Id]
       ,[PlannedDate]
       ,[RequiredByDate]
       ,[Comments]
-      ,[RAG]
+      ,[RagStatus]
       ,[DependencyLevel]
   FROM [dbo].[Dependency]
  WHERE [ProjectId] = @projectId

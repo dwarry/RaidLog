@@ -1,4 +1,12 @@
 ﻿<section>
+
+    <!-- Description -->
+    <div class="control-group" data-bind="css: { error: !description.isValid() }">
+        <label class="control-label" for="description">Description</label>
+        <div class="controls">                     
+            <textarea id="description" class="input-block-level" rows="4" name="description" data-bind="value: description"></textarea>
+        </div>
+    </div>
     
     <div class="controls-row">
         <!-- Workstream -->
@@ -57,7 +65,7 @@
 
         <!-- Dependency Level -->
         <div class="control-group span4" data-bind="css: { error: !dependencyLevel.isValid() }">
-            <label class="control-label" for="dependencyLevel">Required By</label>
+            <label class="control-label" for="dependencyLevel">Dependency Level</label>
             <div class="controls">
                 <input id="dependencyLevel" name="dependencyLevel" type="text" class="input-large" required=""
                        data-bind="value: dependencyLevel">
@@ -68,17 +76,9 @@
     </div>
 
 
-    <!-- Description -->
-    <div class="control-group" data-bind="css: { error: !description.isValid() }">
-        <label class="control-label" for="description">Description</label>
-        <div class="controls">                     
-            <textarea id="description" class="input-block-level" rows="4" name="description" data-bind="value: description"></textarea>
-        </div>
-    </div>
-
     <!-- Comments -->
     <div class="control-group" data-bind="css: { error: !comments.isValid() }">
-        <label class="control-label" for="comments">Description</label>
+        <label class="control-label" for="comments">Comments</label>
         <div class="controls">                     
             <textarea id="comments" class="input-block-level" rows="4" name="comments" data-bind="value: comments"></textarea>
         </div>

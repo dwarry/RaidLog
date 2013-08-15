@@ -9,6 +9,8 @@
         function DependencyList() {
             var _this = this;
             this._projectId = 0;
+            this.projectCode = ko.observable("");
+            this.projectName = ko.observable("");
             this.listViewModel = new pg.ListViewModel({ data: ko.observableArray([]) });
             var newItemCallback = function (item) {
                 _this.listViewModel.allData.push(item);
@@ -30,8 +32,19 @@
             };
         }
         DependencyList.prototype.activate = function (projectIdParam) {
+            var _this = this;
             this._projectId = projectIdParam;
+
+            ds.getProject(this._projectId).done(function (data) {
+                _this.projectCode(data.code);
+                _this.projectName(data.name);
+            });
+
             this.refresh();
+        };
+
+        DependencyList.prototype.newDependency = function () {
+            this.listViewModel.selected(ko.mapping.fromJS(ds.makeDependencyDto(this._projectId), this._mappingOptions));
         };
 
         DependencyList.prototype.refresh = function () {

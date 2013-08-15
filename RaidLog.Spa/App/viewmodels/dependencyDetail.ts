@@ -20,7 +20,7 @@ class DependencyDetail{
 
     dependencyNumber: KnockoutObservable<number> = ko.observable();
 
-    status: KnockoutObservable<string> = ko.observable().extend({ required: true, maxLength: 10 });
+    status: KnockoutObservable<string> = ko.observable().extend({ required: true, maxLength: 16 });
 
     workstream: KnockoutObservable<string> = ko.observable().extend({ required: true, maxLength: 50 });
 
@@ -50,6 +50,18 @@ class DependencyDetail{
         dto: ds.DependencyDto,
         private _newItemCallback: (dep: DependencyDetail) => void) {
 
+            this.validation = ko.validatedObservable([
+                this.status,
+                this.workstream,
+                this.description,
+                this.plannedDate,
+                this.requiredByDate,
+                this.comments,
+                this.ragStatus,
+                this.dependencyLevel
+
+            ]);
+
             this.updateFromDto(dto);
     }
 
@@ -66,19 +78,6 @@ class DependencyDetail{
         this.comments(dto.comments);
         this.ragStatus(dto.ragStatus);
         this.dependencyLevel(dto.dependencyLevel);
-
-        this.validation = ko.validatedObservable([
-            this.status,
-            this.workstream,
-            this.description,
-            this.plannedDate,
-            this.requiredByDate,
-            this.comments,
-            this.ragStatus,
-            this.dependencyLevel
-
-        ]);
-
     }
 
     save() {

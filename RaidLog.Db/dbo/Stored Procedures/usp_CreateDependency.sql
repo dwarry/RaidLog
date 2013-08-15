@@ -39,7 +39,7 @@ BEGIN
                ,[PlannedDate]
                ,[RequiredByDate]
                ,[Comments]
-               ,[RAG]
+               ,[RagStatus]
                ,[DependencyLevel])
      OUTPUT
                INSERTED.*

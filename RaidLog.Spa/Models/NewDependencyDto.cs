@@ -7,7 +7,7 @@ namespace RaidLog.Models
     {
 
         [Required]
-        [StringLength(10)]
+        [StringLength(16)]
         public string Status { get; set; }
 
         [Required]

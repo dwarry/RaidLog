@@ -104,11 +104,12 @@
     }
     exports.makeEditIssueDto = makeEditIssueDto;
 
-    function MakeDependencyDto() {
+    function makeDependencyDto(projectId) {
+        if (typeof projectId === "undefined") { projectId = 0; }
         return {
             id: 0,
             versionNumber: "",
-            projectId: 0,
+            projectId: projectId,
             dependencyNumber: 0,
             status: "",
             workstream: "",
@@ -120,7 +121,7 @@
             dependencyLevel: ""
         };
     }
-    exports.MakeDependencyDto = MakeDependencyDto;
+    exports.makeDependencyDto = makeDependencyDto;
 
     function MakeNewDependencyDto() {
         return {

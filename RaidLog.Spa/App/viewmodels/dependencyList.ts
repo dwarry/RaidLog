@@ -8,6 +8,9 @@ class DependencyList {
 	
     private _projectId = 0;
 
+    projectCode = ko.observable("");
+    projectName = ko.observable("");
+
     listViewModel =  new pg.ListViewModel<DependencyDetail>({data: ko.observableArray<DependencyDetail>([])});
 
     private _mappingOptions: KnockoutMappingOptions;
@@ -28,7 +31,21 @@ class DependencyList {
 
     activate(projectIdParam:number){
 	    this._projectId = projectIdParam;
+
+
+        ds.getProject(this._projectId).done((data: ds.ProjectDto) => {
+            this.projectCode(data.code);
+            this.projectName(data.name);
+        });
+
+
         this.refresh();
+    }
+
+    newDependency() {
+        this.listViewModel.selected(
+            ko.mapping.fromJS(ds.makeDependencyDto(this._projectId), this._mappingOptions));
+
     }
 
     refresh(){

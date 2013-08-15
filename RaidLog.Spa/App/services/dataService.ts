@@ -360,11 +360,11 @@ export interface DependencyDto{
     dependencyLevel: string;
 }
 
-export function MakeDependencyDto(): DependencyDto {
+export function makeDependencyDto(projectId:number = 0): DependencyDto {
     return {
         id: 0,
         versionNumber: "",
-        projectId: 0,
+        projectId: projectId,
         dependencyNumber: 0,
         status: "",
         workstream: "",

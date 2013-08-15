@@ -25,7 +25,7 @@ BEGIN
               ,[PlannedDate]        = @plannedDate
               ,[RequiredByDate]     = @requiredByDate
               ,[Comments]           = @comments
-              ,[RAG]                = @ragStatus
+              ,[RagStatus]          = @ragStatus
               ,[DependencyLevel]    = @dependencyLevel
      OUTPUT
                INSERTED.*
