@@ -84,4 +84,27 @@
         </div>
     </div>
 
+    <!-- Buttons -->
+    <div class="control-group">
+        <label class="control-label" for="saveButton"></label>
+        <div class="controls">
+            <button id="saveButton" name="saveButton" 
+                    data-bind="enable: validation.isValid, click: save"    
+                    class="btn btn-primary">
+                <i class="icon-save" />
+                Save
+            </button>
+            
+            <button id="showActions" id="showActionsButton" data-bind="visible: !isNew(), click: showActions" >
+                <i class="icon-list"></i>
+                Actions
+            </button>
+            
+            <button id="addAction" data-bind="visible: !isNew(), click: addAction">
+                <i class="icon-plus-sign"></i>
+                Add Action
+            </button>
+        </div>
+    </div>
+
 </section>

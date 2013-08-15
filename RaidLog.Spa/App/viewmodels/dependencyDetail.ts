@@ -1,4 +1,14 @@
-﻿import ds = require("services/dataService");
+﻿/// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/knockout.validation/knockout.validation.d.ts" />
+/// <reference path="../../Scripts/typings/knockout/knockout.d.ts" />
+
+import dlg = require('plugins/dialog');
+import router = require('plugins/router');
+import ds = require("services/dataService");
+import rf = require('services/routeFactory');
+import ActionDetailsDialog = require('./actionDetailsDialog');
+
 
 var _ragStatuses = ["Green", "Amber", "Red"];
 
@@ -102,11 +112,19 @@ class DependencyDetail{
     }
 
     addAction() {
+        var action = ds.makeActionDto();
+        action.parentItemType = "Dependency";
+        action.parentItemId = this.id();
 
+        var ad = new ActionDetailsDialog(action);
+
+        dlg.show(ad);
     }
 
     showActions() {
+        var route = rf.makeItemActionLink('dependency', this.id());
 
+        router.navigate(route);
     }
 }
 

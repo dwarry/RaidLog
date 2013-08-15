@@ -241,6 +241,14 @@
       <DependentUpon>assumptionList.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="App\viewmodels\assumptionList.ts" />
+    <TypeScriptCompile Include="App\viewmodels\dependencyList.ts" />
+    <TypeScriptCompile Include="App\viewmodels\dependencyDetail.ts" />
+    <Content Include="App\viewmodels\dependencyDetail.min.js">
+      <DependentUpon>dependencyDetail.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\dependencyList.min.js">
+      <DependentUpon>dependencyList.ts</DependentUpon>
+    </Content>
     <Content Include="App\viewmodels\EditableViewModel.js">
       <DependentUpon>EditableViewModel.ts</DependentUpon>
     </Content>
@@ -315,6 +323,8 @@
     <Content Include="App\views\actionDetailsDialog.html" />
     <Content Include="App\views\actionList.html" />
     <Content Include="App\views\assumptionList.html" />
+    <Content Include="App\views\dependencyDetail.html" />
+    <Content Include="App\views\dependencyList.html" />
     <Content Include="App\views\issueDetails.html" />
     <Content Include="App\views\issueList.html" />
     <Content Include="App\views\maintainProject.html" />
