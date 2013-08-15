@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE dbo.usp_CreateDependency
     @projectId int,
-    @status nvarchar(10),
+    @status nvarchar(16),
     @workstream nvarchar(50),
     @description nvarchar(2048),
     @plannedDate date,

@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE dbo.usp_UpdateDependency
     @id int,
     @version rowversion,
-    @status nvarchar(10),
+    @status nvarchar(16),
     @workstream nvarchar(50),
     @description nvarchar(2048),
     @plannedDate date,
