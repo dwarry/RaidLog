@@ -7,22 +7,20 @@ using System.Web.Http;
 using Dapper;
 
 using RaidLog.Models;
+using RaidLog.Spa.Controllers;
 using RaidLog.Spa.Queries;
 
 namespace RaidLog.Controllers
 {
     [Authorize]
-    public class DependenciesController
+    public class DependenciesController : RaidLogApiController
     {
-        private readonly IDbConnection _connection;
 
-        public DependenciesController(IDbConnection connection)
+        public DependenciesController(IDbConnection connection) : base(connection)
         {
-            if (connection == null) throw new ArgumentNullException("connection");
-            _connection = connection;
         }
 
-        public IEnumerable<DependencyDto> Get(int projectId, bool? active)
+        public DependencyDto[] GetDependenciesForProject(int projectId)
         {
             _connection.Open();
             try
@@ -35,7 +33,7 @@ namespace RaidLog.Controllers
                             {
                                 projectId
                             },
-                            tx);
+                            tx).ToArray();
 
                     tx.Commit();
 
