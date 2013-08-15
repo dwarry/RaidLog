@@ -6,7 +6,6 @@
     var dlg = __dlg__;
 
     var ds = __ds__;
-    
     var rf = __rf__;
     var router = __router__;
     var ActionDetailsDialog = __ActionDetailsDialog__;
