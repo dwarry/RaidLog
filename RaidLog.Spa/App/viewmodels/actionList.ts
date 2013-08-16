@@ -85,6 +85,9 @@ class ActionList{
     }
 
     addAction() {
+
+        this.listViewModel.selected(
+            ko.mapping.fromJS(ds.makeActionDto(this.itemType, this.itemId), this._mappingOptions));
     }
 }
 

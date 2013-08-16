@@ -156,13 +156,15 @@
     }
     exports.MakeEditDependencyDto = MakeEditDependencyDto;
 
-    function makeActionDto() {
+    function makeActionDto(parentItemType, parentItemId) {
+        if (typeof parentItemType === "undefined") { parentItemType = ""; }
+        if (typeof parentItemId === "undefined") { parentItemId = 0; }
         return {
             id: 0,
             version: "",
             actionNumber: 0,
-            parentItemType: "",
-            parentItemId: 0,
+            parentItemType: parentItemType,
+            parentItemId: parentItemId,
             parentItemNumber: 0,
             description: "",
             actor: "",
