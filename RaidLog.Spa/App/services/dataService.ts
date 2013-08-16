@@ -506,17 +506,43 @@ export function makeEditActionDto() {
 
 export interface QueryDto{
     id: number;
-
     version: string;
-
+    projectId: number;
     queryNumber: number;
+    workstream: string;
+    deliverableImpacted: string;
+    urgency: string;
+    description: string;
+    raisedBy: string;
+    raisedTo: string;
+    raisedDate: string;
+    answer: string;
+    answeredBy: string;
+    answeredDate: string;
+    confirmedInDocuments: string;
+    updatedBy: string;
+    updatedTimestamp: string;
 }
 
-export function makeNewQueryDto(): QueryDto {
+export function makeNewQueryDto(projectId=0): QueryDto {
     return {
         id: null,
         version: null,
-        queryNumber: null
+        projectId: projectId,
+        queryNumber: null,
+        workstream: null,
+        deliverableImpacted: null,
+        urgency: null,
+        description: null,
+        raisedBy: null,
+        raisedTo: null,
+        raisedDate: null,
+        answer: null,
+        answeredBy: null,
+        answeredDate: null,
+        confirmedInDocuments: null,
+        updatedBy: null,
+        updatedTimestamp: string,
     };
 }
 
