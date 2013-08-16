@@ -524,7 +524,7 @@ export interface QueryDto{
     updatedTimestamp: string;
 }
 
-export function makeNewQueryDto(projectId=0): QueryDto {
+export function makeQueryDto(projectId=0): QueryDto {
     return {
         id: null,
         version: null,
@@ -542,10 +542,62 @@ export function makeNewQueryDto(projectId=0): QueryDto {
         answeredDate: null,
         confirmedInDocuments: null,
         updatedBy: null,
-        updatedTimestamp: string,
+        updatedTimestamp: null,
     };
 }
 
+export interface MaintainQueryDto {
+    workstream: string;
+    deliverableImpacted: string;
+    urgency: string;
+    description: string;
+
+}
+
+export interface NewQueryDto extends MaintainQueryDto {
+    projectId: number;
+    raisedBy: string;
+    raisedTo: string;
+    raisedDate: string;
+}
+
+export function makeNewQueryDto(projectId = 0): NewQueryDto {
+    return {
+        projectId: projectId,
+        workstream: "",
+        deliverableImpacted: "",
+        urgency: "",
+        description: "",
+        raisedBy: "",
+        raisedTo: "",
+        raisedDate: ""
+    };
+}
+
+
+export interface EditQueryDto extends MaintainQueryDto {
+    id: number;
+    version: string;
+    answer: string;
+    answeredBy: string;
+    answeredDate: string;
+    confirmedInDocuments: string;
+}
+
+export function makeEditQueryDto(): EditQueryDto {
+    return {
+        id: 0,
+        version: "",
+        workstream: "",
+        deliverableImpacted: "",
+        urgency: "",
+        description: "",
+        answer: "",
+        answeredBy: "",
+        answeredDate: "",
+        confirmedInDocuments: "",
+    };
+};
 
 var referenceData: ReferenceDataDto;
 
@@ -737,6 +789,25 @@ export function saveDependency(dto: MaintainDependencyDto) {
             logger.logError(status + " " + jqxhr.responseText, dto, MODULE_NAME, false);
             logger.logError("Error saving the Dependency", jqxhr, MODULE_NAME, true);
         });
+}
+
+export function saveQuery(dto: MaintainQueryDto) {
+    var options: JQueryAjaxSettings = { data: dto };
+    if ('id' in dto) {
+        options.url = "/api/queries/" + dto["id"];
+        options.type = "PUT";
+    } else {
+        options.url = "/api/project/" + dto["projectId"] + "/queries";
+        options.type = "POST";
+    }
+
+    return $.ajax(options).done(data => {
+        logger.logSuccess("Saved Query", data, MODULE_NAME, true);
+    }).fail((jqxhr, status, ex) => {
+            logger.logError(status + " " + jqxhr.responseText, dto, MODULE_NAME, false);
+            logger.logError("Error saving the Query", jqxhr, MODULE_NAME, true);
+        });
+   
 }
 
 export function saveAction( dto: MaintainActionDto) {
