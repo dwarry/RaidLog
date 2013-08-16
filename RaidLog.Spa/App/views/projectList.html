@@ -46,7 +46,9 @@
                     </a>
                 </td>
                 <td>
-                    <span data-bind="text: $data.activeDependencies">0</span> / <span data-bind="text: $data.closedDependencies">0</span>
+                    <a data-bind="attr: {href:projectDependenciesLink}">
+                        <span data-bind="text: $data.activeDependencies">0</span> / <span data-bind="text: $data.closedDependencies">0</span>
+                    </a>
                 </td>
                 <td>
                     <span data-bind="text: $data.activeQueries">0</span> / <span data-bind="text: $data.closedQueries">0</span>

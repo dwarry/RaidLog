@@ -5,7 +5,6 @@
 import dlg = require('plugins/dialog');
 
 import ds = require('services/dataService');
-import pg = require('./pagedGrid');
 import rf = require('services/routeFactory');
 import router = require('plugins/router');
 import ActionDetailsDialog = require('./actionDetailsDialog');

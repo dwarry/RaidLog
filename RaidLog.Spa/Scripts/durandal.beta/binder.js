@@ -1,5 +1,5 @@
 /**
- * Durandal 2.0.0 Copyright (c) 2012 Blue Spire Consulting, Inc. All Rights Reserved.
+ * Durandal 2.0.0-pre Copyright (c) 2012 Blue Spire Consulting, Inc. All Rights Reserved.
  * Available via the MIT license.
  * see: http://durandaljs.com or https://github.com/BlueSpire/Durandal for details.
  */
@@ -10,7 +10,7 @@
  * @requires knockout
  */
 define(['durandal/system', 'knockout'], function (system, ko) {
-    var binder,
+    var viewModelBinder,
         insufficientInfoMessage = 'Insufficient Information to Bind',
         unexpectedViewMessage = 'Unexpected View Type',
         bindingInstructionKey = 'durandal-binding-instruction',
@@ -34,7 +34,7 @@ define(['durandal/system', 'knockout'], function (system, ko) {
 
     function doBind(obj, view, bindingTarget, data){
         if (!view || !bindingTarget) {
-            if (binder.throwOnErrors) {
+            if (viewModelBinder.throwOnErrors) {
                 system.error(insufficientInfoMessage);
             } else {
                 system.log(insufficientInfoMessage, view, data);
@@ -43,7 +43,7 @@ define(['durandal/system', 'knockout'], function (system, ko) {
         }
 
         if (!view.getAttribute) {
-            if (binder.throwOnErrors) {
+            if (viewModelBinder.throwOnErrors) {
                 system.error(unexpectedViewMessage);
             } else {
                 system.log(unexpectedViewMessage, view, data);
@@ -61,7 +61,7 @@ define(['durandal/system', 'knockout'], function (system, ko) {
             }
 
             instruction = normalizeBindingInstruction(instruction);
-            binder.binding(data, view, instruction);
+            viewModelBinder.beforeBind(data, view, instruction);
 
             if(instruction.applyBindings){
                 system.log('Binding', viewName, data);
@@ -70,7 +70,7 @@ define(['durandal/system', 'knockout'], function (system, ko) {
                 ko.utils.domData.set(view, koBindingContextKey, { $data:obj });
             }
 
-            binder.bindingComplete(data, view, instruction);
+            viewModelBinder.afterBind(data, view, instruction);
 
             if (obj && obj.bindingComplete) {
                 obj.bindingComplete(view);
@@ -80,7 +80,7 @@ define(['durandal/system', 'knockout'], function (system, ko) {
             return instruction;
         } catch (e) {
             e.message = e.message + ';\nView: ' + viewName + ";\nModuleId: " + system.getModuleId(data);
-            if (binder.throwOnErrors) {
+            if (viewModelBinder.throwOnErrors) {
                 system.error(e);
             } else {
                 system.log(e.message);
@@ -89,26 +89,26 @@ define(['durandal/system', 'knockout'], function (system, ko) {
     }
 
     /**
-     * @class BinderModule
+     * @class ViewModelBinderModule
      * @static
      */
-    return binder = {
+    return viewModelBinder = {
         /**
          * Called before every binding operation. Does nothing by default.
-         * @method binding
+         * @method beforeBind
          * @param {object} data The data that is about to be bound.
          * @param {DOMElement} view The view that is about to be bound.
          * @param {object} instruction The object that carries the binding instructions.
          */
-        binding: system.noop,
+        beforeBind: system.noop,
         /**
          * Called after every binding operation. Does nothing by default.
-         * @method bindingComplete
+         * @method afterBind
          * @param {object} data The data that has just been bound.
          * @param {DOMElement} view The view that has just been bound.
          * @param {object} instruction The object that carries the binding instructions.
          */
-        bindingComplete: system.noop,
+        afterBind: system.noop,
         /**
          * Indicates whether or not the binding system should throw errors or not.
          * @property {boolean} throwOnErrors
@@ -132,11 +132,11 @@ define(['durandal/system', 'knockout'], function (system, ko) {
          * @param {object} [obj] The data to bind to, causing the creation of a child binding context if present.
          */
         bindContext: function(bindingContext, view, obj) {
-            if (obj && bindingContext) {
+            if (obj) {
                 bindingContext = bindingContext.createChildContext(obj);
             }
 
-            return doBind(obj, view, bindingContext, obj || (bindingContext ? bindingContext.$data : null));
+            return doBind(obj, view, bindingContext, obj || bindingContext.$data);
         },
         /**
          * Binds the view, preserving the existing binding context. Optionally, a new context can be created, parented to the previous context.

@@ -1,21 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace RaidLog.Models
 {
-    public class DependencyDto
+    public class NewDependencyDto
     {
-        public int Id { get; set; }
-
-        public byte[] Version { get; set; }
-        
-        public int ProjectId { get; set; }
-
-        public int DependencyNumber { get; set; }
 
         [Required]
-        [StringLength(10)]
+        [StringLength(16)]
         public string Status { get; set; }
 
         [Required]
@@ -40,5 +32,6 @@ namespace RaidLog.Models
         [Required]
         [StringLength(50)]
         public string DependencyLevel { get; set; }
+
     }
 }

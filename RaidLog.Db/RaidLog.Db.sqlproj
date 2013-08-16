@@ -63,6 +63,7 @@
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="dbo\Views\" />
+    <Folder Include="dbo\Functions\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\RifCategory.sql" />
@@ -94,6 +95,11 @@
     <Build Include="dbo\Tables\ActionStatus.sql" />
     <Build Include="dbo\Stored Procedures\usp_GetActionsForProject.sql" />
     <Build Include="dbo\Stored Procedures\usp_CreateAction.sql" />
+    <Build Include="dbo\Views\vw_ActionsForProjects.sql" />
+    <Build Include="dbo\Functions\ufn_GetActionsForProject.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateDependency.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateAction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CreateDependency.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="ReferenceData.PostDeployment.sql" />

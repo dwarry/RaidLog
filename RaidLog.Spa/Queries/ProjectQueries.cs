@@ -50,6 +50,13 @@ with re as
       where  i.[ProjectId] in (select [Id] from [dbo].[Project] p where p.[IsActive] = 1);
 ";
 
+        public const string GetAllProjectsAndDependencies = @"
+     select  d.[ProjectId]
+          ,  d.[Id] as DependencyId
+          ,  cast(case when (d.Status = 'Fulfilled') then 0 else 1 end as bit) as [IsActive]
+       from  [dbo].[Dependency] d
+      where  d.[ProjectId] in (select [Id] from [dbo].[Project] p where p.[IsActive] = 1);
+";
 
 
         public const string GetAllProjectsAndActions = @"

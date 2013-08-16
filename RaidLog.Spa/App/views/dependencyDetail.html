@@ -1,0 +1,108 @@
+﻿<section>
+
+    <!-- Description -->
+    <div class="control-group" data-bind="css: { error: !description.isValid() }">
+        <label class="control-label" for="description">Description</label>
+        <div class="controls">                     
+            <textarea id="description" class="input-block-level" rows="4" name="description" data-bind="value: description"></textarea>
+        </div>
+    </div>
+    
+    <div class="controls-row">
+        <!-- Workstream -->
+        <div class="control-group span4" data-bind="css: { error: !workstream.isValid() }">
+            <label class="control-label" for="workstream">Workstream</label>
+            <div class="controls">
+                <input id="workstream" name="workstream" type="text" placeholder="" class="input-large" required=""
+                       data-bind="value: workstream">
+    
+            </div>
+        </div>
+        
+        
+        <!-- Planned Date-->
+        <div class="control-group span4" data-bind="css: { error: !plannedDate.isValid() }">
+            <label class="control-label" for="plannedDate">Planned Date</label>
+            <div class="controls">
+                <input id="plannedDate" name="plannedDate" type="text" placeholder="YYYY-MM-DD" class="input-small" required=""
+                       data-bind="value: plannedDate">
+    
+            </div>
+        </div>
+
+        <!-- Required By Date-->
+        <div class="control-group span4" data-bind="css: { error: !requiredByDate.isValid() }">
+            <label class="control-label" for="requiredByDate">Required By</label>
+            <div class="controls">
+                <input id="requiredByDate" name="requiredByDate" type="text" placeholder="YYYY-MM-DD" class="input-small" required=""
+                       data-bind="value: requiredByDate">
+    
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="controls-row">
+        <!-- Status -->
+        <div class="control-group span4" data-bind="css: { error: !status.isValid() }">
+            <label class="control-label" for="status">Status</label>
+            <div class="controls">
+                <select name="status" id="status" data-bind="options:statuses, value:status"></select>
+            </div>
+        </div>
+        
+        
+        <!-- RAG Status -->
+        <div class="control-group span2" data-bind="css: { error: !ragStatus.isValid() }">
+            <label class="control-label" for="ragStatus">RAG Status</label>
+            <div class="controls">
+                <select name="ragStatus" id="ragStatus" data-bind="options: ragStatuses, value: ragStatus" class="input-small"></select>
+            </div>
+        </div>
+
+
+        <!-- Dependency Level -->
+        <div class="control-group span4" data-bind="css: { error: !dependencyLevel.isValid() }">
+            <label class="control-label" for="dependencyLevel">Dependency Level</label>
+            <div class="controls">
+                <input id="dependencyLevel" name="dependencyLevel" type="text" class="input-large" required=""
+                       data-bind="value: dependencyLevel">
+    
+            </div>
+        </div>
+        
+    </div>
+
+
+    <!-- Comments -->
+    <div class="control-group" data-bind="css: { error: !comments.isValid() }">
+        <label class="control-label" for="comments">Comments</label>
+        <div class="controls">                     
+            <textarea id="comments" class="input-block-level" rows="4" name="comments" data-bind="value: comments"></textarea>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="control-group">
+        <label class="control-label" for="saveButton"></label>
+        <div class="controls">
+            <button id="saveButton" name="saveButton" 
+                    data-bind="enable: validation.isValid, click: save"    
+                    class="btn btn-primary">
+                <i class="icon-save" />
+                Save
+            </button>
+            
+            <button id="showActions" id="showActionsButton" data-bind="visible: !isNew(), click: showActions" >
+                <i class="icon-list"></i>
+                Actions
+            </button>
+            
+            <button id="addAction" data-bind="visible: !isNew(), click: addAction">
+                <i class="icon-plus-sign"></i>
+                Add Action
+            </button>
+        </div>
+    </div>
+
+</section>

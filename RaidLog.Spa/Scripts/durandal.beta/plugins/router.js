@@ -1,5 +1,5 @@
 /**
- * Durandal 2.0.0 Copyright (c) 2012 Blue Spire Consulting, Inc. All Rights Reserved.
+ * Durandal 2.0.0-pre Copyright (c) 2012 Blue Spire Consulting, Inc. All Rights Reserved.
  * Available via the MIT license.
  * see: http://durandaljs.com or https://github.com/BlueSpire/Durandal for details.
  */
@@ -122,13 +122,6 @@ define(['durandal/system', 'durandal/app', 'durandal/activator', 'durandal/event
      * @event router:navigation:composition-complete
      * @param {object} instance The activated instance.
      * @param {object} instruction The routing instruction.
-     * @param {Router} router The router.
-     */
-
-    /**
-     * Triggered when the router does not find a matching route.
-     * @event router:route:not-found
-     * @param {string} fragment The url fragment.
      * @param {Router} router The router.
      */
 
@@ -274,13 +267,6 @@ define(['durandal/system', 'durandal/app', 'durandal/activator', 'durandal/event
             });
         }
 
-        /**
-         * Inspects routes and modules before activation. Can be used to protect access by cancelling navigation or redirecting.
-         * @method guardRoute
-         * @param {object} instance The module instance that is about to be activated by the router.
-         * @param {object} instruction The route instruction. The instruction object has config, fragment, queryString, params and queryParams properties.
-         * @return {Promise|Boolean|String} If a boolean, determines whether or not the route should activate or be cancelled. If a string, causes a redirect to the specified route. Can also be a promise for either of these value types.
-         */
         function handleGuardedRoute(activator, instance, instruction) {
             var resultOrPromise = router.guardRoute(instance, instruction);
             if (resultOrPromise) {
@@ -388,10 +374,10 @@ define(['durandal/system', 'durandal/app', 'durandal/activator', 'durandal/event
             };
         }
 
-        function configureRoute(config){
+        function mapRoute(config) {
             router.trigger('router:route:before-config', config, router);
 
-            if (!system.isRegExp(config)) {
+            if (!system.isRegExp(config.route)) {
                 config.title = config.title || router.convertRouteToTitle(config.route);
                 config.moduleId = config.moduleId || router.convertRouteToModuleId(config.route);
                 config.hash = config.hash || router.convertRouteToHash(config.route);
@@ -414,33 +400,13 @@ define(['durandal/system', 'durandal/app', 'durandal/activator', 'durandal/event
                     queryParams:paramInfo.queryParams
                 });
             });
-        };
-
-        function mapRoute(config) {
-            if(system.isArray(config.route)){
-                for(var i = 0, length = config.route.length; i < length; i++){
-                    var current = system.extend({}, config);
-                    current.route = config.route[i];
-                    if(i > 0){
-                        delete current.nav;
-                    }
-                    configureRoute(current);
-                }
-            }else{
-                configureRoute(config);
-            }
 
             return router;
         }
 
         function addActiveFlag(config) {
-            if(config.isActive){
-                return;
-            }
-
             config.isActive = ko.computed(function() {
-                var theItem = activeItem();
-                return theItem && theItem.__moduleId__ == config.moduleId;
+                return activeItem() && activeItem().__moduleId__ == config.moduleId;
             });
         }
 
@@ -531,7 +497,6 @@ define(['durandal/system', 'durandal/app', 'durandal/activator', 'durandal/event
             }
 
             system.log('Route Not Found');
-            router.trigger('router:route:not-found', fragment, router);
 
             if (currentInstruction) {
                 history.navigate(currentInstruction.fragment, { trigger:false, replace:true });
@@ -565,8 +530,8 @@ define(['durandal/system', 'durandal/app', 'durandal/activator', 'durandal/event
          * Save a fragment into the hash history, or replace the URL state if the
          * 'replace' option is passed. You are responsible for properly URL-encoding
          * the fragment in advance.
-         * The options object can contain `trigger: false` if you wish to not have the
-         * route callback be fired, or `replace: true`, if
+         * The options object can contain `trigger: true` if you wish to have the
+         * route callback be fired (not usually desirable), or `replace: true`, if
          * you wish to modify the current URL without adding an entry to the history.
          * @method navigate
          * @param {string} fragment The url fragment to navigate to.
@@ -574,11 +539,6 @@ define(['durandal/system', 'durandal/app', 'durandal/activator', 'durandal/event
          * @return {boolean} Returns true/false from loading the url.
          */
         router.navigate = function(fragment, options) {
-            if(fragment && fragment.indexOf('://') != -1){
-                window.location.href = fragment;
-                return true;
-            }
-
             rootRouter.explicitNavigation = true;
             return history.navigate(fragment, options);
         };
@@ -588,7 +548,7 @@ define(['durandal/system', 'durandal/app', 'durandal/activator', 'durandal/event
          * @method navigateBack
          */
         router.navigateBack = function() {
-            history.navigateBack();
+            history.history.back();
         };
 
         router.attached = function() {
@@ -657,10 +617,10 @@ define(['durandal/system', 'durandal/app', 'durandal/activator', 'durandal/event
          * @param {object} [config] The config for the specified route.
          * @chainable
          * @example
- router.map([
-    { route: '', title:'Home', moduleId: 'homeScreen', nav: true },
-    { route: 'customer/:id', moduleId: 'customerDetails'}
- ]);
+         router.map([
+             { route: '', title:'Home', moduleId: 'homeScreen', nav: true },
+             { route: 'customer/:id', moduleId: 'customerDetails'}
+         ]);
          */
         router.map = function(route, config) {
             if (system.isArray(route)) {
@@ -775,7 +735,6 @@ define(['durandal/system', 'durandal/app', 'durandal/activator', 'durandal/event
         /**
          * Resets the router by removing handlers, routes, event handlers and previously configured options.
          * @method reset
-         * @chainable
          */
         router.reset = function() {
             currentInstruction = currentActivation = undefined;
@@ -783,14 +742,12 @@ define(['durandal/system', 'durandal/app', 'durandal/activator', 'durandal/event
             router.routes = [];
             router.off();
             delete router.options;
-            return router;
         };
 
         /**
          * Makes all configured routes and/or module ids relative to a certain base url.
          * @method makeRelative
          * @param {string|object} settings If string, the value is used as the base for routes and module ids. If an object, you can specify `route` and `moduleId` separately. In place of specifying route, you can set `fromParent:true` to make routes automatically relative to the parent router's active route.
-         * @chainable
          */
         router.makeRelative = function(settings){
             if(system.isString(settings)){
@@ -812,7 +769,7 @@ define(['durandal/system', 'durandal/app', 'durandal/activator', 'durandal/event
                 router.relativeToParentRouter = true;
             }
 
-            router.on('router:route:before-config').then(function(config){
+            this.on('router:route:before-config').then(function(config){
                 if(settings.moduleId){
                     config.moduleId = settings.moduleId + config.moduleId;
                 }
@@ -826,7 +783,7 @@ define(['durandal/system', 'durandal/app', 'durandal/activator', 'durandal/event
                 }
             });
 
-            return router;
+            return this;
         };
 
         /**

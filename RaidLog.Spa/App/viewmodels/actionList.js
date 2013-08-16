@@ -82,6 +82,7 @@ define(["require", "exports", 'services/dataService', "./pagedGrid", "./actionDe
         };
 
         ActionList.prototype.addAction = function () {
+            this.listViewModel.selected(ko.mapping.fromJS(ds.makeActionDto(this.itemType, this.itemId), this._mappingOptions));
         };
         return ActionList;
     })();

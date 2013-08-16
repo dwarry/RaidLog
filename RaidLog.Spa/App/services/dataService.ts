@@ -345,6 +345,89 @@ export function makeEditIssueDto(): EditIssueDto {
     };
 }
 
+export interface DependencyDto{
+    id: number;
+    version: string; 
+    projectId: number;
+    dependencyNumber: number;
+    status: string;
+    workstream: string;
+    description: string;
+    plannedDate: string;
+    requiredByDate: string;
+    comments: string;
+    ragStatus: string;
+    dependencyLevel: string;
+}
+
+export function makeDependencyDto(projectId:number = 0): DependencyDto {
+    return {
+        id: 0,
+        version: "",
+        projectId: projectId,
+        dependencyNumber: 0,
+        status: "",
+        workstream: "",
+        description: "",
+        plannedDate: "",
+        requiredByDate: "",
+        comments: "",
+        ragStatus: "",
+        dependencyLevel: "",
+    };
+}
+
+export interface MaintainDependencyDto{
+    status: string;
+    workstream: string;
+    description: string;
+    plannedDate: string;
+    requiredByDate: string;
+    comments: string;
+    ragStatus: string;
+    dependencyLevel: string;
+}
+
+export interface NewDependencyDto extends MaintainDependencyDto{
+    projectId: number;
+}
+
+export function MakeNewDependencyDto(): NewDependencyDto {
+    return {
+        projectId: 0,
+        dependencyNumber: 0,
+        status: "",
+        workstream: "",
+        description: "",
+        plannedDate: "",
+        requiredByDate: "",
+        comments: "",
+        ragStatus: "",
+        dependencyLevel: ""
+    };
+}
+
+export interface EditDependencyDto extends MaintainDependencyDto{
+    id: number;
+    version: string;
+}
+
+export function MakeEditDependencyDto(): EditDependencyDto {
+    return {
+        id: 0,
+        version: "",
+        dependencyNumber: 0,
+        status: "",
+        workstream: "",
+        description: "",
+        plannedDate: "",
+        requiredByDate: "",
+        comments: "",
+        ragStatus: "",
+        dependencyLevel: ""
+    };
+}
+
 export interface ActionDto {
     id: number;
     version: string;
@@ -360,13 +443,13 @@ export interface ActionDto {
     resolution: string;
 }
 
-export function makeActionDto(): ActionDto {
+export function makeActionDto(parentItemType = "", parentItemId = 0): ActionDto {
     return {
         id: 0,
         version: "",
         actionNumber: 0,
-        parentItemType: "",
-        parentItemId: 0,
+        parentItemType: parentItemType,
+        parentItemId: parentItemId,
         parentItemNumber:0,
         description: "",
         actor: "",
@@ -418,24 +501,6 @@ export function makeEditActionDto() {
         dueDate: "",
         resolvedDate: "",
         resolution: ""
-    };
-}
-
-export interface DependencyDto{
-    id: number;
-
-    version: string;
-
-    dependencyNumber: number;
-
-
-}
-
-export function makeNewDependencyDto(): DependencyDto{
-    return {
-        id: null,
-        version: null,
-        dependencyNumber: null
     };
 }
 
@@ -515,7 +580,9 @@ export function getProjectIssues(id:number): JQueryPromise<IssueDto[]> {
 // id - project id
 // active - true for open risks, false for closed, null for both.
 export function getProjectDependencies(id:number): JQueryPromise<DependencyDto[]> {
-    return $.getJSON("/api/project/" + id + "/dependencies/");
+    return $.getJSON("/api/project/" + id + "/dependencies/")
+        .done(data => { logger.logSuccess("Retrieve Project Dependencies", data, MODULE_NAME, true); })
+        .fail((jqxhr, status, ex) => { logger.logError("Error retrieving Project Dependencies", jqxhr, MODULE_NAME, true); });
 };
 
 // id - project id
@@ -530,6 +597,9 @@ export function getProjectActions(id: number): JQueryPromise<ActionDto[]>{
 }
 
 export function getActionsFor(itemType: string, itemId: number) {
+    if (itemType === 'Dependency') {
+        itemType = 'Dependencie';
+    }
     return $.getJSON("/api/" + itemType + "s/" + itemId + "/actions/")
         .done(data => { logger.logSuccess("Retrieved " + itemType + " Actions", data, MODULE_NAME, true); })
         .fail((jqxhr, status, ex) => { logger.logError("Error retrieving " + itemType + " Actions", jqxhr, MODULE_NAME, true); });
@@ -597,7 +667,7 @@ export function saveAssumption(projectId: number, assumption: NewAssumptionDto):
     }
 
     return $.ajax(options).done(function (data, status, jqxhr) {
-        logger.log("Saved Assumption", null, MODULE_NAME, true);
+        logger.logSuccess("Saved Assumption", null, MODULE_NAME, true);
     }).fail(function (jqxhr, status, ex) {
             logger.logError(status + " " + jqxhr.responseText, assumption, MODULE_NAME, false);
             logger.logError("Error saving the Assumption", null, MODULE_NAME, true);
@@ -617,12 +687,30 @@ export function saveIssue(projectId: number, issue: MaintainIssueDto) {
     }
 
     return $.ajax(options).done(function (data, status, jqxhr) {
-        logger.log("Saved Issue", null, MODULE_NAME, true);
+        logger.logSuccess("Saved Issue", null, MODULE_NAME, true);
     }).fail(function (jqxhr, status, ex) {
             logger.logError(status + " " + jqxhr.responseText, issue, MODULE_NAME, false);
             logger.logError("Error saving the Issue", null, MODULE_NAME, true);
         });
 
+}
+
+export function saveDependency(dto: MaintainDependencyDto) {
+    var options: JQueryAjaxSettings = { data: dto };
+    if ('id' in dto) {
+        options.url = "/api/dependencies/" + dto["id"];
+        options.type = "PUT";
+    } else {
+        options.url = "/api/project/" + dto["projectId"] + "/dependencies";
+        options.type = "POST";
+    }
+
+    return $.ajax(options).done(data => {
+        logger.logSuccess("Saved Dependency", data, MODULE_NAME, true);
+    }).fail((jqxhr, status, ex) => {
+            logger.logError(status + " " + jqxhr.responseText, dto, MODULE_NAME, false);
+            logger.logError("Error saving the Dependency", jqxhr, MODULE_NAME, true);
+        });
 }
 
 export function saveAction( dto: MaintainActionDto) {
