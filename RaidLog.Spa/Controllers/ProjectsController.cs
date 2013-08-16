@@ -37,7 +37,7 @@ namespace RaidLog.Controllers
                                  ProjectQueries.GetAllProjectsAndAssumptions + 
                                  ProjectQueries.GetAllProjectsAndIssues +
                                  ProjectQueries.GetAllProjectsAndDependencies + 
-                                 //ProjectQueries.GetAllProjectsAndQueries +
+                                 ProjectQueries.GetAllProjectsAndQueries +
                                  ProjectQueries.GetAllProjectsAndActions;
 
                     var result = _connection.QueryMultiple(sql,
@@ -49,6 +49,8 @@ namespace RaidLog.Controllers
                     var projectIssuesStatuses = result.Read<ProjectAndIssueStatus>().ToArray();
                     var projectDependencyStatuses = result.Read<ProjectAndDependencyStatus>()
                                                           .ToArray();
+                    var projectQueryStatuses = result.Read<ProjectAndQueryStatus>()
+                                                     .ToArray();
                     var projectActionsStatuses = result.Read<ProjectAndActionStatus>()
                                                        .ToArray();
 
@@ -59,6 +61,7 @@ namespace RaidLog.Controllers
                                   projectAssumptionStatuses,
                                   projectIssuesStatuses,
                                   projectDependencyStatuses,
+                                  projectQueryStatuses,
                                   projectActionsStatuses);                   
 
                     tx.Commit();
@@ -72,12 +75,7 @@ namespace RaidLog.Controllers
             }
         }
 
-        private void SetRiskCounts(IDictionary<int, ProjectSummaryWithCounts> projectSummaries, 
-            ProjectAndRiskStatus[] projectRiskStatuses, 
-            ProjectAndAssumptionStatus[] projectAssumptionStatuses, 
-            ProjectAndIssueStatus[] projectIssuesStatuses, 
-            ProjectAndDependencyStatus[] projectDependencyStatuses, 
-            ProjectAndActionStatus[] projectActionsStatuses)
+        private void SetRiskCounts(IDictionary<int, ProjectSummaryWithCounts> projectSummaries, ProjectAndRiskStatus[] projectRiskStatuses, ProjectAndAssumptionStatus[] projectAssumptionStatuses, ProjectAndIssueStatus[] projectIssuesStatuses, ProjectAndDependencyStatus[] projectDependencyStatuses, ProjectAndQueryStatus[] projectQueryStatuses, ProjectAndActionStatus[] projectActionsStatuses)
         {
             foreach (var riskStatus in projectRiskStatuses)
             {
@@ -128,6 +126,20 @@ namespace RaidLog.Controllers
                 else
                 {
                     psc.ClosedDependencies++;
+                }
+            }
+
+
+            foreach (var queryStatus in projectQueryStatuses)
+            {
+                var psc = projectSummaries[queryStatus.ProjectId];
+                if (queryStatus.IsActive)
+                {
+                    psc.ActiveQueries++;
+                }
+                else
+                {
+                    psc.ClosedQueries++;
                 }
             }
 
