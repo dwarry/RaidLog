@@ -61,3 +61,48 @@ tbody > tr.selected > td {
     background-color: palegoldenrod !important;
 }
 
+.closedItem {
+    text-decoration: solid darkred line-through;
+}
+
+
+.selectedPage {
+    background-color: palegoldenrod;
+    border: 1px solid darkslategray;
+    font-size: larger;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.ragAmber {
+    color: darkorange;
+    font-size: larger;
+}
+
+.ragGreen {
+    color: green;
+}
+
+.ragRed {
+    color: red;
+    font-size: larger;
+    font-weight: bolder;
+}
+
+.assumptionValidated {
+    color: green;
+}
+
+.assumptionRejected {
+    color: darkred;
+}
+
+.controls-row .control-group {
+
+    display: inline-block;
+    vertical-align: top;
+}
+
+th.dateCol {
+    width: 10em;
+}

@@ -7,7 +7,7 @@
     </div></h2>
     <br />
     <div class="row-fluid">
-        <div class="span10 offset1" data-bind="pagedGrid:listViewModel,gridTemplateName:'projectListTemplate'"></div>
+        <div class="span10 offset1" data-bind="pagedGrid:listViewModel,pagedGridTemplate:'projectListTemplate'"></div>
     </div>
 </section>
 
@@ -22,33 +22,43 @@
                 <th style="width: 12ex;">Issues</th>
                 <th style="width: 12ex;">Dependencies</th>
                 <th style="width: 12ex;">Queries</th>
+                <th style="width: 12ex;">Actions</th>
 
             </tr>
         </thead>
-        <tbody data-bind="foreach:filteredData">
+        <tbody data-bind="foreach:itemsOnCurrentPage">
             <tr data-bind="click:$parent.setSelected, css:{selected:$data===$parent.selected()}">
-                <td><a data-bind="text: $data.code, click: $root.viewProject"></a></td>
+                <td data-bind="text: $data.code"></td>
                 <td data-bind="text: $data.name"></td>
                 <td>
-                    <span class="badge badge-important" data-bind="text: $data.activeRisks, click: $root.viewActiveRisks">0</span>
-                    <span class="badge badge-inverse" data-bind="text: $data.closedRisks, click: $root.viewClosedRisks">0</span>
+                    <a class="text-center" data-bind="attr:{href:projectRisksLink}">
+                        <span data-bind="text: $data.activeRisks">0</span> / <span data-bind="text: $data.closedRisks">0</span>
+                    </a>
                 </td>
                 <td>
-                    <span class="badge badge-important" data-bind="text: $data.activeAssumptions, click: $root.viewActiveAssumptions">0</span>
-                    <span class="badge badge-inverse" data-bind="text: $data.closedAssumptions, click: $root.viewClosedAssumptions">0</span>
+                    <a class="text-center" data-bind="attr: {href:projectAssumptionsLink}">
+                        <span data-bind="text: $data.activeAssumptions">0</span> / <span data-bind="text: $data.closedAssumptions">0</span>
+                    </a>
                 </td>
                 <td>
-                    <span class="badge badge-important" data-bind="text: $data.activeIssues, click: $root.viewActiveIssues">0</span>
-                    <span class="badge badge-inverse" data-bind="text: $data.closedIssues, click: $root.viewClosedIssues">0</span>
+                    <a data-bind="attr: {href:projectIssuesLink}">
+                        <span data-bind="text: $data.activeIssues">0</span> / <span data-bind="text: $data.closedIssues">0</span>
+                    </a>
                 </td>
                 <td>
-                    <span class="badge badge-important" data-bind="text: $data.activeDependencies, click: $root.viewActiveDependencies">0</span>
-                    <span class="badge badge-inverse" data-bind="text: $data.closedDependencies, click: $root.viewClosedDependencies">0</span>
+                    <a data-bind="attr: {href:projectDependenciesLink}">
+                        <span data-bind="text: $data.activeDependencies">0</span> / <span data-bind="text: $data.closedDependencies">0</span>
+                    </a>
                 </td>
                 <td>
-                    <span class="badge badge-important" data-bind="text: $data.activeQueries, click: $root.viewActiveQueries">0</span>
-                    <span class="badge badge-inverse" data-bind="text: $data.closedQueries, click: $root.viewClosedQueries">0</span>
+                    <span data-bind="text: $data.activeQueries">0</span> / <span data-bind="text: $data.closedQueries">0</span>
                 </td>
+                <td>
+                    <a data-bind="attr: { href: projectActionsLink }">
+                        <span data-bind="text: $data.activeActions">0</span> / <span data-bind="    text: $data.closedActions">0</span>
+                    </a>
+                </td>
+
             </tr>
         </tbody>
     </table>

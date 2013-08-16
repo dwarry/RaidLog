@@ -53,6 +53,8 @@ namespace RaidLog.Models
 
         public int ActiveQueries { get; set; }
 
+        public int ActiveActions { get; set; }
+
         public int ClosedRisks { get; set; }
 
         public int ClosedAssumptions { get; set; }
@@ -63,6 +65,7 @@ namespace RaidLog.Models
 
         public int ClosedQueries { get; set; }
 
+        public int ClosedActions { get; set; }
     }
 
     

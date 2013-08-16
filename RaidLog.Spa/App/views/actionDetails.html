@@ -1,0 +1,73 @@
+﻿<section data-bind="validationOptions: { messagesOnModified: false, insertMessages: true, errorMessageClass: 'alert alert-error' }">
+    
+    
+
+    <!-- Description -->
+    <div class="control-group" data-bind="css: { error: !description.isValid() }">
+        <label class="control-label" for="description">Description</label>
+        <div class="controls">                     
+            <textarea id="description" class="input-block-level" rows="4" name="description" data-bind="value: description"></textarea>
+        </div>
+    </div>
+    
+    <div class="controls-row">
+        <!-- Actor -->
+        <div class="control-group span4" data-bind="css: { error: !actor.isValid() }">
+            <label class="control-label" for="actor">Actor</label>
+            <div class="controls">
+                <input id="actor" name="actor" type="text" placeholder="A User" class="input-large" data-bind="value: actor">
+            </div>
+        </div>
+    
+        <!-- Status -->
+        <div class="control-group span4" data-bind="css: {error: !actionStatusId.isValid()}">
+            <label class="control-label" for="actionStatusId">Status</label>
+            <div class="controls">
+                <select name="actionStatusId" id="actionStatusId" 
+                        data-bind="value:actionStatusId, options:actionStatuses, optionsText:'description', optionsValue:'id'"></select>
+
+            </div>
+        </div>
+            
+        <!-- Due Date -->
+        <div class="control-group span2" data-bind="css: { error: !dueDate.isValid() }">
+            <label class="control-label" for="expectedClosureDate">Due Date</label>
+            <div class="controls">
+                <input id="dueDate" name="dueDate" type="text" placeholder="YYYY-MM-DD" class="input-small" data-bind="value: dueDate">
+    
+            </div>
+        </div>
+    </div>
+    
+    <div class="controls-row">
+        
+        <!-- Resolved Date -->
+        <div class="control-group span2" data-bind="visible: !isNewItem(), css: { error: !resolvedDate.isValid() }">
+            <label class="control-label" for="resolvedDate">Resolved Date:</label>
+            <div class="controls">
+                <input id="resolvedDate" name="resolvedDate" type="text" placeholder="YYYY-MM-DD" class="input-small" data-bind="value: resolvedDate">
+    
+            </div>
+        </div>
+
+
+        <!-- Resolution -->
+        <div class="control-group span8" data-bind="visible: !isNewItem(), css: { error: !resolution.isValid() }">
+            <label class="control-label" for="resolution">Resolution</label>
+            <div class="controls">                     
+                <textarea id="resolution" class="input-block-level" rows="3" name="resolution" data-bind="value: resolution"></textarea>
+            </div>
+        </div>
+    </div>
+    
+        <!-- Buttons -->
+    <div class="control-group">
+        <label class="control-label" for="saveButton"></label>
+        <div class="controls">
+            <button id="saveButton" name="saveButton" 
+                    data-bind="enable: validation.isValid, click: save"    
+                    class="btn btn-primary">Save</button>
+        </div>
+    </div>
+
+</section>

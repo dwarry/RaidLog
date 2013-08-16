@@ -1,4 +1,4 @@
-// Type definitions for Moment.js 2.0.0
+// Type definitions for Moment.js 2.1.0
 // Project: https://github.com/timrwood/moment
 // Definitions by: Michael Lakerveld <https://github.com/Lakerfield>
 // DefinitelyTyped: https://github.com/borisyankov/DefinitelyTyped
@@ -68,8 +68,9 @@ interface Moment {
     subtract(soort: string, aantal: number): Moment;
 
     calendar(): string;
+    clone(): Moment;
 
-    valueOf(): string;
+    valueOf(): number;
 
     local(): Moment; // current date/time in local mode
 
@@ -80,8 +81,10 @@ interface Moment {
     year(y: number): Moment;
     year(): number;
     month(M: number): Moment;
+    month(M: string): Moment;
     month(): number;
     day(d: number): Moment;
+    day(d: string): Moment;
     day(): number;
     date(d: number): Moment;
     date(): number;
@@ -93,9 +96,14 @@ interface Moment {
     seconds(): number;
     milliseconds(ms: number): Moment;
     milliseconds(): number;
-
-    sod(): Moment; // Start of Day
-    eod(): Moment; // End of Day
+    weekday(): number;
+    weekday(d: number): Moment;
+    isoWeekday(): number;
+    isoWeekday(d: number): Moment;
+    weekYear(): number;
+    weekYear(d: number): Moment;
+    isoWeekYear(): number;
+    isoWeekYear(d: number): Moment;
 
     from(f: Moment): string;
     from(f: Moment, suffix: boolean): string;
@@ -108,6 +116,7 @@ interface Moment {
     diff(b: Moment, soort: string, round: boolean): number;
 
     toDate(): Date;
+    toISOString(): string;
     unix(): number;
 
     isLeapYear(): boolean;
@@ -224,7 +233,6 @@ interface MomentStatic {
     (date: number[]): Moment;
     (clone: Moment): Moment;
 
-    clone(): Moment;
     unix(timestamp: number): Moment;
 
     utc(): Moment; // current date/time in UTC mode

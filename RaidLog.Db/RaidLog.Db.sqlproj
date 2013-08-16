@@ -62,6 +62,8 @@
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\Views\" />
+    <Folder Include="dbo\Functions\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\RifCategory.sql" />
@@ -78,9 +80,6 @@
     <Build Include="dbo\Stored Procedures\usp_CreateProject.sql" />
     <Build Include="dbo\Stored Procedures\usp_CreateRisk.sql" />
     <Build Include="dbo\Stored Procedures\usp_UpdateRisk.sql" />
-    <Build Include="dbo\Stored Procedures\usp_AddRiskLink.sql" />
-    <Build Include="dbo\Stored Procedures\usp_DeleteLink.sql" />
-    <Build Include="dbo\Stored Procedures\usp_CreateActionForRisk.sql" />
     <Build Include="dbo\Stored Procedures\usp_CreateAssumption.sql" />
     <Build Include="dbo\Tables\Assumption.sql" />
     <Build Include="dbo\Tables\Assumption_Action.sql" />
@@ -89,6 +88,18 @@
     <Build Include="dbo\Tables\AssumptionStatus.sql" />
     <Build Include="dbo\Tables\Issue.sql" />
     <Build Include="dbo\Tables\Dependency.sql" />
+    <Build Include="dbo\Views\CurrentRiskEvaluations.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateAssumption.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CreateIssue.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateIssue.sql" />
+    <Build Include="dbo\Tables\ActionStatus.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetActionsForProject.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CreateAction.sql" />
+    <Build Include="dbo\Views\vw_ActionsForProjects.sql" />
+    <Build Include="dbo\Functions\ufn_GetActionsForProject.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateDependency.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateAction.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CreateDependency.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="ReferenceData.PostDeployment.sql" />
@@ -98,5 +109,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="RaidLog.Db.publish_dev.xml" />
+    <None Include="SyncDbProjectToDevDb.scmp" />
   </ItemGroup>
 </Project>

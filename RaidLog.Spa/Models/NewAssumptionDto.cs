@@ -5,7 +5,6 @@ namespace RaidLog.Models
 {
     public class NewAssumptionDto
     {
-        public int AssumptionNumber { get; set; }
 
         [Required]
         [StringLength(2048)]

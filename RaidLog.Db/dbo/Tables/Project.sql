@@ -1,18 +1,23 @@
 ﻿CREATE TABLE [dbo].[Project] (
-    [Id]            INT           IDENTITY (1, 1) NOT NULL,
+    [Id]                   INT           IDENTITY (1, 1) NOT NULL,
     [Code]                 NVARCHAR (16) NOT NULL,
     [Name]                 NVARCHAR (50) NOT NULL,
-    [NextRiskNumber]       INT           NOT NULL DEFAULT 1,
-    [NextAssumptionNumber] INT           NOT NULL DEFAULT 1,
-    [NextIssueNumber]      INT           NOT NULL DEFAULT 1,
-    [NextDependencyNumber] INT           NOT NULL DEFAULT 1,
-    [NextQueryNumber]      INT           NOT NULL DEFAULT 1,
-    [Version]              TIMESTAMP     NOT NULL,
+    [NextRiskNumber]       INT           CONSTRAINT [DF_Project_NextRiskNumber] DEFAULT ((1)) NOT NULL,
+    [NextAssumptionNumber] INT           CONSTRAINT [DF_Project_NextAssumptionNumber] DEFAULT ((1)) NOT NULL,
+    [NextIssueNumber]      INT           CONSTRAINT [DF_Project_NextIssueNumber] DEFAULT ((1)) NOT NULL,
+    [NextDependencyNumber] INT           CONSTRAINT [DF_Project_NextDependencyNumber] DEFAULT ((1)) NOT NULL,
+    [NextQueryNumber]      INT           CONSTRAINT [DF_Project_NextQueryNumber] DEFAULT ((1)) NOT NULL,
+    [NextActionNumber]     INT           CONSTRAINT [DF_Project_NextActionNumber] DEFAULT ((1)) NOT NULL,
+    [Version]              ROWVERSION    NOT NULL,
     [UpdatedTimestamp]     DATETIME2 (7) NOT NULL,
     [UpdatedBy]            NVARCHAR (50) NOT NULL,
-    [IsActive] BIT NOT NULL DEFAULT 1, 
+    [IsActive]             BIT           CONSTRAINT [DF__Project__IsActiv__239E4DCF] DEFAULT ((1)) NOT NULL,
     CONSTRAINT [PK_Project] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
+
+
 
 
 GO

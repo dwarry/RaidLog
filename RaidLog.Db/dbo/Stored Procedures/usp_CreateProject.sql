@@ -31,7 +31,7 @@ BEGIN
            ,1
            ,1
            ,1
-           ,CURRENT_TIMESTAMP
+           ,SYSDATETIME()
            ,@userName);
 
 

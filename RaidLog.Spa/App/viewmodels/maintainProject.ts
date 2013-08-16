@@ -17,7 +17,7 @@ class MaintainProject {
     title = "";
     validation = ko.validatedObservable({});
 
-    constructor(project?: dataService.Project) {
+    constructor(project?: dataService.ProjectDto) {
         if (project) {
             this.title = "Edit Project";
             this.projectId = project.id;
@@ -43,7 +43,7 @@ class MaintainProject {
     }
 
     cancel() {
-        dialog.close(this,false);   
+        dialog.close(this,false);    
     }
 
     save() {

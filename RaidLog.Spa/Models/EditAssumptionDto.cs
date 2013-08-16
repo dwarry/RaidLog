@@ -5,11 +5,13 @@ namespace RaidLog.Models
 {
     public class EditAssumptionDto
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         [Required]
         [StringLength(12,MinimumLength = 12)]
-        public string VersionNumber { get; set; }
+        public string Version { get; set; }
+
+        public int ProjectId { get; set; }
 
         [Required]
         [StringLength(2048)]

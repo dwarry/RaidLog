@@ -1,26 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Net;
 using System.Web.Http;
 
-using RaidLog.Models;
+using Dapper;
 
-namespace RaidLog.Controllers
+using RaidLog.Models;
+using RaidLog.Queries;
+
+namespace RaidLog.Spa.Controllers
 {
     [Authorize]
-    public class AssumptionsController
+    public class AssumptionsController : RaidLogApiController
     {
-        private readonly IDbConnection _connection;
 
-        public AssumptionsController(IDbConnection connection)
+        public AssumptionsController(IDbConnection connection) : base(connection)
         {
-            if (connection == null) throw new ArgumentNullException("connection");
-            _connection = connection;
         }
 
-        public IEnumerable<dynamic> GetAssumptionsForProject(int projectId, bool? active )
+        public AssumptionDto[] GetAssumptionsForProject(int projectId)
         {
-            yield break;
+            _connection.Open();
+
+            try
+            {
+                using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
+                {
+                    var assumptions = _connection.Query<AssumptionDto>(AssumptionsQueries.GetAllAssumptionsForProject,
+                        new
+                        {
+                            projectId
+                        },
+                        tx)
+                        .ToArray();
+
+                    return assumptions;
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
         } 
 
         public AssumptionDto PostNewAssumption(int projectId, NewAssumptionDto newAssumption)
@@ -30,7 +53,28 @@ namespace RaidLog.Controllers
             {
                 using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    return new AssumptionDto();
+                    CheckProjectIsActive(tx, projectId);
+
+                    var args = new DynamicParameters( new {
+                        projectId = projectId,
+                        description = newAssumption.Description,
+                        workstream = newAssumption.Workstream,
+                        owner = newAssumption.Owner,
+                        validatedBy = newAssumption.ValidatedBy,
+                        statusId = newAssumption.StatusId,
+                        supportingDocumentation = newAssumption.SupportingDocumentation
+                    });
+
+
+                    var result =  _connection.Query<AssumptionDto>(AssumptionsQueries.InsertAssumption,
+                        args,
+                        tx,
+                        commandType: CommandType.StoredProcedure)
+                        .FirstOrDefault();
+
+                    tx.Commit();
+
+                    return result;
                 }
             }
             finally
@@ -39,14 +83,36 @@ namespace RaidLog.Controllers
             } 
         }
 
-        public AssumptionDto PutAssumption(int assumptionId, EditAssumptionDto editAssumption)
+        public AssumptionDto PutAssumption(int id, EditAssumptionDto editAssumption)
         {
             _connection.Open();
             try
             {
                 using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
-                    return new AssumptionDto();
+                    CheckProjectIsActive(tx, editAssumption.ProjectId);
+
+                    var args = new
+                    {
+                        id = id,
+                        version = Convert.FromBase64String(editAssumption.Version),
+                        description = editAssumption.Description,
+                        workstream = editAssumption.Workstream,
+                        owner = editAssumption.Owner,
+                        validatedBy = editAssumption.ValidatedBy,
+                        statusId = editAssumption.StatusId,
+                        supportingDocumentation = editAssumption.SupportingDocumentation
+
+                    };
+
+                    var result =  _connection.Query<AssumptionDto>(AssumptionsQueries.UpdateAssumption,
+                        args,
+                        tx,
+                        commandType:CommandType.StoredProcedure).FirstOrDefault();
+
+                    tx.Commit();
+
+                    return result;
                 }
             }
             finally

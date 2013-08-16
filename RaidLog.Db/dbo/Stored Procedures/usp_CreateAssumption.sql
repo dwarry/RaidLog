@@ -5,8 +5,7 @@
     @owner nvarchar(50),
     @validatedBy nvarchar(50),
     @statusId int,
-    @supportingDocumentation nvarchar(512),
-    @assumptionId int out
+    @supportingDocumentation nvarchar(512)
 AS
 BEGIN
 
@@ -46,7 +45,7 @@ BEGIN
     
 
     IF @@ROWCOUNT = 0
-        RETURN 1;
+        throw 50001, 'Could not get Assumption Number',4;
     
     SELECT @assumptionNumber = assumptionNo
     FROM @assumptionNumbers;	
@@ -76,10 +75,6 @@ BEGIN
            ,CURRENT_USER
            ,SYSDATETIME())
 
-    SET @assumptionId = SCOPE_IDENTITY();
-
     COMMIT TRANSACTION;
 
-    RETURN 0
-
-END
+end;

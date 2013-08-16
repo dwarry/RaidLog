@@ -5,20 +5,21 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+
 using Dapper;
+
+using RaidLog.Controllers;
 using RaidLog.Models;
 using RaidLog.Queries;
 
-namespace RaidLog.Controllers
+namespace RaidLog.Spa.Controllers
 {
     [Authorize]
-    public class RisksController : ApiController
+    public class RisksController : RaidLogApiController
     {
-        private readonly IDbConnection _connection;
 
-        public RisksController(IDbConnection connection)
+        public RisksController(IDbConnection connection):base(connection)
         {
-            _connection = connection;
         }
 
         private RiskDto RetrieveRisk(int id, IDbTransaction tx= null)
@@ -55,25 +56,14 @@ namespace RaidLog.Controllers
         }
 
         // /api/risks/?projectId={projectId}[&active=true]
-        public IEnumerable<RiskDto> GetRisksForProject(int projectId, bool? active)
+        public IEnumerable<RiskDto> GetRisksForProject(int projectId)
         {
          
             _connection.Open();
             try
             {
-                string q;
-
-                if (active.HasValue)
-                {
-                    q = active.Value
-                            ? RiskQueries.ActiveRisksForProject
-                            : RiskQueries.ClosedRisksForProject;
-                }
-                else
-                {
-                    q = RiskQueries.AllRisksForProject;
-                }
-
+                string q = RiskQueries.ActiveRisksForProject;
+             
                 return _connection.Query<RiskDto>(q, new{id=projectId});
             }
             finally
@@ -92,6 +82,8 @@ namespace RaidLog.Controllers
                     int newId = 0;
                     using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                     {
+                        CheckProjectIsActive(tx, projectId);
+                        
                         var args = new DynamicParameters(
                             new
                                 {
@@ -162,6 +154,9 @@ namespace RaidLog.Controllers
 
                     using (var tx = _connection.BeginTransaction(IsolationLevel.ReadCommitted))
                     {
+                        //TODO: add fields to enable this check.
+                        //  CheckProjectIsActive(tx, risk.ProjectId);
+                        
                         var args = new DynamicParameters(new
                             {
                                 riskId = risk.Id,
@@ -188,8 +183,10 @@ namespace RaidLog.Controllers
                                                 tx,
                                                 commandType: CommandType.StoredProcedure);
 
+                        result = args.Get<int>("returnValue");
                         tx.Commit();
                     }
+
                     if (result == 0)
                     {
                         RiskDto dto = null;

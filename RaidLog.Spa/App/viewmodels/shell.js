@@ -1,6 +1,12 @@
-﻿define(["require", "exports", "plugins/router", "knockout"], function(require, exports, __router__, __ko__) {
+﻿/// <reference path="../../Scripts/typings/requirejs/require.d.ts" />
+/// <reference path="../../Scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="../../Scripts/typings/knockout/knockout.amd.d.ts" />
+/// <reference path="../../Scripts/typings/durandal/durandal.d.ts" />
+define(["require", "exports", "plugins/router", "knockout", "services/routeFactory"], function(require, exports, __router__, __ko__, __routeFactory__) {
     var router = __router__;
     var ko = __ko__;
+    var routeFactory = __routeFactory__;
+    
 
     var shell = {
         router: router,
@@ -15,13 +21,7 @@
             }
         },
         activate: function () {
-            router.map([
-                { route: '', title: 'Projects', moduleId: 'viewmodels/projectList', nav: true }
-            ]);
-
-            router.buildNavigationModel();
-
-            return router.activate('');
+            return routeFactory.initializeRouter();
         }
     };
 

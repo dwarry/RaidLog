@@ -14,8 +14,11 @@ export interface PagedGridColumns {
     rowText: any;
 }
 
-interface KnockoutBindingHandlers {
-    pagedGrid: KnockoutBindingHandler;
+// Hmmm. Still need to work out how to do this 'properly'...
+module Knockout {
+    interface KnockoutBindingHandlers {
+        pagedGrid: KnockoutBindingHandler;
+    }
 }
 
 var templateEngine = new ko.nativeTemplateEngine();
@@ -30,8 +33,8 @@ ko.bindingHandlers['pagedGrid'] = {
 
             
             // Allow the default templates to be overridden
-            var gridTemplate = allBindings.gridTemplateName || "ko_simpleGrid_grid",
-                pageLinksTemplate = allBindings.pagerTemplateName || "ko_simpleGrid_pageLinks";
+            var gridTemplate = allBindings.pagedGridTemplate || "ko_simpleGrid_grid",
+                pageLinksTemplate = allBindings.pagedGridPagerTemplate || "ko_simpleGrid_pageLinks";
 
             // Empty the element
             while (element.firstChild)
@@ -59,6 +62,8 @@ function getColumnsForScaffolding(data): PagedGridColumns[] {
     return columns;
 }
 
+
+
 export class ListViewModel<T>{
     
     
@@ -78,7 +83,7 @@ export class ListViewModel<T>{
 
     searchField = ko.observable<string>("");
 
-    searchPredicate: (string, t: T) => boolean = null;
+    public searchPredicate: (string, T) => boolean = null;
 
     filteredData: KnockoutComputed<T[]>;
 
@@ -92,11 +97,11 @@ export class ListViewModel<T>{
             var sf = this.searchField().trim();
 
             if (!this.searchPredicate || sf.length === 0) {
-                return ko.utils.unwrapObservable(this.allData);
+                return ko.unwrap(this.allData);
             }
 
             var result = ko.utils.arrayFilter(
-                ko.utils.unwrapObservable(this.allData),
+                ko.unwrap(this.allData),
                 x => this.searchPredicate(sf, x));
 
             return result;
@@ -111,7 +116,7 @@ export class ListViewModel<T>{
             return Math.ceil(this.filteredData().length / this.pageSize) - 1;
         }, this);
 
-        this.columns = config.columns || getColumnsForScaffolding(ko.utils.unwrapObservable(this.allData));
+        this.columns = config.columns || getColumnsForScaffolding(ko.unwrap(this.allData));
 
         this.setSelected = (item: T) => {
             if (this.selected() === item) {
@@ -120,6 +125,8 @@ export class ListViewModel<T>{
             else {
                 this.selected(item);
             }
+
+            return true;
         };
 
     }

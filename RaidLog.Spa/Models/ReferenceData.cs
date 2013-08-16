@@ -11,13 +11,15 @@ namespace RaidLog.Models
             IEnumerable<ImpactDto> impacts, 
             IEnumerable<LikelihoodDto> likelihoods, 
             IEnumerable<RifCategoryDto> rifCategories,
-            IEnumerable<AssumptionStatusDto> assumptionStatuses )
+            IEnumerable<AssumptionStatusDto> assumptionStatuses,
+            IEnumerable<ActionStatusDto> actionStatuses )
         {
             Approaches = approaches.ToArray();
             Impacts = impacts.ToArray();
             Likelihoods = likelihoods.ToArray();
             RifCategories = rifCategories.ToArray();
             AssumptionStatuses = assumptionStatuses.ToArray();
+            ActionStatuses = actionStatuses.ToArray();
         }
 
         public ApproachDto[] Approaches { get; private set; }
@@ -29,6 +31,15 @@ namespace RaidLog.Models
         public RifCategoryDto[] RifCategories { get; private set; }
 
         public AssumptionStatusDto[] AssumptionStatuses { get; private set; }
+
+        public ActionStatusDto[] ActionStatuses { get; private set; }
+    }
+
+    public class ActionStatusDto
+    {
+        public int Id { get; private set; }
+        public string Description { get; private set; }
+        public bool IsFinalState { get; private set; }
     }
 
     public class AssumptionStatusDto

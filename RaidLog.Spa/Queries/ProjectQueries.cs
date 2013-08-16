@@ -1,6 +1,6 @@
 ﻿namespace RaidLog.Queries
 {
-    public static class ProjectQueries
+    internal static class ProjectQueries
     {
         public const string GetAllActiveProjects = @"
 select 
@@ -25,12 +25,44 @@ with re as
 	  from [dbo].[RiskEvaluation]
 )
     select r.[ProjectId]
-         , re.[RiskId]
+         , re.[RiskId] as RiskId
          , re.[IsActive] as IsActive
       from [dbo].[Risk] r 
  left join re on r.[Id] = re.[RiskId]
      where r.[ProjectId] in (select [Id] from [dbo].[Project] p where p.[IsActive] = 1) 
        and rn=1;";
+
+        public const string GetAllProjectsAndAssumptions = @"
+     select  a.[ProjectId]
+          ,  a.Id as AssumptionId
+          ,  ~sts.[IsFinalState] as IsActive
+       from  [dbo].[Assumption] a 
+  left join  [dbo].[AssumptionStatus] sts 
+         on  sts.[Id] = a.[AssumptionStatusId]
+      where  a.[ProjectId] in (select [Id] from [dbo].[Project] p where p.[IsActive] = 1);
+";
+
+        public const string GetAllProjectsAndIssues = @"
+     select  i.[ProjectId]
+          ,  i.[Id] as IssueId
+          ,  cast(case when (i.[ResolvedDate] is null) then 1 else 0 end as bit) as [IsActive]  
+       from  [dbo].[Issue] i
+      where  i.[ProjectId] in (select [Id] from [dbo].[Project] p where p.[IsActive] = 1);
+";
+
+        public const string GetAllProjectsAndDependencies = @"
+     select  d.[ProjectId]
+          ,  d.[Id] as DependencyId
+          ,  cast(case when (d.Status = 'Fulfilled') then 0 else 1 end as bit) as [IsActive]
+       from  [dbo].[Dependency] d
+      where  d.[ProjectId] in (select [Id] from [dbo].[Project] p where p.[IsActive] = 1);
+";
+
+
+        public const string GetAllProjectsAndActions = @"
+    select ProjectId, ActionId, IsActive 
+      from [dbo].[vw_ActionsForProjects]
+";
 
         public const string GetProjectDetails = @"
     Select [Id]
@@ -38,7 +70,7 @@ with re as
          , [Code]
          , [Name] 
       from [dbo].[Project] 
-     where [Id] = @id
+     where [Id] = @id;
 ";
 
         public const string InsertProject = @"
@@ -70,6 +102,12 @@ UPDATE [dbo].[Project]
 UPDATE [dbo].[Project]
    SET [IsActive] = 0
  WHERE [Id] = @id;
+";
+
+        public const string ActiveProjectCheck = @"
+SELECT TOP 1 Id from [dbo].[Project] 
+ WHERE Id = @id
+   AND IsActive = 1
 ";
     }
 }
