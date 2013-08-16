@@ -298,6 +298,14 @@
       <DependentUpon>projectList.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="App\viewmodels\projectList.ts" />
+    <TypeScriptCompile Include="App\viewmodels\queryDetails.ts" />
+    <TypeScriptCompile Include="App\viewmodels\queryList.ts" />
+    <Content Include="App\viewmodels\queryDetails.min.js">
+      <DependentUpon>queryDetails.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\queryList.min.js">
+      <DependentUpon>queryList.ts</DependentUpon>
+    </Content>
     <Content Include="App\viewmodels\riskDetails.js">
       <DependentUpon>riskDetails.ts</DependentUpon>
     </Content>
