@@ -1,44 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web;
 
-namespace RaidLog.Models
+namespace RaidLog.Spa.Models
 {
-    /*
-     USE [RaidLog_dev]
-GO
-
-SELECT [Id]
-      ,[Version]
-      ,[ProjectId]
-      ,[QueryNumber]
-      ,[Workstream]
-      ,[DeliverableImpacted]
-      ,[Urgency]
-      ,[Description]
-      ,[RaisedBy]
-      ,[RaisedTo]
-      ,[RaisedDate]
-      ,[Answer]
-      ,[AnsweredBy]
-      ,[AnsweredDate]
-      ,[ConfirmedInDocuments]
-      ,[UpdatedBy]
-      ,[UpdatedTimestamp]
-  FROM [dbo].[Query]
-GO
-
-
-     */
-    public class QueryDto
+    public class EditQueryDto
     {
         public int Id { get; set; }
 
         public int VersionNumber { get; set; }
-
-        public int ProjectId { get; set; }
-
-        public int QueryNumber { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -79,9 +51,5 @@ GO
         [Required]
         [StringLength(256)]
         public string ConfirmedInDocuments { get; set; }
-
-        public string UpdatedBy { get; set; }
-
-        public DateTime UpdateTimestamp { get; set; }
     }
 }

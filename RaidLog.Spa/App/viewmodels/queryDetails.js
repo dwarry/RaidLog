@@ -22,14 +22,19 @@ define(["require", "exports", 'plugins/dialog', 'plugins/router', "services/data
             this.workstream = ko.observable().extend({ required: true, maxLength: 50 });
             this.deliverableImpacted = ko.observable().extend({ required: true, maxLength: 50 });
             this.urgency = ko.observable().extend({ required: true, maxLength: 10 });
+            this.urgencies = _urgencies;
             this.description = ko.observable().extend({ required: true, maxLength: 2048 });
             this.raisedBy = ko.observable().extend({ required: true, maxLength: 50 });
             this.raisedTo = ko.observable().extend({ required: true, maxLength: 50 });
             this.raisedDate = ko.observable().extend({ required: true, dateISO: true });
             this.requiredByDate = ko.observable().extend({ required: true, dateISO: true });
             this.answer = ko.observable().extend({ maxLength: 1024 });
-            this.answeredBy = ko.observable().extend({ required: true, maxLength: 50 });
-            this.answeredDate = ko.observable().extend({ dateISO: true });
+            this.answeredBy = ko.observable().extend({ required: { onlyIf: function () {
+                        return (_this.answer() !== null && _this.answer() !== "");
+                    } }, maxLength: 50 });
+            this.answeredDate = ko.observable().extend({ dateISO: true, required: { onlyIf: function () {
+                        return (_this.answer() !== null && _this.answer() !== "");
+                    } } });
             this.confirmedInDocuments = ko.observable().extend({ required: true, maxLength: 256 });
             this.canSave = ko.computed(function () {
                 return _this.validation.isValid();

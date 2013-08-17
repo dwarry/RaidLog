@@ -25,6 +25,8 @@ class QueryDetails {
 
     urgency: KnockoutObservable<string> = ko.observable().extend({ required: true, maxLength: 10 });
 
+    urgencies = _urgencies;
+
     description: KnockoutObservable<string> = ko.observable().extend({ required: true, maxLength: 2048 });
 
     raisedBy: KnockoutObservable<string> = ko.observable().extend({ required: true, maxLength: 50 });
@@ -37,9 +39,9 @@ class QueryDetails {
 
     answer: KnockoutObservable<string> = ko.observable().extend({ maxLength: 1024 });
 
-    answeredBy: KnockoutObservable<string> = ko.observable().extend({ required: true, maxLength: 50 });
+    answeredBy: KnockoutObservable<string> = ko.observable().extend({ required: { onlyIf: ()=>(this.answer() !== null && this.answer() !== "")}, maxLength: 50 });
 
-    answeredDate: KnockoutObservable<string> = ko.observable().extend({ dateISO:true });
+    answeredDate: KnockoutObservable<string> = ko.observable().extend({ dateISO: true, required: { onlyIf: () => (this.answer() !== null && this.answer() !== "") } });
 
     confirmedInDocuments: KnockoutObservable<string> = ko.observable().extend({ required: true, maxLength: 256 });
 

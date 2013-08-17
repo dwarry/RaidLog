@@ -62,8 +62,8 @@ with re as
      select  q.[ProjectId]
           ,  q.[Id] as QueryId
           ,  cast(case when (q.AnsweredDate is null) then 1 else 0 end as bit) as [IsActive]
-       from  [dbo].[Dependency] d
-      where  d.[ProjectId] in (select [Id] from [dbo].[Project] p where p.[IsActive] = 1);
+       from  [dbo].[Query] q
+      where  q.[ProjectId] in (select [Id] from [dbo].[Project] p where p.[IsActive] = 1);
 ";
 
 
