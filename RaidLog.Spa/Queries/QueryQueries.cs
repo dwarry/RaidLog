@@ -28,5 +28,10 @@ SELECT [Id]
   FROM [dbo].[Query]
  WHERE [ProjectId] = @projectId
 ";
+
+        public const string CreateQuery = "usp_CreateQuery";
+
+        public const string UpdateQuery = "usp_UpdateQuery";
+
     }
 }

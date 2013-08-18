@@ -2,34 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace RaidLog.Models
+namespace RaidLog.Spa.Models
 {
-    /*
-     USE [RaidLog_dev]
-GO
-
-SELECT [Id]
-      ,[Version]
-      ,[ProjectId]
-      ,[QueryNumber]
-      ,[Workstream]
-      ,[DeliverableImpacted]
-      ,[Urgency]
-      ,[Description]
-      ,[RaisedBy]
-      ,[RaisedTo]
-      ,[RaisedDate]
-      ,[Answer]
-      ,[AnsweredBy]
-      ,[AnsweredDate]
-      ,[ConfirmedInDocuments]
-      ,[UpdatedBy]
-      ,[UpdatedTimestamp]
-  FROM [dbo].[Query]
-GO
-
-
-     */
+    
     public class QueryDto
     {
         public int Id { get; set; }
