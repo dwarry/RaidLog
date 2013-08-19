@@ -1,0 +1,136 @@
+﻿<section>
+    <div class="controls-row">
+        <!-- Workstream -->
+        <div class="control-group span4" data-bind="css: { error: !workstream.isValid() }">
+            <label class="control-label" for="workstream">Workstream</label>
+            <div class="controls">
+                <input id="workstream" name="workstream" type="text" placeholder="e.g. Development" class="input-large" 
+                       data-bind="value: workstream">
+    
+            </div>
+        </div>
+        
+        <!-- Deliverable Impacted -->
+        <div class="control-group span4" data-bind="css: { error: !deliverableImpacted.isValid() }">
+            <label class="control-label" for="deliverableImpacted">Deliverable Impacted</label>
+            <div class="controls">
+                <input type="text" name="deliverableImpacted" id="deliverableImpacted" placeholder="deliverable" data-bind="value:deliverableImpacted"/>
+            </div>
+        </div>
+        
+        <!-- Urgency -->
+        <div class="control-group span4" data-bind="css: { error: !urgency.isValid() }">
+            <label class="control-label" for="urgency">Urgency</label>
+            <select name="urgency" id="urgency" data-bind="value:urgency,options:urgencies"></select>
+        </div>
+
+    </div>
+
+    <!-- Description -->
+    <div class="control-group" data-bind="css: { error: !description.isValid() }">
+        <label class="control-label" for="description">Description</label>
+        <div class="controls">                     
+            <textarea id="description" class="input-block-level" rows="4" name="description" data-bind="value   : description"></textarea>
+        </div>
+    </div>
+    
+    <div class="controls-row">
+        <!-- RaisedBy -->
+        <div class="control-group span4" data-bind="css: { error: !raisedBy.isValid() }">
+            <label class="control-label" for="raisedBy">Raised By</label>
+            <div class="controls">
+                <input id="raisedBy" name="raisedBy" type="text" placeholder="A User" class="input-large"
+                       data-bind="value: raisedBy,enable:isNew()">
+    
+            </div>
+        </div>
+        
+        <!-- RaisedTo -->
+        <div class="control-group span4" data-bind="css: { error: !raisedTo.isValid() }">
+            <label class="control-label" for="raisedTo">Raised To</label>
+            <div class="controls">
+                <input id="Text1" name="raisedTo" type="text" placeholder="A User" class="input-large" 
+                       data-bind="value: raisedTo">
+    
+            </div>
+        </div>
+        
+        <!-- RaisedDate -->
+        <div class="control-group span4" data-bind="css: { error: !raisedDate.isValid() }">
+            <label class="control-label" for="raisedDate">Raised Date</label>
+            <div class="controls">
+                <input id="Text2" name="raisedDate" type="text" placeholder="YYYY-MM-DD" class="input-small" 
+                       data-bind="value: raisedDate,enable:isNew()">
+    
+            </div>
+        </div>
+    </div>
+
+    <div data-bind="visible:!isNew()">
+        
+        <div class="controls-row">
+            
+            <!-- AnsweredBy -->
+            <div class="control-group span4" data-bind="css: { error: !answeredBy.isValid() }">
+                <label class="control-label" for="answeredBy">Answered By</label>
+                <div class="controls">
+                    <input id="answeredBy" name="answeredBy" type="text" placeholder="A User" class="input-large"
+                           data-bind="value: answeredBy">
+    
+                </div>
+            </div>
+        
+            <!-- AnsweredDate -->
+            <div class="control-group span4" data-bind="css: { error: !answeredDate.isValid() }">
+                <label class="control-label" for="answeredDate">AnsweredDate</label>
+                <div class="controls">
+                    <input id="answeredDate" name="answeredDate" type="text" placeholder="YYYY-MM-DD" class="input-small"
+                           data-bind="value: answeredDate">
+    
+                </div>
+            </div>
+        
+
+        </div>
+        
+        <!-- Answer -->
+        <div class="control-group" data-bind="css: { error: !answer.isValid() }">
+            <label class="control-label" for="answer">Answer</label>
+            <div class="controls">                     
+                <textarea id="answer" class="input-block-level" rows="4" name="answer" data-bind="value: answer"></textarea>
+            </div>
+        </div>
+        
+        <!-- Description -->
+        <div class="control-group" data-bind="css: { error: !confirmedInDocuments.isValid() }">
+            <label class="control-label" for="confirmedInDocuments">Confirmed In Documents</label>
+            <div class="controls">                     
+                <textarea id="confirmedInDocuments" class="input-block-level" rows="4" name="confirmedInDocuments" data-bind="value: confirmedInDocuments"></textarea>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Buttons -->
+    <div class="control-group">
+        <label class="control-label" for="saveButton"></label>
+        <div class="controls">
+            <button id="saveButton" name="saveButton" 
+                    data-bind="enable: validation.isValid, click: save"    
+                    class="btn btn-primary">
+                <i class="icon-save" />
+                Save
+            </button>
+            
+            <button id="showActions" id="showActionsButton" data-bind="visible: !isNew(), click: showActions" >
+                <i class="icon-list"></i>
+                Actions
+            </button>
+            
+            <button id="addAction" data-bind="visible: !isNew(), click: addAction">
+                <i class="icon-plus-sign"></i>
+                Add Action
+            </button>
+        </div>
+    </div>    
+</section>

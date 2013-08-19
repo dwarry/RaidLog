@@ -1,1 +1,37 @@
-﻿<p>Assumptions</p>
+﻿<section><h1><span data-bind="text: projectCode"></span>: <span data-bind="    text: projectName"></span> Queries</h1>
+    <div class="row-fluid">
+        <div class="span6">
+            <div class="btn-group">
+                <button class="btn" data-bind="click: newQuery"><i class="icon-plus-sign icon-white"></i> Add New Query</button>
+                <button class="btn" data-bind="click: refresh"><i class="icon-refresh icon-white"></i> Refresh</button>
+            </div>
+            <div id="issueListContainer" data-bind="pagedGrid: listViewModel, pagedGridTemplate: 'queryListTemplate'">
+            </div>
+            <h2 data-bind="visible: listViewModel.filteredData().length == 0" class="alert alert-info">No Queries</h2>
+    
+        </div>
+        <div class='span6 well' data-bind='compose: listViewModel.selected'>
+        </div>
+    </div>
+
+    <script id="queryListTemplate" type="text/html">
+        <table class='table table-bordered table-condensed table-striped'>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Description</th>
+                    <th>Urgency</th>
+                    <th class="dateCol">Answered</th>
+                </tr>
+            </thead>
+            <tbody data-bind='foreach: itemsOnCurrentPage'>
+                <tr data-bind='click: $parent.setSelected, css: { selected: $data === $parent.selected() }'>
+                    <td data-bind='text: queryNumber'></td>
+                    <td data-bind='text: description'></td>
+                    <td data-bind="text: urgency"></td>
+                    <td data-bind='text: answeredDate'></td>
+                </tr>
+            </tbody>
+        </table>
+    </script>
+</section>

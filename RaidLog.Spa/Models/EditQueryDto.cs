@@ -1,19 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web;
 
 namespace RaidLog.Spa.Models
 {
-    
-    public class QueryDto
+    public class EditQueryDto
     {
         public int Id { get; set; }
 
-        public byte[] Version { get; set; }
-
-        public int ProjectId { get; set; }
-
-        public int QueryNumber { get; set; }
+        public string Version { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -33,30 +30,17 @@ namespace RaidLog.Spa.Models
 
         [Required]
         [StringLength(50)]
-        public string RaisedBy { get; set; }
-
-        [Required]
-        [StringLength(50)]
         public string RaisedTo { get; set; }
 
-        public DateTime RaisedDate { get; set; }
-
-        [Required]
         [StringLength(1024)]
         public string Answer { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string AnsweredBy { get; set; }
 
         public DateTime? AnsweredDate { get; set; }
 
-        [Required]
         [StringLength(256)]
         public string ConfirmedInDocuments { get; set; }
-
-        public string UpdatedBy { get; set; }
-
-        public DateTime UpdateTimestamp { get; set; }
     }
 }

@@ -203,14 +203,62 @@
     }
     exports.makeEditActionDto = makeEditActionDto;
 
-    function makeNewQueryDto() {
+    function makeQueryDto(projectId) {
+        if (typeof projectId === "undefined") { projectId = 0; }
         return {
             id: null,
             version: null,
-            queryNumber: null
+            projectId: projectId,
+            queryNumber: null,
+            workstream: null,
+            deliverableImpacted: null,
+            urgency: null,
+            description: null,
+            raisedBy: null,
+            raisedTo: null,
+            raisedDate: null,
+            answer: null,
+            answeredBy: null,
+            answeredDate: null,
+            confirmedInDocuments: null,
+            updatedBy: null,
+            updatedTimestamp: null
+        };
+    }
+    exports.makeQueryDto = makeQueryDto;
+
+    function makeNewQueryDto(projectId) {
+        if (typeof projectId === "undefined") { projectId = 0; }
+        return {
+            projectId: projectId,
+            workstream: "",
+            deliverableImpacted: "",
+            urgency: "",
+            description: "",
+            raisedBy: "",
+            raisedTo: "",
+            raisedDate: ""
         };
     }
     exports.makeNewQueryDto = makeNewQueryDto;
+
+    function makeEditQueryDto() {
+        return {
+            id: 0,
+            version: "",
+            workstream: "",
+            deliverableImpacted: "",
+            urgency: "",
+            description: "",
+            raisedTo: "",
+            answer: "",
+            answeredBy: "",
+            answeredDate: "",
+            confirmedInDocuments: ""
+        };
+    }
+    exports.makeEditQueryDto = makeEditQueryDto;
+    ;
 
     var referenceData;
 
@@ -426,6 +474,25 @@
         });
     }
     exports.saveDependency = saveDependency;
+
+    function saveQuery(dto) {
+        var options = { data: dto };
+        if ('id' in dto) {
+            options.url = "/api/queries/" + dto["id"];
+            options.type = "PUT";
+        } else {
+            options.url = "/api/project/" + dto["projectId"] + "/queries";
+            options.type = "POST";
+        }
+
+        return $.ajax(options).done(function (data) {
+            logger.logSuccess("Saved Query", data, MODULE_NAME, true);
+        }).fail(function (jqxhr, status, ex) {
+            logger.logError(status + " " + jqxhr.responseText, dto, MODULE_NAME, false);
+            logger.logError("Error saving the Query", jqxhr, MODULE_NAME, true);
+        });
+    }
+    exports.saveQuery = saveQuery;
 
     function saveAction(dto) {
         var options = { data: dto };
