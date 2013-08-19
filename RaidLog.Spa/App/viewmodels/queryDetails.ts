@@ -35,15 +35,13 @@ class QueryDetails {
 
     raisedDate: KnockoutObservable<string> = ko.observable().extend({ required: true, dateISO: true });
 
-    requiredByDate: KnockoutObservable<string> = ko.observable().extend({ required: true, dateISO: true });
-
     answer: KnockoutObservable<string> = ko.observable().extend({ maxLength: 1024 });
 
     answeredBy: KnockoutObservable<string> = ko.observable().extend({ required: { onlyIf: ()=>(this.answer() !== null && this.answer() !== "")}, maxLength: 50 });
 
     answeredDate: KnockoutObservable<string> = ko.observable().extend({ dateISO: true, required: { onlyIf: () => (this.answer() !== null && this.answer() !== "") } });
 
-    confirmedInDocuments: KnockoutObservable<string> = ko.observable().extend({ required: true, maxLength: 256 });
+    confirmedInDocuments: KnockoutObservable<string> = ko.observable().extend({ required: { onlyIf: () => (this.answer() !== null && this.answer() !== "") }, maxLength: 256 });
 
     validation: KnockoutValidatedObservable;
 
@@ -55,20 +53,29 @@ class QueryDetails {
         dto: ds.QueryDto,
         private _newItemCallback: (dep: QueryDetails) => void) {
 
-        this.validation = ko.validatedObservable([
-            this.workstream,
-            this.deliverableImpacted,
-            this.urgency,
-            this.description,
-            this.raisedBy,
-            this.raisedTo,
-            this.raisedDate,
-            this.requiredByDate,
-            this.answer,
-            this.answeredBy,
-            this.answeredDate,
-            this.confirmedInDocuments
-        ]);
+            if (dto.id) {
+                this.validation = ko.validatedObservable([
+                    this.workstream,
+                    this.deliverableImpacted,
+                    this.urgency,
+                    this.description,
+                    this.raisedTo,
+                    this.answer,
+                    this.answeredBy,
+                    this.answeredDate,
+                    this.confirmedInDocuments
+                ]);
+            } else {
+                this.validation = ko.validatedObservable([
+                    this.workstream,
+                    this.deliverableImpacted,
+                    this.urgency,
+                    this.description,
+                    this.raisedBy,
+                    this.raisedTo,
+                    this.raisedDate
+                ]);
+            }
 
         this.updateFromDto(dto);
     }
@@ -112,6 +119,7 @@ class QueryDetails {
             var editItem = <ds.EditQueryDto>dto;
             editItem.id = this.id();
             editItem.version = this.version;
+            editItem.raisedTo = this.raisedTo();
             editItem.answer = this.answer();
             editItem.answeredBy = this.answeredBy();
             editItem.answeredDate = this.answeredDate();

@@ -15,13 +15,13 @@ namespace RaidLog.Spa.Queries
             {"assumption", GetActionsForAssumption},
             {"issue", GetActionsForIssue},
             {"dependency", GetActionsForDependency},
-            //{"query", GetActionsForQuery},
+            {"query", GetActionsForQuery},
             {"project", GetActionsForProject},
             {"risks", GetActionsForRisk},
             {"assumptions", GetActionsForAssumption},
             {"issues", GetActionsForIssue},
             {"dependencies", GetActionsForDependency},
-            //{"queries", GetActionsForQuery},
+            {"querys", GetActionsForQuery},
             {"projects", GetActionsForProject},
         }; 
 
@@ -114,6 +114,28 @@ ON          a.Id = da.ActionId
 INNER JOIN  Dependency d
 ON          da.DependencyId = d.Id
 WHERE       da.DependencyId = @itemId";
+
+        public const string GetActionsForQuery = @"
+SELECT      a.Id, 
+            a.ActionNumber,
+            'Query' as ParentItemType,
+            da.QueryId  as ParentItemId, 
+            d.QueryNumber as ParentItemNumber,
+            a.Description, 
+            a.Actor, 
+            a.ActionStatusId, 
+            a.DueDate, 
+            a.ResolvedDate, 
+            a.Resolution, 
+            a.Version,  
+            a.UpdatedBy, 
+            a.UpdatedTimestamp
+FROM        Action AS a 
+INNER JOIN  Query_Action AS da 
+ON          a.Id = da.ActionId
+INNER JOIN  Query d
+ON          da.QueryId = d.Id
+WHERE       da.QueryId = @itemId";
 
 
         public const string CreateAction = "usp_CreateAction";

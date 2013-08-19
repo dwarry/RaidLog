@@ -17,8 +17,6 @@ BEGIN
     DECLARE @actionId     int;
     DECLARE @projectId    int;
 
-    BEGIN TRANSACTION
-
     SELECT @isFinalState = [IsFinalState] 
     FROM dbo.ActionStatus sts
     WHERE sts.Id = @actionStatusId;
@@ -34,12 +32,10 @@ BEGIN
         SELECT @projectId = ProjectId
           from [dbo].[Risk]
         WHERE [Id] = @parentItemId;
-
     else if @parentItemType = 'Assumption'
         SELECT @projectId = ProjectId
           from [dbo].[Assumption]
         WHERE [Id] = @parentItemId;
-
     else if @parentItemType = 'Issue'
         SELECT @projectId = ProjectId
           from [dbo].[Issue]
@@ -48,16 +44,15 @@ BEGIN
         SELECT @projectId = ProjectId
           from [dbo].[Dependency]
         WHERE [Id] = @parentItemId;
-
-    --else if @parentItemType = 'Query'
-    --    SELECT @projectId = Id
-    --      from [dbo].[Query]
-    --    WHERE [Id] = @parentItemId;
+    else if @parentItemType = 'Query'
+        SELECT @projectId = Id
+          from [dbo].[Query]
+         WHERE [Id] = @parentItemId;
     else
         throw 50001, 'Unknown Parent Item Type', 2
 
     if @projectId is null
-        throw 50001, 'No such Parent Item',3 
+        throw 50001, 'No such Parent Item:', 3 
 
 
     UPDATE dbo.Project
@@ -122,18 +117,15 @@ BEGIN
              VALUES
                    (@parentItemId
                    ,@actionId)
-    --else if @parentItemType = 'Query'
-    --        INSERT INTO [dbo].[Query_Action]
-    --               ([QueryId]
-    --               ,[ActionId])
-    --         VALUES
-    --               (@parentItemId
-    --               ,@actionId)
+    else if @parentItemType = 'Query'
+            INSERT INTO [dbo].[Query_Action]
+                   ([QueryId]
+                   ,[ActionId])
+             VALUES
+                   (@parentItemId
+                   ,@actionId)
     else
         throw 50001, 'Unknown Parent Item Type', 5
     
-
-
-    COMMIT TRANSACTION;
-
+    
 end;

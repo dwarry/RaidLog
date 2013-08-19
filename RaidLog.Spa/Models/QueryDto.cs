@@ -9,7 +9,7 @@ namespace RaidLog.Spa.Models
     {
         public int Id { get; set; }
 
-        public int VersionNumber { get; set; }
+        public byte[] Version { get; set; }
 
         public int ProjectId { get; set; }
 
@@ -49,7 +49,7 @@ namespace RaidLog.Spa.Models
         [StringLength(50)]
         public string AnsweredBy { get; set; }
 
-        public DateTime AnsweredDate { get; set; }
+        public DateTime? AnsweredDate { get; set; }
 
         [Required]
         [StringLength(256)]

@@ -578,6 +578,7 @@ export function makeNewQueryDto(projectId = 0): NewQueryDto {
 export interface EditQueryDto extends MaintainQueryDto {
     id: number;
     version: string;
+    raisedTo: string;
     answer: string;
     answeredBy: string;
     answeredDate: string;
@@ -592,6 +593,7 @@ export function makeEditQueryDto(): EditQueryDto {
         deliverableImpacted: "",
         urgency: "",
         description: "",
+        raisedTo: "",
         answer: "",
         answeredBy: "",
         answeredDate: "",

@@ -78,7 +78,8 @@ namespace RaidLog.Controllers
                                   newQuery.RaisedTo,
                                   newQuery.RaisedDate,
                             },
-                            tx).FirstOrDefault();
+                            tx,
+                            commandType:CommandType.StoredProcedure).FirstOrDefault();
 
                     tx.Commit();
 
@@ -109,19 +110,20 @@ namespace RaidLog.Controllers
                             QueryQueries.UpdateQuery,
                             new
                             {
-                                editQuery.Id,
-                                editQuery.VersionNumber,
-                                editQuery.Workstream,
-                                editQuery.DeliverableImpacted,
-                                editQuery.Urgency,
-                                editQuery.Description,
-                                editQuery.RaisedTo,
-                                editQuery.Answer,
-                                editQuery.AnsweredBy,
-                                editQuery.AnsweredDate,
-                                editQuery.ConfirmedInDocuments
+                                id = editQuery.Id,
+                                version = Convert.FromBase64String(editQuery.Version),
+                                workstream = editQuery.Workstream,
+                                deliverableImpacted = editQuery.DeliverableImpacted,
+                                urgency = editQuery.Urgency,
+                                description = editQuery.Description,
+                                raisedTo = editQuery.RaisedTo,
+                                answer = editQuery.Answer,
+                                answeredBy = editQuery.AnsweredBy,
+                                answeredDate = editQuery.AnsweredDate,
+                                confirmedInDocuments = editQuery.ConfirmedInDocuments
                             },
-                            tx).FirstOrDefault();
+                            tx,
+                            commandType: CommandType.StoredProcedure).FirstOrDefault();
 
                     tx.Commit();
 

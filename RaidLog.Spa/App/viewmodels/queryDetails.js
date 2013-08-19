@@ -27,7 +27,6 @@ define(["require", "exports", 'plugins/dialog', 'plugins/router', "services/data
             this.raisedBy = ko.observable().extend({ required: true, maxLength: 50 });
             this.raisedTo = ko.observable().extend({ required: true, maxLength: 50 });
             this.raisedDate = ko.observable().extend({ required: true, dateISO: true });
-            this.requiredByDate = ko.observable().extend({ required: true, dateISO: true });
             this.answer = ko.observable().extend({ maxLength: 1024 });
             this.answeredBy = ko.observable().extend({ required: { onlyIf: function () {
                         return (_this.answer() !== null && _this.answer() !== "");
@@ -35,27 +34,38 @@ define(["require", "exports", 'plugins/dialog', 'plugins/router', "services/data
             this.answeredDate = ko.observable().extend({ dateISO: true, required: { onlyIf: function () {
                         return (_this.answer() !== null && _this.answer() !== "");
                     } } });
-            this.confirmedInDocuments = ko.observable().extend({ required: true, maxLength: 256 });
+            this.confirmedInDocuments = ko.observable().extend({ required: { onlyIf: function () {
+                        return (_this.answer() !== null && _this.answer() !== "");
+                    } }, maxLength: 256 });
             this.canSave = ko.computed(function () {
                 return _this.validation.isValid();
             }, this);
             this.isNew = ko.computed(function () {
                 return !_this.id();
             }, this);
-            this.validation = ko.validatedObservable([
-                this.workstream,
-                this.deliverableImpacted,
-                this.urgency,
-                this.description,
-                this.raisedBy,
-                this.raisedTo,
-                this.raisedDate,
-                this.requiredByDate,
-                this.answer,
-                this.answeredBy,
-                this.answeredDate,
-                this.confirmedInDocuments
-            ]);
+            if (dto.id) {
+                this.validation = ko.validatedObservable([
+                    this.workstream,
+                    this.deliverableImpacted,
+                    this.urgency,
+                    this.description,
+                    this.raisedTo,
+                    this.answer,
+                    this.answeredBy,
+                    this.answeredDate,
+                    this.confirmedInDocuments
+                ]);
+            } else {
+                this.validation = ko.validatedObservable([
+                    this.workstream,
+                    this.deliverableImpacted,
+                    this.urgency,
+                    this.description,
+                    this.raisedBy,
+                    this.raisedTo,
+                    this.raisedDate
+                ]);
+            }
 
             this.updateFromDto(dto);
         }
@@ -97,6 +107,7 @@ define(["require", "exports", 'plugins/dialog', 'plugins/router', "services/data
                 var editItem = dto;
                 editItem.id = this.id();
                 editItem.version = this.version;
+                editItem.raisedTo = this.raisedTo();
                 editItem.answer = this.answer();
                 editItem.answeredBy = this.answeredBy();
                 editItem.answeredDate = this.answeredDate();

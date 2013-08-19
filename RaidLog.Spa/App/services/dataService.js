@@ -250,6 +250,7 @@
             deliverableImpacted: "",
             urgency: "",
             description: "",
+            raisedTo: "",
             answer: "",
             answeredBy: "",
             answeredDate: "",
