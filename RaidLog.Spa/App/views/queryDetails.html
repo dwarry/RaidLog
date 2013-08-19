@@ -40,7 +40,7 @@
             <label class="control-label" for="raisedBy">Raised By</label>
             <div class="controls">
                 <input id="raisedBy" name="raisedBy" type="text" placeholder="A User" class="input-large"
-                       data-bind="value: raisedBy">
+                       data-bind="value: raisedBy,enable:isNew()">
     
             </div>
         </div>
@@ -60,7 +60,7 @@
             <label class="control-label" for="raisedDate">Raised Date</label>
             <div class="controls">
                 <input id="Text2" name="raisedDate" type="text" placeholder="YYYY-MM-DD" class="input-small" 
-                       data-bind="value: raisedDate">
+                       data-bind="value: raisedDate,enable:isNew()">
     
             </div>
         </div>
