@@ -104,6 +104,7 @@
     <Build Include="dbo\Tables\DesignDecision.sql" />
     <Build Include="dbo\Stored Procedures\usp_UpdateQuery.sql" />
     <Build Include="dbo\Stored Procedures\usp_CreateQuery.sql" />
+    <Build Include="dbo\Tables\Query_Action.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="ReferenceData.PostDeployment.sql" />
