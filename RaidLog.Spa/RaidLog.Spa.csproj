@@ -160,6 +160,7 @@
     <Compile Include="Controllers\RaidLogApiController.cs" />
     <Compile Include="Controllers\RisksController.cs" />
     <Compile Include="Models\ActionDto.cs" />
+    <Compile Include="Models\EditQueryDto.cs" />
     <Compile Include="Models\NewDependencyDto.cs" />
     <Compile Include="Models\AssumptionDto.cs" />
     <Compile Include="Models\DeleteProject.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Models\NewAssumptionDto.cs" />
     <Compile Include="Models\NewIssueDto.cs" />
     <Compile Include="Models\NewProject.cs" />
+    <Compile Include="Models\NewQueryDto.cs" />
     <Compile Include="Models\NewRiskDto.cs" />
     <Compile Include="Models\ProjectDetails.cs" />
     <Compile Include="Models\ProjectSummaryWithCounts.cs" />
@@ -190,6 +192,7 @@
     <Compile Include="Queries\DependencyQueries.cs" />
     <Compile Include="Queries\IssueQueries.cs" />
     <Compile Include="Queries\ProjectQueries.cs" />
+    <Compile Include="Queries\QueryQueries.cs" />
     <Compile Include="Queries\ReferenceDataQueries.cs" />
     <Compile Include="Queries\RiskQueries.cs" />
     <Compile Include="SqlMapper.cs" />
@@ -298,6 +301,14 @@
       <DependentUpon>projectList.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="App\viewmodels\projectList.ts" />
+    <TypeScriptCompile Include="App\viewmodels\queryDetails.ts" />
+    <TypeScriptCompile Include="App\viewmodels\queryList.ts" />
+    <Content Include="App\viewmodels\queryDetails.min.js">
+      <DependentUpon>queryDetails.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\queryList.min.js">
+      <DependentUpon>queryList.ts</DependentUpon>
+    </Content>
     <Content Include="App\viewmodels\riskDetails.js">
       <DependentUpon>riskDetails.ts</DependentUpon>
     </Content>
@@ -329,6 +340,8 @@
     <Content Include="App\views\issueList.html" />
     <Content Include="App\views\maintainProject.html" />
     <Content Include="App\views\projectList.html" />
+    <Content Include="App\views\queryDetails.html" />
+    <Content Include="App\views\queryList.html" />
     <Content Include="App\views\riskList.html" />
     <Content Include="App\views\shell.html" />
     <Content Include="App\widgets\BootstrapFormFieldSettings.js" />

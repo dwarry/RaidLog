@@ -506,20 +506,100 @@ export function makeEditActionDto() {
 
 export interface QueryDto{
     id: number;
-
     version: string;
-
+    projectId: number;
     queryNumber: number;
+    workstream: string;
+    deliverableImpacted: string;
+    urgency: string;
+    description: string;
+    raisedBy: string;
+    raisedTo: string;
+    raisedDate: string;
+    answer: string;
+    answeredBy: string;
+    answeredDate: string;
+    confirmedInDocuments: string;
+    updatedBy: string;
+    updatedTimestamp: string;
 }
 
-export function makeNewQueryDto(): QueryDto {
+export function makeQueryDto(projectId=0): QueryDto {
     return {
         id: null,
         version: null,
-        queryNumber: null
+        projectId: projectId,
+        queryNumber: null,
+        workstream: null,
+        deliverableImpacted: null,
+        urgency: null,
+        description: null,
+        raisedBy: null,
+        raisedTo: null,
+        raisedDate: null,
+        answer: null,
+        answeredBy: null,
+        answeredDate: null,
+        confirmedInDocuments: null,
+        updatedBy: null,
+        updatedTimestamp: null,
     };
 }
 
+export interface MaintainQueryDto {
+    workstream: string;
+    deliverableImpacted: string;
+    urgency: string;
+    description: string;
+
+}
+
+export interface NewQueryDto extends MaintainQueryDto {
+    projectId: number;
+    raisedBy: string;
+    raisedTo: string;
+    raisedDate: string;
+}
+
+export function makeNewQueryDto(projectId = 0): NewQueryDto {
+    return {
+        projectId: projectId,
+        workstream: "",
+        deliverableImpacted: "",
+        urgency: "",
+        description: "",
+        raisedBy: "",
+        raisedTo: "",
+        raisedDate: ""
+    };
+}
+
+
+export interface EditQueryDto extends MaintainQueryDto {
+    id: number;
+    version: string;
+    raisedTo: string;
+    answer: string;
+    answeredBy: string;
+    answeredDate: string;
+    confirmedInDocuments: string;
+}
+
+export function makeEditQueryDto(): EditQueryDto {
+    return {
+        id: 0,
+        version: "",
+        workstream: "",
+        deliverableImpacted: "",
+        urgency: "",
+        description: "",
+        raisedTo: "",
+        answer: "",
+        answeredBy: "",
+        answeredDate: "",
+        confirmedInDocuments: "",
+    };
+};
 
 var referenceData: ReferenceDataDto;
 
@@ -711,6 +791,25 @@ export function saveDependency(dto: MaintainDependencyDto) {
             logger.logError(status + " " + jqxhr.responseText, dto, MODULE_NAME, false);
             logger.logError("Error saving the Dependency", jqxhr, MODULE_NAME, true);
         });
+}
+
+export function saveQuery(dto: MaintainQueryDto) {
+    var options: JQueryAjaxSettings = { data: dto };
+    if ('id' in dto) {
+        options.url = "/api/queries/" + dto["id"];
+        options.type = "PUT";
+    } else {
+        options.url = "/api/project/" + dto["projectId"] + "/queries";
+        options.type = "POST";
+    }
+
+    return $.ajax(options).done(data => {
+        logger.logSuccess("Saved Query", data, MODULE_NAME, true);
+    }).fail((jqxhr, status, ex) => {
+            logger.logError(status + " " + jqxhr.responseText, dto, MODULE_NAME, false);
+            logger.logError("Error saving the Query", jqxhr, MODULE_NAME, true);
+        });
+   
 }
 
 export function saveAction( dto: MaintainActionDto) {
